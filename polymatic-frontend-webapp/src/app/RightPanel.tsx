@@ -2,6 +2,9 @@ import { useUIStore } from '@/state/uiStore'
 import { cn } from '@/lib/cn'
 import { Layers } from 'lucide-react'
 import { ViewAllTrends } from '@/trends/ViewAllTrends'
+import { TrendDetail } from '@/trends/TrendDetail'
+
+const FULL_HEIGHT_PANELS = new Set(['trends-list', 'trend-detail'])
 
 export function RightPanel() {
   const content = useUIStore((s) => s.rightPanelContent)
@@ -11,7 +14,7 @@ export function RightPanel() {
       className={cn(
         'h-full overflow-y-auto',
         'bg-[var(--color-bg-secondary)] border-l border-[var(--color-border)]',
-        content.kind !== 'trends-list' && 'p-4',
+        !FULL_HEIGHT_PANELS.has(content.kind) && 'p-4',
       )}
     >
       {content.kind === 'empty' && <RightPanelEmpty />}
@@ -31,9 +34,7 @@ export function RightPanel() {
         </div>
       )}
       {content.kind === 'trend-detail' && (
-        <div className="data-label text-[var(--color-text-tertiary)]">
-          Trend detail — {content.trendId}
-        </div>
+        <TrendDetail trendId={content.trendId} />
       )}
       {content.kind === 'trends-list' && <ViewAllTrends />}
     </aside>

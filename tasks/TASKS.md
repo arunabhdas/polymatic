@@ -219,25 +219,25 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Full trending topics view accessible from the trending bar.
 
-- [ ] **E04-S01-T01** — Create `ViewAllTrends.tsx` — Full-page or right-panel view showing all active trends in a sortable list. Columns: hashtag, category, lifecycle, velocity (with sparkline), event count (24h), linked market count. Sortable by each column.
-- [ ] **E04-S01-T02** — Add historical velocity mini-chart (Recharts sparkline) for each trend in the view-all list. Shows 24h velocity curve. Color matches lifecycle state.
-- [ ] **E04-S01-T03** — Implement lifecycle filter in ViewAllTrends: toggle to show only Emerging, Trending, Peaking, or Cooling. Default: show all.
+- [✅] **E04-S01-T01** — Create `ViewAllTrends.tsx` — Full-page or right-panel view showing all active trends in a sortable list. Columns: hashtag, category, lifecycle, velocity (with sparkline), event count (24h), linked market count. Sortable by each column.
+- [✅] **E04-S01-T02** — Add historical velocity mini-chart (Recharts sparkline) for each trend in the view-all list. Shows 24h velocity curve. Color matches lifecycle state.
+- [✅] **E04-S01-T03** — Implement lifecycle filter in ViewAllTrends: toggle to show only Emerging, Trending, Peaking, or Cooling. Default: show all.
 
 ## Story 4.2: Trend ↔ Markets Linking
 
 > Handle trends with and without linked markets.
 
-- [ ] **E04-S02-T01** — When user clicks a trend with linked markets: filter Markets panel to show only correlated contracts. Display market cards with sentiment delta.
-- [ ] **E04-S02-T02** — When user clicks a trend with NO linked markets: show "Related Markets" fallback section with semantically similar markets. Calculate similarity using shared entities. Never show empty panel.
-- [ ] **E04-S02-T03** — Add market-linked badge (📊 icon) to trend chips. Tooltip on hover shows linked market count and top market question.
+- [✅] **E04-S02-T01** — When user clicks a trend with linked markets: filter Markets panel to show only correlated contracts. Display market cards with sentiment delta.
+- [✅] **E04-S02-T02** — When user clicks a trend with NO linked markets: show "Related Markets" fallback section with semantically similar markets. Calculate similarity using shared entities. Never show empty panel.
+- [✅] **E04-S02-T03** — Add market-linked badge (📊 icon) to trend chips. Tooltip on hover shows linked market count and top market question.
 
 ## Story 4.3: Trend Chip Interactions
 
 > Hover, selection, and real-time update behavior.
 
-- [ ] **E04-S03-T01** — Implement chip selection state: selected chip gets accent border, slightly lighter background. Only one chip selected at a time. Click again to deselect (returns to "For You" feed).
-- [ ] **E04-S03-T02** — Implement real-time chip updates: when `trendsStore.trends` updates (via polling/WS), chip order may change (velocity re-sort). Animate position changes with framer-motion `layoutId`.
-- [ ] **E04-S03-T03** — Implement new trend arrival animation: when a new trend enters the bar, it slides in from the left with a brief highlight pulse (300ms).
+- [✅] **E04-S03-T01** — Implement chip selection state: selected chip gets accent border, slightly lighter background. Only one chip selected at a time. Click again to deselect (returns to "For You" feed).
+- [✅] **E04-S03-T02** — Implement real-time chip updates: when `trendsStore.trends` updates (via polling/WS), chip order may change (velocity re-sort). Animate position changes with framer-motion `layoutId`.
+- [✅] **E04-S03-T03** — Implement new trend arrival animation: when a new trend enters the bar, it slides in from the left with a brief highlight pulse (300ms).
 
 ---
 

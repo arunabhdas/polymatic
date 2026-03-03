@@ -1,8 +1,11 @@
-import { useRef, useState, useCallback, useEffect } from 'react'
+import { useRef, useState, useCallback, useEffect, useMemo } from 'react'
 import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/cn'
 import { useTrends, useSelectedTrend } from '@/hooks/useTrends'
+import { useMarkets } from '@/hooks/useMarkets'
 import { useFeedStore } from '@/state/feedStore'
+import { useUIStore } from '@/state/uiStore'
 import { TrendChip } from './TrendChip'
 
 function TrendChipSkeleton() {
@@ -30,9 +33,26 @@ export function TrendingBar({ onViewAll, className }: TrendingBarProps) {
   const { trends, isLoading } = useTrends()
   const { selectedTrendId, selectTrend } = useSelectedTrend()
   const setTrendFilter = useFeedStore((s) => s.setTrendFilter)
+  const setRightPanelContent = useUIStore((s) => s.setRightPanelContent)
+  const marketsQuery = useMarkets()
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
+
+  // Build a map of trendId → top market question text for tooltips
+  const topMarketQuestions = useMemo(() => {
+    const allMarkets = marketsQuery.data?.data ?? []
+    const map = new Map<string, string>()
+    for (const trend of trends) {
+      if (trend.linkedMarketIds.length > 0) {
+        const topMarket = allMarkets.find((m) => m.id === trend.linkedMarketIds[0])
+        if (topMarket) {
+          map.set(trend.id, topMarket.questionText)
+        }
+      }
+    }
+    return map
+  }, [trends, marketsQuery.data])
 
   const checkScroll = useCallback(() => {
     const el = scrollRef.current
@@ -66,8 +86,15 @@ export function TrendingBar({ onViewAll, className }: TrendingBarProps) {
       const next = selectedTrendId === id ? null : id
       selectTrend(next)
       setTrendFilter(next)
+
+      // Show trend detail in right panel when selected, clear when deselected
+      if (next) {
+        setRightPanelContent({ kind: 'trend-detail', trendId: next })
+      } else {
+        setRightPanelContent({ kind: 'empty' })
+      }
     },
-    [selectedTrendId, selectTrend, setTrendFilter],
+    [selectedTrendId, selectTrend, setTrendFilter, setRightPanelContent],
   )
 
   return (
@@ -110,16 +137,29 @@ export function TrendingBar({ onViewAll, className }: TrendingBarProps) {
         className="flex items-center gap-2 h-full px-2 overflow-x-auto scroll-smooth no-scrollbar"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        {isLoading
-          ? Array.from({ length: 6 }, (_, i) => <TrendChipSkeleton key={i} />)
-          : trends.map((trend) => (
-              <TrendChip
+        {isLoading ? (
+          Array.from({ length: 6 }, (_, i) => <TrendChipSkeleton key={i} />)
+        ) : (
+          <AnimatePresence initial={false}>
+            {trends.map((trend) => (
+              <motion.div
                 key={trend.id}
-                trend={trend}
-                selected={selectedTrendId === trend.id}
-                onSelect={handleSelect}
-              />
+                layoutId={`trend-chip-${trend.id}`}
+                initial={{ opacity: 0, scale: 0.9, x: -20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+                <TrendChip
+                  trend={trend}
+                  selected={selectedTrendId === trend.id}
+                  onSelect={handleSelect}
+                  topMarketQuestion={topMarketQuestions.get(trend.id)}
+                />
+              </motion.div>
             ))}
+          </AnimatePresence>
+        )}
 
         {/* View All button */}
         {!isLoading && trends.length > 0 && (

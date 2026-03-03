@@ -1,8 +1,9 @@
-import { ExternalLink } from 'lucide-react'
+import { BarChart3 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { formatCompact } from '@/lib/format'
 import { SeverityDot } from '@/components/SeverityDot'
 import { VelocityIndicator } from '@/components/VelocityIndicator'
+import { Tooltip } from '@/components/Tooltip'
 import { TrendLifecycleBadge } from './TrendLifecycleBadge'
 import type { Trend } from '@/types'
 
@@ -10,6 +11,8 @@ interface TrendChipProps {
   trend: Trend
   selected?: boolean
   onSelect?: (id: string) => void
+  /** Top linked market question text for tooltip */
+  topMarketQuestion?: string
 }
 
 const categoryBg: Record<string, string> = {
@@ -20,7 +23,7 @@ const categoryBg: Record<string, string> = {
   culture: 'border-[var(--color-cat-culture)]/30',
 }
 
-export function TrendChip({ trend, selected, onSelect }: TrendChipProps) {
+export function TrendChip({ trend, selected, onSelect, topMarketQuestion }: TrendChipProps) {
   const hasMarkets = trend.linkedMarketIds.length > 0
 
   return (
@@ -46,11 +49,28 @@ export function TrendChip({ trend, selected, onSelect }: TrendChipProps) {
         </span>
         <VelocityIndicator value={trend.velocity.delta} className="ml-auto" />
         {hasMarkets && (
-          <ExternalLink
-            size={11}
-            className="text-[var(--color-text-tertiary)] shrink-0"
-            aria-label="Linked markets"
-          />
+          <Tooltip
+            content={
+              <div className="max-w-[200px] space-y-1">
+                <p className="font-medium">{trend.linkedMarketIds.length} linked market{trend.linkedMarketIds.length !== 1 ? 's' : ''}</p>
+                {topMarketQuestion && (
+                  <p className="text-[var(--color-text-secondary)] line-clamp-2">{topMarketQuestion}</p>
+                )}
+              </div>
+            }
+            side="bottom"
+          >
+            <span
+              className="shrink-0 flex items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <BarChart3
+                size={11}
+                className="text-[var(--color-text-tertiary)]"
+                aria-label="Linked markets"
+              />
+            </span>
+          </Tooltip>
         )}
       </div>
 

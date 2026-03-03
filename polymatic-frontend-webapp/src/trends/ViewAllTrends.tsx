@@ -5,11 +5,21 @@ import { formatCompact } from '@/lib/format'
 import { useTrends, useSelectedTrend } from '@/hooks/useTrends'
 import { useFeedStore } from '@/state/feedStore'
 import { Badge } from '@/components/Badge'
+import { Chip } from '@/components/Chip'
 import { Sparkline } from '@/components/Sparkline'
 import { TrendLifecycleBadge } from './TrendLifecycleBadge'
-import type { Trend } from '@/types'
+import type { Trend, TrendLifecycle } from '@/types'
 
 type SortKey = 'velocity' | 'events' | 'markets' | 'name'
+
+const LIFECYCLE_OPTIONS: TrendLifecycle[] = ['emerging', 'trending', 'peaking', 'cooling']
+
+const lifecycleSparklineColor: Record<TrendLifecycle, string> = {
+  emerging: 'var(--color-accent)',
+  trending: 'var(--color-accent)',
+  peaking: 'var(--color-warning)',
+  cooling: 'var(--color-text-tertiary)',
+}
 
 interface ViewAllTrendsProps {
   className?: string
@@ -21,8 +31,13 @@ export function ViewAllTrends({ className }: ViewAllTrendsProps) {
   const setTrendFilter = useFeedStore((s) => s.setTrendFilter)
   const [sortKey, setSortKey] = useState<SortKey>('velocity')
   const [sortDesc, setSortDesc] = useState(true)
+  const [lifecycleFilter, setLifecycleFilter] = useState<TrendLifecycle | null>(null)
 
   const sorted = useMemo(() => {
+    let filtered = lifecycleFilter
+      ? trends.filter((t) => t.lifecycle === lifecycleFilter)
+      : trends
+
     const compare = (a: Trend, b: Trend): number => {
       switch (sortKey) {
         case 'velocity':
@@ -37,9 +52,9 @@ export function ViewAllTrends({ className }: ViewAllTrendsProps) {
           return 0
       }
     }
-    const result = [...trends].sort(compare)
+    const result = [...filtered].sort(compare)
     return sortDesc ? result.reverse() : result
-  }, [trends, sortKey, sortDesc])
+  }, [trends, sortKey, sortDesc, lifecycleFilter])
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -76,6 +91,25 @@ export function ViewAllTrends({ className }: ViewAllTrendsProps) {
         <span className="font-mono text-xs text-[var(--color-text-tertiary)]">
           {trends.length}
         </span>
+      </div>
+
+      {/* Lifecycle filter */}
+      <div className="flex items-center gap-1.5 px-4 py-2 border-b border-[var(--color-border)]/50">
+        <Chip
+          label="All"
+          selected={lifecycleFilter === null}
+          onClick={() => setLifecycleFilter(null)}
+          className="!text-[10px] !px-2 !py-0.5"
+        />
+        {LIFECYCLE_OPTIONS.map((lc) => (
+          <Chip
+            key={lc}
+            label={lc.charAt(0).toUpperCase() + lc.slice(1)}
+            selected={lifecycleFilter === lc}
+            onClick={() => setLifecycleFilter(lifecycleFilter === lc ? null : lc)}
+            className="!text-[10px] !px-2 !py-0.5"
+          />
+        ))}
       </div>
 
       {/* Column headers */}
@@ -117,8 +151,13 @@ export function ViewAllTrends({ className }: ViewAllTrendsProps) {
             {/* Lifecycle */}
             <TrendLifecycleBadge lifecycle={trend.lifecycle} size="sm" />
 
-            {/* Velocity sparkline */}
-            <Sparkline data={trend.sparklineData} height={24} className="w-16" />
+            {/* Velocity sparkline — color matches lifecycle */}
+            <Sparkline
+              data={trend.sparklineData}
+              color={lifecycleSparklineColor[trend.lifecycle]}
+              height={24}
+              className="w-16"
+            />
 
             {/* Event count */}
             <span className="font-mono text-xs text-[var(--color-text-secondary)] tabular-nums">
