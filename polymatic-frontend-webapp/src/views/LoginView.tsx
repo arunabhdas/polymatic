@@ -32,9 +32,9 @@ export default function LoginView() {
           <div>
             <label
               htmlFor="email"
-              className="mono-label text-[var(--color-text-tertiary)] block mb-1.5"
+              className="data-label text-[var(--color-text-tertiary)] block mb-1.5"
             >
-              EMAIL
+              Email
             </label>
             <input
               id="email"
@@ -50,9 +50,9 @@ export default function LoginView() {
           <div>
             <label
               htmlFor="password"
-              className="mono-label text-[var(--color-text-tertiary)] block mb-1.5"
+              className="data-label text-[var(--color-text-tertiary)] block mb-1.5"
             >
-              PASSWORD
+              Password
             </label>
             <input
               id="password"

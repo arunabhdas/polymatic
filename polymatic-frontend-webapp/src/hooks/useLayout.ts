@@ -28,7 +28,7 @@ export function useLayout() {
 
   const isNarrow = viewportWidth < COLLAPSE_BREAKPOINT
   const effectiveSidebarCollapsed =
-    sidebarCollapsed || isNarrow || layoutMode === 'panoptic' || layoutMode === 'clean'
+    sidebarCollapsed || isNarrow || layoutMode === 'focus' || layoutMode === 'clean'
   const showRightPanel = layoutMode !== 'clean'
   const showSidebar = layoutMode !== 'clean'
 

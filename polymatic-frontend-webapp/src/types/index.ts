@@ -151,7 +151,7 @@ export interface GeoRegion {
 
 // ─── Layout ──────────────────────────────────────────────────
 
-export type LayoutMode = 'tactical' | 'panoptic' | 'clean'
+export type LayoutMode = 'dashboard' | 'focus' | 'clean'
 
 export type RightPanelContentType =
   | { kind: 'empty' }

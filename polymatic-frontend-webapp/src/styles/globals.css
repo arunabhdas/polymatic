@@ -112,11 +112,17 @@ body {
   background: var(--color-text-secondary);
 }
 
-/* Mono label utility */
-.mono-label {
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+/* Data label utility — clean, modern section headers */
+.data-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
   font-size: 0.6875rem;
+  line-height: 1;
+}
+
+/* Mono data utility — numerical data only (prices, %, timestamps) */
+.mono-data {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   line-height: 1;
 }

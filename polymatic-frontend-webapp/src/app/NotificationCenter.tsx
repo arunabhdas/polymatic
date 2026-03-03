@@ -25,8 +25,8 @@ export function NotificationCenter() {
             )}
           >
             <div className="flex-1 min-w-0">
-              <p className="mono-label text-[var(--color-text-tertiary)] mb-1">
-                {alert.severity.toUpperCase()}
+              <p className="data-label text-[var(--color-text-tertiary)] mb-1">
+                {alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1)}
               </p>
               <p className="text-sm text-[var(--color-text-primary)] truncate">{alert.title}</p>
             </div>

@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             className="text-[var(--color-warning)] mb-4"
             strokeWidth={1.5}
           />
-          <p className="mono-label text-[var(--color-text-secondary)] mb-1">COMPONENT ERROR</p>
+          <p className="data-label text-[var(--color-text-secondary)] mb-1">Component error</p>
           <p className="text-sm text-[var(--color-text-tertiary)] max-w-xs mb-4">
             {this.state.error?.message || 'An unexpected error occurred'}
           </p>

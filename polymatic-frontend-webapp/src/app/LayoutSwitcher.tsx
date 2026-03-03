@@ -4,8 +4,8 @@ import { useLayout } from '@/hooks/useLayout'
 import type { LayoutMode } from '@/types'
 
 const modes: { mode: LayoutMode; icon: typeof Layout; label: string }[] = [
-  { mode: 'tactical', icon: Layout, label: 'Tactical' },
-  { mode: 'panoptic', icon: Maximize, label: 'Panoptic' },
+  { mode: 'dashboard', icon: Layout, label: 'Dashboard' },
+  { mode: 'focus', icon: Maximize, label: 'Focus' },
   { mode: 'clean', icon: Minimize, label: 'Clean' },
 ]
 

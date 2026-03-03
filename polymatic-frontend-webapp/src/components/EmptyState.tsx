@@ -22,7 +22,7 @@ export function EmptyState({
   return (
     <div className={cn('flex flex-col items-center justify-center py-12 px-4 text-center', className)}>
       <Icon size={40} className="text-[var(--color-text-tertiary)] mb-4" strokeWidth={1.5} />
-      <p className="mono-label text-[var(--color-text-secondary)] mb-1">{title}</p>
+      <p className="data-label text-[var(--color-text-secondary)] mb-1">{title}</p>
       {description && (
         <p className="text-sm text-[var(--color-text-tertiary)] max-w-xs mb-4">{description}</p>
       )}

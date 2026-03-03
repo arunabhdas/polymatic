@@ -6,7 +6,7 @@ type Events = {
   'market:selected': { marketId: string | null }
   'sentiment:expanded': { questionId: string | null }
   'alert:triggered': { alertId: string }
-  'layout:mode-changed': { mode: 'tactical' | 'panoptic' | 'clean' }
+  'layout:mode-changed': { mode: 'dashboard' | 'focus' | 'clean' }
   'theme:changed': { theme: 'dark' | 'light' }
   'search:query-changed': { query: string }
 }

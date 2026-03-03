@@ -21,7 +21,7 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set, get) => ({
-      layoutMode: 'tactical',
+      layoutMode: 'dashboard',
       sidebarCollapsed: false,
       theme: 'dark',
       rightPanelContent: { kind: 'empty' },

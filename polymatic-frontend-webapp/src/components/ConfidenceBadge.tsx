@@ -14,9 +14,9 @@ function getLevel(confidence: number): ConfidenceLevel {
 }
 
 const levelConfig: Record<ConfidenceLevel, { label: string; opacity: string }> = {
-  low: { label: 'LOW', opacity: 'opacity-60' },
-  medium: { label: 'MED', opacity: 'opacity-85' },
-  high: { label: 'HIGH', opacity: 'opacity-100' },
+  low: { label: 'Low', opacity: 'opacity-60' },
+  medium: { label: 'Med', opacity: 'opacity-85' },
+  high: { label: 'High', opacity: 'opacity-100' },
 }
 
 export function ConfidenceBadge({ confidence, className }: ConfidenceBadgeProps) {
@@ -26,7 +26,7 @@ export function ConfidenceBadge({ confidence, className }: ConfidenceBadgeProps)
   return (
     <span
       className={cn(
-        'mono-label px-1.5 py-0.5 rounded',
+        'data-label px-1.5 py-0.5 rounded',
         'bg-[var(--color-accent)]/15 text-[var(--color-accent)]',
         config.opacity,
         className,

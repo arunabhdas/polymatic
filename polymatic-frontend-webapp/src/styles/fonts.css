@@ -7,7 +7,7 @@
   src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf') format('truetype');
 }
 
-/* JetBrains Mono — monospace for data/timestamps/tactical */
+/* JetBrains Mono — monospace for numerical data, timestamps, prices */
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
