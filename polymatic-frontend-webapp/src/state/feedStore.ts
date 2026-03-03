@@ -18,8 +18,10 @@ export const useFeedStore = create<FeedState>()((set) => ({
   filters: {
     categories: [],
     types: [],
+    sources: [],
     minSeverity: null,
     timeRange: 'all',
+    trendId: null,
   },
   selectedItemId: null,
   activeTrendFilter: null,

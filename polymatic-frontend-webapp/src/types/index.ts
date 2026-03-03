@@ -1,155 +1,99 @@
-// ─── User & Auth ─────────────────────────────────────────────
+// Re-export all domain types from a single entry point
+// Import from '@/types' or from specific files like '@/types/feed.types'
 
-export type UserTier = 'free' | 'pro' | 'quant'
+export type {
+  Timestamp,
+  SourceType,
+  Category,
+  Severity,
+  SortOrder,
+  Entity,
+  Pagination,
+  PaginationParams,
+} from './common.types'
 
-export interface User {
-  id: string
-  email: string
-  name: string
-  tier: UserTier
-  avatarUrl: string | null
-  createdAt: string
-}
+export type {
+  FeedItemType,
+  FeedItem,
+  FeedMedia,
+  FeedCluster,
+  FeedFilters,
+  FeedParams,
+} from './feed.types'
 
-// ─── Feed ────────────────────────────────────────────────────
+export type {
+  StanceType,
+  SentimentDirection,
+  ConfidenceLevel,
+  SentimentQuestion,
+  StanceBreakdown,
+  ClassifiedTweet,
+  AggregateScore,
+  SentimentDetail,
+  PredictionBrief,
+} from './sentiment.types'
 
-export type FeedItemType = 'signal' | 'tweet' | 'market_move' | 'alert' | 'classification'
+export type {
+  TrendLifecycle,
+  TrendCategory,
+  VelocityScore,
+  Trend,
+} from './trend.types'
 
-export type Category = 'geopolitics' | 'economics' | 'technology' | 'sports' | 'culture'
+export type {
+  Platform,
+  PricePoint,
+  MarketContract,
+  MarketFilters,
+  MarketParams,
+} from './market.types'
 
-export type Severity = 'low' | 'medium' | 'high' | 'critical'
+export type {
+  SearchQuery,
+  SearchOptions,
+  SearchResults,
+  SavedSearch,
+} from './search.types'
 
-export interface FeedItem {
-  id: string
-  type: FeedItemType
-  title: string
-  summary: string
-  category: Category
-  severity: Severity
-  velocity: number
-  timestamp: string
-  source: string
-  relatedTrendIds: string[]
-  relatedMarketIds: string[]
-  confidence: number
-  expanded?: boolean
-}
+export type {
+  AlertType,
+  AlertTriggerType,
+  AlertChannel,
+  AlertConfig,
+  Alert,
+} from './alert.types'
 
-export interface FeedFilters {
-  categories: Category[]
-  types: FeedItemType[]
-  minSeverity: Severity | null
-  timeRange: '1h' | '6h' | '24h' | '7d' | 'all'
-}
+export type {
+  GeoEventType,
+  LayerType,
+  GeoCoords,
+  GeoBounds,
+  GeoEvent,
+  GeoLayer,
+  POI,
+  MotionTrack,
+  CameraPosition,
+  GeoRegion,
+} from './geo.types'
 
-// ─── Trends ──────────────────────────────────────────────────
+export type {
+  UserTier,
+  User,
+  UserPreferences,
+  AuthState,
+  LoginCredentials,
+  AuthResponse,
+} from './auth.types'
 
-export interface Trend {
-  id: string
-  name: string
-  category: Category
-  velocity: number
-  delta: number
-  volume: number
-  sparklineData: number[]
-  timestamp: string
-}
+export type {
+  ApiResponse,
+  PaginatedResponse,
+  ErrorResponse,
+  WSMessageType,
+  WSMessage,
+} from './api.types'
 
-// ─── Sentiments ──────────────────────────────────────────────
-
-export interface SentimentQuestion {
-  id: string
-  text: string
-  category: Category
-  yesCount: number
-  noCount: number
-  score: number // YES / (YES + NO)
-  confidence: number
-  trend: 'rising' | 'falling' | 'stable'
-  relatedMarketIds: string[]
-  sparklineData: number[]
-  timestamp: string
-}
-
-// ─── Markets ─────────────────────────────────────────────────
-
-export type Platform = 'polymarket' | 'kalshi'
-
-export interface MarketContract {
-  id: string
-  title: string
-  platform: Platform
-  probability: number
-  previousProbability: number
-  delta: number
-  volume: number
-  category: Category
-  sentimentScore: number | null
-  sparklineData: number[]
-  expiresAt: string
-  timestamp: string
-}
-
-// ─── Search ──────────────────────────────────────────────────
-
-export interface SearchResults {
-  trends: Trend[]
-  markets: MarketContract[]
-  sentiments: SentimentQuestion[]
-  feedItems: FeedItem[]
-}
-
-export interface SavedSearch {
-  id: string
-  query: string
-  createdAt: string
-}
-
-// ─── Alerts ──────────────────────────────────────────────────
-
-export type AlertTriggerType = 'threshold' | 'velocity' | 'sentiment_shift' | 'market_move'
-
-export interface AlertConfig {
-  id: string
-  name: string
-  triggerType: AlertTriggerType
-  conditions: Record<string, unknown>
-  enabled: boolean
-  createdAt: string
-}
-
-export interface Alert {
-  id: string
-  configId: string
-  title: string
-  message: string
-  severity: Severity
-  read: boolean
-  timestamp: string
-}
-
-// ─── Geo ─────────────────────────────────────────────────────
-
-export interface CameraPosition {
-  longitude: number
-  latitude: number
-  height: number
-}
-
-export type LayerType = 'events' | 'sentiment' | 'markets' | 'poi' | 'motion-trails'
-
-export interface GeoRegion {
-  id: string
-  name: string
-  bounds: {
-    north: number
-    south: number
-    east: number
-    west: number
-  }
-}
-
-// ─── Layout ──────────────────────────────────────────────────
+// ─── Layout (UI-only, no domain file needed) ────────────────
 
 export type LayoutMode = 'dashboard' | 'focus' | 'clean'
 
@@ -160,7 +104,7 @@ export type RightPanelContentType =
   | { kind: 'sentiment-detail'; questionId: string }
   | { kind: 'trend-detail'; trendId: string }
 
-// ─── Feature Flags ───────────────────────────────────────────
+// ─── Feature Flags ──────────────────────────────────────────
 
 export type FeatureFlag =
   | 'enableGeoView'

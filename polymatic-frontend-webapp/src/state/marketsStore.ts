@@ -4,7 +4,7 @@ import type { MarketContract, Platform } from '@/types'
 interface MarketsState {
   contracts: MarketContract[]
   activePlatformFilter: Platform | null
-  sortBy: 'probability' | 'delta' | 'volume' | 'sentiment'
+  sortBy: 'probability' | 'delta' | 'volume' | 'recent'
   selectedMarketId: string | null
 
   updateContracts: (contracts: MarketContract[]) => void

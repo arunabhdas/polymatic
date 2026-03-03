@@ -36,6 +36,13 @@ export const useAuthStore = create<AuthState>()(
           name: 'Dev User',
           tier: 'quant',
           avatarUrl: null,
+          onboardingComplete: true,
+          preferences: {
+            theme: 'dark',
+            defaultLayout: 'dashboard',
+            feedDensity: 'comfortable',
+            notificationsEnabled: true,
+          },
           createdAt: new Date().toISOString(),
         }
         set({

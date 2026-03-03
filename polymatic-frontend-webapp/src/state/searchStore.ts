@@ -31,7 +31,12 @@ export const useSearchStore = create<SearchState>()((set) => ({
     set((s) => ({
       savedSearches: [
         ...s.savedSearches,
-        { id: crypto.randomUUID(), query, createdAt: new Date().toISOString() },
+        {
+          id: crypto.randomUUID(),
+          query,
+          createdAt: new Date().toISOString(),
+          lastRunAt: new Date().toISOString(),
+        },
       ],
     })),
   addRecentSearch: (query) =>
