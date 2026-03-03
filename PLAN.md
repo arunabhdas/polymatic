@@ -679,4 +679,269 @@
   Interview mode complete. Ready to enter Phase 2: PLAN MODE and produce the full implementation plan — folder structure, state architecture, data flow
   diagrams, component hierarchy, and build sequence. Shall I proceed?
 
-  
+## Epic 1 Plan
+
+ Plan: Implement Epic 1 — Foundation
+
+ Context
+
+ Phase 2 (planning) is complete. The polymatic-frontend-webapp/ directory is empty. Epic 1 is the foundation that everything else depends on: project
+ scaffold, theming, app shell, routing, and base UI components. This covers 5 stories / 40 tasks from tasks/TASKS.md.
+
+ Root directory: /Users/coder/repos/offsideAI/githubworkspace_fr8pro_active_1/polymatic/polymatic-frontend-webapp
+
+ Implementation Order
+
+ Phase A: Scaffold (Story 1.1 — E01-S01-T01 through T09)
+
+ Step 1: Initialize Vite project (E01-S01-T01)
+ - Run npm create vite@latest . -- --template react-ts inside polymatic-frontend-webapp/
+ - Configure tsconfig.json: strict, noImplicitAny, strictNullChecks, noUnusedLocals, path aliases (@/* → src/*)
+ - Configure vite.config.ts: path alias resolution, build target
+
+ Step 2: Install all dependencies (E01-S01-T06, T07)
+ - Core: zustand, immer, @tanstack/react-query, react-router-dom, framer-motion, react-virtuoso, recharts, lucide-react, clsx, tailwind-merge,
+ date-fns, zod, nanoid, mitt
+ - Radix: @radix-ui/react-dialog, @radix-ui/react-dropdown-menu, @radix-ui/react-tooltip, @radix-ui/react-tabs
+ - Dev: vitest, @testing-library/react, @testing-library/jest-dom, jsdom, msw
+
+ Step 3: Tailwind CSS v4 (E01-S01-T02)
+ - Install tailwindcss @tailwindcss/vite
+ - Tailwind v4 uses CSS-based config, not tailwind.config.ts. Configuration goes directly in globals.css with @theme directive
+ - Add @import "tailwindcss" to globals.css + @theme block for custom colors, fonts, spacing
+
+ Step 4: ESLint + Prettier (E01-S01-T03)
+ - ESLint 9 flat config: eslint.config.js with @eslint/js, typescript-eslint, eslint-plugin-react-hooks, eslint-plugin-react-refresh
+ - Prettier: .prettierrc with single quotes, no semicolons (or standard — match user preference)
+ - Add .editorconfig
+
+ Step 5: Create folder structure (E01-S01-T04)
+ - Create all 20 directories under src/
+ - Add .gitkeep in empty directories that don't get files yet
+
+ Step 6: Environment variables (E01-S01-T05)
+ - Create .env and .env.example with all VITE_* flags
+ - Extend vite-env.d.ts with typed env declarations
+
+ Step 7: CesiumJS setup (E01-S01-T08)
+ - Install cesium, resium, vite-plugin-cesium
+ - Configure vite plugin in vite.config.ts
+ - Create public/cesium/ directory
+ - Note: Geo view is P1 behind feature flag — this just ensures the dep is wired
+
+ Step 8: Vitest setup (E01-S01-T09)
+ - Configure vitest.config.ts (or inline in vite.config.ts)
+ - Create sample test: src/lib/__tests__/cn.test.ts
+
+ Phase B: Theming (Story 1.2 — E01-S02-T01 through T06)
+
+ Step 9: CSS custom properties + themes
+ - src/styles/globals.css — All CSS custom properties: bg, accent, text, semantic, sentiment, delta, category, layout dimensions, typography,
+ animation. Plus Tailwind v4 @theme block mapping custom properties to Tailwind tokens.
+ - src/styles/themes/dark.css — Dark theme variable overrides (default)
+ - src/styles/themes/light.css — Light theme overrides with adjusted accent for contrast
+ - src/styles/fonts.css — @font-face for Inter + JetBrains Mono (Google Fonts CDN links in index.html for MVP, or font-face with hosted files)
+
+ Step 10: Utility + theme toggle
+ - src/lib/cn.ts — clsx + tailwind-merge helper
+ - Theme logic: data-theme attribute on <html>, persisted in localStorage, wired to uiStore.theme
+
+ Phase C: State Stores (subset needed for shell — E01-S02-T06 implies uiStore, E01-S01-T05 implies flagsStore)
+
+ Step 11: Core stores needed for Epic 1
+ - src/state/uiStore.ts — Layout mode, sidebar state, theme, right panel content, viewport width
+ - src/state/flagsStore.ts — Feature flags with env var init + Zustand persist + runtime overrides
+ - src/state/authStore.ts — Minimal stub (isAuthenticated, user, tier) needed for AuthGuard
+ - src/lib/eventBus.ts — mitt instance for cross-store communication
+ - Other 7 stores (feed, trends, sentiments, markets, search, alerts, geo) created as stubs with correct interfaces but no wiring — they'll be fleshed
+ out in Epic 2
+
+ Phase D: App Shell (Story 1.3 — E01-S03-T01 through T07)
+
+ Step 12: AppShell + layout grid
+ - src/app/AppShell.tsx — 3-column CSS grid with framer-motion layout animation
+ - Grid: var(--sidebar-width) 1fr var(--right-panel-width)
+ - Layout modes: Tactical (all panels), Panoptic (icon sidebar 64px), Clean (no sidebar, no right panel)
+
+ Step 13: Sidebar
+ - src/app/Sidebar.tsx — Nav items with lucide icons, auto-collapse at <1280px, expand on hover
+ - Nav structure: Home, Sentiments, Geo (feature-gated), Markets, divider, Alerts, spacer, LayoutSwitcher, UserMenu
+
+ Step 14: TopBar + RightPanel + NotificationCenter
+ - src/app/TopBar.tsx — Fixed 56px bar with SearchBar placeholder
+ - src/app/RightPanel.tsx — Dynamic content via uiStore, EmptyState default
+ - src/app/LayoutSwitcher.tsx — Toggle between 3 layout modes
+ - src/app/NotificationCenter.tsx — Toast container, bell icon stub
+
+ Step 15: Responsive breakpoints
+ - 1024-1279px: sidebar collapsed, right panel as overlay
+ - 1280px+: full layout
+ - useLayout hook: listens to window resize, updates uiStore
+
+ Phase E: Routing (Story 1.4 — E01-S04-T01 through T04)
+
+ Step 16: Router setup
+ - src/App.tsx — React Router with route config
+ - Public: / → LandingView, /login → LoginView
+ - Protected: /app/* → AuthGuard → AppShell → lazy-loaded views
+ - Feature-gated: /app/geo → FeatureGate
+ - All views as React.lazy() with Suspense fallback
+
+ Step 17: Guards
+ - src/auth/AuthGuard.tsx — Checks authStore.isAuthenticated, redirects to /login
+ - src/components/FeatureGate.tsx — Checks flagsStore, conditionally renders children
+
+ Step 18: View stubs
+ - Create minimal placeholder components for all views (HomeView, SentimentsView, etc.)
+ - Each renders a MonoLabel with the view name — replaced in later epics
+
+ Phase F: Base UI Components (Story 1.5 — E01-S05-T01 through T19)
+
+ Step 19: 19 shared atom components
+ All in src/components/:
+
+ 1. Badge.tsx — severity/category/source/custom variants
+ 2. Button.tsx — primary/secondary/ghost/danger + sizes + loading
+ 3. Card.tsx — default/interactive/selected variants
+ 4. Chip.tsx — category-colored, removable variant
+ 5. Input.tsx — text input + search variant
+ 6. Timestamp.tsx — relative/absolute, monospace, UTC
+ 7. MonoLabel.tsx — ALL CAPS, letter-spacing 0.1em
+ 8. DeltaIndicator.tsx — +12.4% with arrow, green/red
+ 9. ProbabilityDisplay.tsx — 73% with directional color
+ 10. ConfidenceBadge.tsx — opacity treatment (60/85/100%)
+ 11. VelocityIndicator.tsx — arrow + percentage
+ 12. Sparkline.tsx — Recharts mini chart, no axes
+ 13. SeverityDot.tsx — color-coded dot
+ 14. EmptyState.tsx — icon + text + CTA, no emoji
+ 15. LoadingSkeleton.tsx — pulse animation variants
+ 16. ErrorBoundary.tsx — catch + retry + report
+ 17. Tooltip.tsx — Radix-based
+ 18. Tabs.tsx — Radix-based, underline indicator
+ 19. Toggle.tsx — accessible switch
+
+ Phase G: Wiring + Verification
+
+ Step 20: main.tsx + App.tsx wiring
+ - src/main.tsx — QueryClientProvider, RouterProvider, theme init
+ - Verify: npm run dev starts without errors
+ - Verify: npm run build produces clean build
+ - Verify: npm run test passes sample test
+ - Verify: dark/light theme toggle works
+ - Verify: layout switching animates correctly
+ - Verify: sidebar auto-collapses at narrow viewport
+
+ Files Created/Modified
+
+ All files under polymatic-frontend-webapp/:
+
+ Config (root):
+ - index.html, vite.config.ts, tsconfig.json, tsconfig.app.json, tsconfig.node.json
+ - eslint.config.js, .prettierrc, .editorconfig
+ - .env, .env.example
+ - package.json
+
+ Styles:
+ - src/styles/globals.css, src/styles/themes/dark.css, src/styles/themes/light.css, src/styles/fonts.css
+
+ Lib:
+ - src/lib/cn.ts, src/lib/format.ts, src/lib/time.ts, src/lib/eventBus.ts
+
+ State:
+ - src/state/uiStore.ts, src/state/flagsStore.ts, src/state/authStore.ts
+ - Stubs: feedStore.ts, trendsStore.ts, sentimentsStore.ts, marketsStore.ts, searchStore.ts, alertsStore.ts, geoStore.ts
+
+ App Shell:
+ - src/app/AppShell.tsx, src/app/Sidebar.tsx, src/app/TopBar.tsx, src/app/RightPanel.tsx, src/app/LayoutSwitcher.tsx, src/app/NotificationCenter.tsx
+
+ Routing/Auth:
+ - src/App.tsx, src/main.tsx, src/auth/AuthGuard.tsx
+
+ Views (stubs):
+ - src/views/HomeView.tsx, SentimentsView.tsx, GeoView.tsx, MarketsView.tsx, TopicPageView.tsx, SearchResultsView.tsx, AlertsConfigView.tsx,
+ LandingView.tsx, LoginView.tsx, OnboardingView.tsx
+
+ Components (19):
+ - src/components/Badge.tsx, Button.tsx, Card.tsx, Chip.tsx, Input.tsx, Timestamp.tsx, MonoLabel.tsx, DeltaIndicator.tsx, ProbabilityDisplay.tsx,
+ ConfidenceBadge.tsx, VelocityIndicator.tsx, Sparkline.tsx, SeverityDot.tsx, EmptyState.tsx, LoadingSkeleton.tsx, ErrorBoundary.tsx, Tooltip.tsx,
+ Tabs.tsx, Toggle.tsx, FeatureGate.tsx
+
+ Hooks:
+ - src/hooks/useFeatureFlag.ts, src/hooks/useLayout.ts, src/hooks/useTheme.ts
+
+ Key Technical Notes
+
+ 1. Tailwind v4 uses CSS-based config (@theme in CSS), not the old tailwind.config.ts. The Vite plugin is @tailwindcss/vite.
+ 2. CesiumJS via vite-plugin-cesium handles the asset copying. If that plugin isn't v4-compatible, we'll configure the copy manually in vite.config.ts.
+ 3. Store stubs for domains not yet implemented (feed, trends, etc.) will have correct TypeScript interfaces but empty implementations — ensures
+ imports work when wiring the shell.
+ 4. View stubs are minimal components that render the view name. This lets routing work end-to-end. Real implementations come in Epics 3-10.
+ 5. No any types anywhere. All components fully typed from day one.
+
+ Verification
+
+ After implementation:
+ 1. npm run dev — App starts, landing page renders at /
+ 2. npm run build — Clean production build, no TS errors
+ 3. npm run test — Sample test passes
+ 4. Navigate to /app/home — AppShell renders with sidebar, topbar, main content, right panel
+ 5. Click layout switcher — Tactical/Panoptic/Clean modes animate correctly
+ 6. Toggle theme — Dark ↔ light switches, persists on reload
+ 7. Resize browser below 1280px — Sidebar auto-collapses
+ 8. Resize browser to 1024px — Layout remains usable
+
+
+## Epic 1 Plan Implementation
+
+⏺ Epic 1 — Foundation is complete. Here's a summary of everything implemented:
+
+  Epic 1 Complete — 60+ files created
+
+  Phase A: Scaffold
+
+  - Vite + React 18 + TypeScript (strict mode, path aliases @/*)
+  - All dependencies installed (Zustand, TanStack Query, Framer Motion, Recharts, Radix UI, CesiumJS, etc.)
+  - Tailwind CSS v4 with @tailwindcss/vite plugin
+  - ESLint 9 flat config + Prettier
+  - Vitest configured with jsdom + @testing-library
+
+  Phase B: Theming
+
+  - CSS custom properties for all colors, layout dims, typography, animations
+  - Dark theme (default) + light theme via data-theme attribute
+  - Font setup (Inter + JetBrains Mono)
+  - cn() utility (clsx + tailwind-merge)
+
+  Phase C: State (10 Zustand stores)
+
+  - Core: uiStore (layout, sidebar, theme), flagsStore (feature flags with env var init + persist), authStore (JWT auth with mock login)
+  - Stubs with correct interfaces: feedStore, trendsStore, sentimentsStore, marketsStore, searchStore, alertsStore, geoStore
+  - Event bus via mitt for cross-store communication
+
+  Phase D: App Shell
+
+  - 3-column CSS grid with framer-motion layout animation
+  - Sidebar with nav, auto-collapse at <1280px, expand on hover
+  - TopBar (56px) with search placeholder + theme toggle + notification bell
+  - RightPanel (30%) with dynamic content
+  - LayoutSwitcher (Tactical/Panoptic/Clean)
+  - NotificationCenter with animated toasts
+
+  Phase E: Routing
+
+  - React Router v6 with full route map (public + protected + feature-gated)
+  - All views lazy-loaded with Suspense
+  - AuthGuard + FeatureGate components
+  - 10 view stubs (Landing, Login, Home, Sentiments, Geo, Markets, Topic, Search, Alerts, Onboarding)
+
+  Phase F: 20 UI Components
+
+  Badge, Button, Card, Chip, Input, Timestamp, MonoLabel, DeltaIndicator, ProbabilityDisplay, ConfidenceBadge, VelocityIndicator, Sparkline,
+  SeverityDot, EmptyState, LoadingSkeleton, ErrorBoundary, Tooltip, Tabs, Toggle, FeatureGate
+
+  Verification
+
+  - npm run build — clean production build (467KB gzipped main chunk)
+  - npm run test — 4/4 tests pass
+  - npm run dev — dev server starts and serves correctly
+  - Zero TypeScript errors, no any types

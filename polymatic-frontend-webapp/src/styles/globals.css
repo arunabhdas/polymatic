@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@import './fonts.css';
+@import './themes/dark.css';
+@import './themes/light.css';
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-card: var(--color-bg-card);
+  --color-bg-hover: var(--color-bg-hover);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-border: var(--color-border);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-sentiment-yes: var(--color-sentiment-yes);
+  --color-sentiment-no: var(--color-sentiment-no);
+  --color-sentiment-neutral: var(--color-sentiment-neutral);
+  --color-delta-positive: var(--color-delta-positive);
+  --color-delta-negative: var(--color-delta-negative);
+  --color-cat-geopolitics: var(--color-cat-geopolitics);
+  --color-cat-economics: var(--color-cat-economics);
+  --color-cat-technology: var(--color-cat-technology);
+  --color-cat-sports: var(--color-cat-sports);
+  --color-cat-culture: var(--color-cat-culture);
+}
+
+:root {
+  /* Layout */
+  --sidebar-width: 220px;
+  --sidebar-collapsed-width: 64px;
+  --right-panel-width: 30%;
+  --topbar-height: 56px;
+  --trending-bar-height: 64px;
+
+  /* Animation */
+  --transition-layout: 300ms ease;
+  --transition-hover: 150ms ease;
+
+  /* Semantic — shared across themes */
+  --color-success: #4CAF50;
+  --color-warning: #FFC107;
+  --color-danger: #F44336;
+
+  /* Sentiment */
+  --color-sentiment-yes: #4CAF50;
+  --color-sentiment-no: #F44336;
+  --color-sentiment-neutral: #9E9E9E;
+
+  /* Market delta */
+  --color-delta-positive: #4CAF50;
+  --color-delta-negative: #F44336;
+
+  /* Trend categories */
+  --color-cat-geopolitics: #F44336;
+  --color-cat-economics: #2196F3;
+  --color-cat-technology: #9C27B0;
+  --color-cat-sports: #4CAF50;
+  --color-cat-culture: #FF9800;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-width: 1024px;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-tertiary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* Mono label utility */
+.mono-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.6875rem;
+  line-height: 1;
+}

@@ -1,0 +1,13 @@
+:root,
+[data-theme='dark'] {
+  --color-bg-primary: #1A1A2E;
+  --color-bg-secondary: #16213E;
+  --color-bg-card: #1E2A45;
+  --color-bg-hover: #243354;
+  --color-accent: #00BCD4;
+  --color-accent-hover: #00ACC1;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B0B0B0;
+  --color-text-tertiary: #666666;
+  --color-border: #2A3A5C;
+}

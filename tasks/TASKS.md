@@ -51,7 +51,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ## Story 1.2: Theming System
 
-> CSS custom properties for dark/light themes, fonts, and tactical accent system.
+> CSS custom properties for dark/light themes, fonts, and modern typography system.
 
 - [ ] **E01-S02-T01** — Create `src/styles/globals.css` with all CSS custom properties: colors (bg, accent, text, semantic, sentiment, delta, category), layout dimensions (sidebar, right panel, topbar, trending bar), typography (font stacks), and animation durations.
 - [ ] **E01-S02-T02** — Create `src/styles/themes/dark.css` with dark theme variable overrides. This is the default theme.
@@ -64,11 +64,11 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Sidebar, top bar, right panel, and the 3-column layout grid with animated layout switching.
 
-- [ ] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Tactical/Panoptic/Clean mode switching.
+- [ ] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Dashboard/Focus/Clean mode switching.
 - [ ] **E01-S03-T02** — Create `Sidebar.tsx` — Left navigation panel with logo, nav items (Home, Sentiments, Geo, Markets, separator, POI, Layers, Scenes, Filters, separator, Alerts), layout switcher, and user menu. Auto-collapse to icon-only when viewport < 1280px. Expand on hover when collapsed.
 - [ ] **E01-S03-T03** — Create `TopBar.tsx` — Fixed top bar (56px height) spanning main content + right panel. Contains the `SearchBar` component placeholder.
 - [ ] **E01-S03-T04** — Create `RightPanel.tsx` — Persistent right panel (30% width). Renders dynamic content based on `uiStore.rightPanelContent`. Default: contextual help or trending summary. Shows EmptyState when nothing selected.
-- [ ] **E01-S03-T05** — Create `LayoutSwitcher.tsx` — Dropdown or toggle in sidebar footer. Switches between Tactical (all panels), Panoptic (icon sidebar, minimal chrome), and Clean (feed only, no sidebar/panel). Animated transitions with `var(--transition-layout)` (300ms ease).
+- [ ] **E01-S03-T05** — Create `LayoutSwitcher.tsx` — Dropdown or toggle in sidebar footer. Switches between Dashboard (all panels), Focus (icon sidebar, minimal chrome), and Clean (feed only, no sidebar/panel). Animated transitions with `var(--transition-layout)` (300ms ease).
 - [ ] **E01-S03-T06** — Create `NotificationCenter.tsx` — Toast container (bottom-right) for alert notifications. Tray/bell icon in sidebar for notification list. Unread badge count.
 - [ ] **E01-S03-T07** — Implement responsive breakpoints: 1024-1279px (tablet: sidebar collapsed, right panel overlay), 1280px+ (desktop: full layout). Test layout at both breakpoints.
 
@@ -90,8 +90,8 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
 - [ ] **E01-S05-T04** — Create `Chip.tsx` — Small tag/chip for entity tags, filter pills, trend hashtags. Category-colored. Removable variant with ✕ button.
 - [ ] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
-- [ ] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font.
-- [ ] **E01-S05-T07** — Create `MonoLabel.tsx` — Monospace styled label for coordinates, telemetry data, classification headers. ALL CAPS with letter-spacing: 0.1em.
+- [ ] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
+- [ ] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
 - [ ] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
 - [ ] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
 - [ ] **E01-S05-T10** — Create `ConfidenceBadge.tsx` — Renders Low/Med/High confidence with opacity treatment (60%/85%/100%) and label. Outline badge for Low, filled for Med/High.
@@ -194,7 +194,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 > Virtualized feed with mixed-density cards and media auto-expansion.
 
 - [ ] **E03-S02-T01** — Create `FeedContainer.tsx` — Wraps `react-virtuoso` `<Virtuoso>` component. Passes `useFeed()` data. Handles variable-height rows. Overscan: 50 items. Shows `FeedSkeleton` during initial load. Infinite scroll: loads more items at bottom.
-- [ ] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `MonoLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
+- [ ] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `DataLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
 - [ ] **E03-S02-T03** — Create `FeedCardCompact.tsx` — Compact variant (~80px). Shows: source icon, title/first line of content, timestamp, key badges (severity, trend). No media, no body text.
 - [ ] **E03-S02-T04** — Create `FeedCardExpanded.tsx` — Expanded variant (~200px+). Shows: full content body, auto-expanded images (inline), video thumbnails with play icon, all badges, all entity chips. Action buttons: pin to watchlist, open in Geo, expand detail (→ right panel), share.
 - [ ] **E03-S02-T05** — Create `FeedSkeleton.tsx` — Loading skeleton for the feed. Renders 5-7 skeleton cards matching the mixed-density layout. Animated pulse.
@@ -274,10 +274,10 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ## Story 5.4: AI Prediction Brief
 
-> Terminal-style intelligence summary.
+> Clean intelligence summary card.
 
-- [ ] **E05-S04-T01** — Create `PredictionBrief.tsx` — Monospace card with classification header ("POLYMATIC // SENTIMENT ANALYSIS BRIEF"). Renders: assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
-- [ ] **E05-S04-T02** — Style the prediction brief: JetBrains Mono font, dark card slightly lighter than base bg, left border accent in cyan, classification header in ALL CAPS with letter-spacing 0.1em. No rounded corners — sharp edges for the terminal aesthetic.
+- [ ] **E05-S04-T01** — Create `PredictionBrief.tsx` — Clean intelligence summary card with structured sections. Renders: section header ("Sentiment Analysis"), assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. Uses Inter sans-serif, monospace only for numerical values. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
+- [ ] **E05-S04-T02** — Style the prediction brief: Inter sans-serif for all text, monospace only for numerical values (percentages, deltas). Card with subtle left border accent in cyan, rounded corners consistent with the design system. Section headers in medium-weight Inter, sentence case. Clean, modern SaaS card styling.
 - [ ] **E05-S04-T03** — Implement tier gating: Free → hidden with "Upgrade to see AI analysis" upsell. Pro/Quant → visible.
 
 ## Story 5.5: Add Question Flow
@@ -316,7 +316,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Overlay dropdown with fixed-order sections.
 
-- [ ] **E06-S02-T01** — Create `SearchDropdown.tsx` — Absolute-positioned overlay below search bar. Fixed-order sections: Trends (max 3), Markets (max 3), Sentiments (max 3), Events (max 5). Section headers in monospace ALL CAPS. "View all results →" link at bottom.
+- [ ] **E06-S02-T01** — Create `SearchDropdown.tsx` — Absolute-positioned overlay below search bar. Fixed-order sections: Trends (max 3), Markets (max 3), Sentiments (max 3), Events (max 5). Section headers in medium-weight sans-serif, sentence case. "View all results" link at bottom.
 - [ ] **E06-S02-T02** — Create `SearchSection.tsx` — Renders a section header + list of `SearchResultItem` components. Shows section even if empty (with "No matching {type}" message).
 - [ ] **E06-S02-T03** — Create `SearchResultItem.tsx` — Result row with type-specific rendering. Trends: hashtag + velocity + lifecycle. Markets: question + probability + delta. Sentiments: question + sentiment %. Events: source + content snippet + timestamp.
 - [ ] **E06-S02-T04** — Implement click-outside-to-close behavior. Use Radix `Popover` or custom hook with ref detection.
@@ -514,7 +514,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 > Context-appropriate anomaly detection.
 
 - [ ] **E13-S01-T01** — Create `DetectEngine.ts` — Service that runs anomaly detection on provided data. Accepts context (feed, geo region, sentiment question). Returns `SignalCard` objects. Mock implementation uses statistical thresholds (z-score > 2 on event velocity, sentiment reversal detection, market probability jump detection).
-- [ ] **E13-S01-T02** — Create signal card output component: shows cluster spikes, sentiment anomalies, market probability deltas, historical analogs (mocked), confidence score, and recommended markets. Terminal-style rendering similar to PredictionBrief.
+- [ ] **E13-S01-T02** — Create signal card output component: shows cluster spikes, sentiment anomalies, market probability deltas, historical analogs (mocked), confidence score, and recommended markets. Clean card rendering consistent with PredictionBrief styling.
 - [ ] **E13-S01-T03** — Add "Run Detect" button to Home view (runs on filtered feed/trend), Geo view (runs on selected region), and Sentiments view (runs on selected question). Button triggers analysis and displays results in right panel.
 - [ ] **E13-S01-T04** — Implement rate limiting for Detect: Free tier = 0/day, Pro = 5/day, Quant = unlimited. Show remaining count in button label. Upsell when limit reached.
 
@@ -565,7 +565,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E16-S01-T01** — Implement sidebar keyboard navigation: Tab through nav items, Enter to select, arrow keys for sidebar menu items.
 - [ ] **E16-S01-T02** — Implement feed keyboard navigation: Tab into feed, arrow keys to move between cards, Enter to expand/select, Escape to deselect.
 - [ ] **E16-S01-T03** — Implement search keyboard flow: `Cmd+K` to focus search, type to search, arrow keys through results, Enter to select, Escape to close. Full keyboard-only usable.
-- [ ] **E16-S01-T04** — Add keyboard shortcuts for layout switching: `Cmd+1` Tactical, `Cmd+2` Panoptic, `Cmd+3` Clean. Display shortcut hints in tooltips.
+- [ ] **E16-S01-T04** — Add keyboard shortcuts for layout switching: `Cmd+1` Dashboard, `Cmd+2` Focus, `Cmd+3` Clean. Display shortcut hints in tooltips.
 
 ## Story 16.2: ARIA & Screen Reader
 

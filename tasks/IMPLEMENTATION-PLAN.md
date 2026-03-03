@@ -117,7 +117,7 @@ polymatic-frontend-webapp/
 │   │   ├── Sidebar.tsx               # Left nav with auto-collapse
 │   │   ├── RightPanel.tsx            # Persistent 30% detail panel
 │   │   ├── TopBar.tsx                # Search bar container
-│   │   ├── LayoutSwitcher.tsx        # Tactical/Panoptic/Clean toggle
+│   │   ├── LayoutSwitcher.tsx        # Dashboard/Focus/Clean toggle
 │   │   └── NotificationCenter.tsx    # Alert toasts + notification tray
 │   │
 │   ├── views/                        # Route-level view components
@@ -157,7 +157,7 @@ polymatic-frontend-webapp/
 │   │   ├── StanceDistribution.tsx    # YES/NO/Neutral pie/bar chart
 │   │   ├── SentimentTimeline.tsx     # 24h confidence-weighted timeline
 │   │   ├── KeyVoices.tsx            # Influential accounts per stance
-│   │   ├── PredictionBrief.tsx       # Terminal-style AI prediction summary
+│   │   ├── PredictionBrief.tsx       # AI intelligence summary card
 │   │   ├── MarketDeltaBadge.tsx      # Sentiment vs market delta
 │   │   ├── AddQuestionFlow.tsx       # Trending suggestions → search
 │   │   ├── SentimentConfidence.tsx   # Opacity + label treatment
@@ -278,7 +278,7 @@ polymatic-frontend-webapp/
 │   │   ├── Icon.tsx                 # Icon wrapper (lucide)
 │   │   ├── Input.tsx                # Text input with search variant
 │   │   ├── LoadingSkeleton.tsx      # Context-aware skeletons
-│   │   ├── MonoLabel.tsx            # Monospace label (timestamps, coords, telemetry)
+│   │   ├── DataLabel.tsx            # Clean label for section headers and metadata
 │   │   ├── ProbabilityDisplay.tsx   # 73% with directional color
 │   │   ├── SeverityDot.tsx          # Color-coded severity indicator
 │   │   ├── Sparkline.tsx            # Mini inline chart
@@ -329,7 +329,7 @@ Each store is small, focused, and typed. Stores communicate via `mitt` event bus
 
 ```typescript
 interface UIState {
-  layoutMode: 'tactical' | 'panoptic' | 'clean';
+  layoutMode: 'dashboard' | 'focus' | 'clean';
   sidebarExpanded: boolean;
   sidebarAutoCollapsed: boolean; // true when viewport < 1280px
   rightPanelContent: RightPanelContent | null;
@@ -738,35 +738,36 @@ Confidence LOW:    opacity: 0.6, label: "LOW CONFIDENCE", outline badge
 | AI prediction summary | Hidden | Visible | Visible + API |
 | Sentiment export | No | CSV | CSV + JSON + API |
 
-### Terminal-Style Prediction Brief
+### Intelligence Summary Card
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ POLYMATIC // SENTIMENT ANALYSIS BRIEF                   │
-│ ──────────────────────────────────────────               │
-│ SUBJECT: Will Iran close the Strait of Hormuz before    │
-│          July 2026?                                      │
+│  Sentiment Analysis                                      │
 │                                                          │
-│ ASSESSMENT: Twitter sentiment STRONGLY FAVORS YES at     │
-│ 73%, driven primarily by OSINT accounts reporting naval  │
-│ buildups in the Persian Gulf region. Key voices include   │
-│ @AuroraIntel and @sentdefender.                          │
+│  Will Iran close the Strait of Hormuz before             │
+│  July 2026?                                              │
 │                                                          │
-│ CONFIDENCE: MEDIUM — Source diversity score 0.54.         │
-│ Sentiment concentration among defense-focused accounts   │
-│ limits confidence ceiling.                               │
+│  Assessment                                              │
+│  Twitter sentiment strongly favors YES at 73%, driven    │
+│  primarily by OSINT accounts reporting naval buildups    │
+│  in the Persian Gulf region. Key voices include          │
+│  @AuroraIntel and @sentdefender.                         │
 │                                                          │
-│ MARKET Δ: +23% (Sentiment 73% vs Market 50%)            │
-│ SIGNAL: Potential underpricing detected.                 │
+│  Confidence: Medium — Source diversity score 0.54.        │
+│  Sentiment concentration among defense-focused accounts  │
+│  limits confidence ceiling.                              │
 │                                                          │
-│ ⚠ Sentiment-derived estimate. Not financial advice.      │
-│ Historical accuracy: 68% directionally correct.          │
-│ ──────────────────────────────────────────               │
-│ GENERATED: 2026-03-03 14:23 UTC                         │
+│  Market Δ   +23% (Sentiment 73% vs Market 50%)          │
+│  Signal     Potential underpricing detected              │
+│                                                          │
+│  ⚠ Sentiment-derived estimate. Not financial advice.     │
+│  Historical accuracy: 68% directionally correct.         │
+│                                                          │
+│  Generated Mar 3, 2026 14:23 UTC                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
-Rendered with: monospace font (JetBrains Mono), dark card background slightly lighter than base, left border accent in cyan, classification-style header in `ALL CAPS` with `letter-spacing: 0.1em`.
+Rendered with: Inter (sans-serif) for all text, monospace only for numerical values (percentages, deltas). Clean card with subtle left border accent. Section headers use medium-weight Inter, sentence case. No ALL CAPS, no letter-spacing treatment. Rounded corners, consistent with the modern SaaS card system.
 
 ---
 
@@ -952,7 +953,7 @@ App
             │   │       │   ├── Badge (trend hashtag)
             │   │       │   ├── Badge (sentiment stance)
             │   │       │   ├── Badge (market correlation)
-            │   │       │   └── MonoLabel (geo coordinate)
+            │   │       │   └── DataLabel (geo coordinate)
             │   │       └── FeedCluster
             │   │           ├── FeedCard (lead)
             │   │           └── "N more" expand toggle
@@ -1162,18 +1163,15 @@ const OnboardingView = lazy(() => import('./views/OnboardingView'));
 }
 ```
 
-### Tactical Accent Strategy
+### Typography Strategy — Minimal Modern SaaS
 
-Monospace treatment applied to:
-- Timestamps everywhere: `14:23 UTC · 2m ago`
-- Coordinate badges: `38.9072° N, 77.0369° W`
-- Confidence labels: `HIGH CONFIDENCE`, `MED CONFIDENCE`
-- Prediction brief header: `POLYMATIC // SENTIMENT ANALYSIS BRIEF`
-- Alert headers: `⚠ ALERT // SENTIMENT REVERSAL`
-- Classification banners on severity-critical alerts
-- Data telemetry labels: `VELOCITY`, `EVENTS 24H`, `SENTIMENT Δ`
+Monospace (JetBrains Mono) is reserved for **numerical data only**:
+- Timestamps: `14:23 UTC · 2m ago`
+- Coordinates: `38.9072° N, 77.0369° W`
+- Prices and percentages: `73%`, `+12.4%`, `$1.2M`
+- Deltas and velocity numbers
 
-Everything else uses the sans-serif (Inter) stack.
+Everything else uses Inter (sans-serif) in **normal case** — no ALL CAPS classification headers, no letter-spacing 0.1em label treatment. Section headers use medium-weight Inter with appropriate size hierarchy. Labels are clean, lowercase or sentence case. The overall aesthetic is a minimal, modern SaaS — data-rich but visually calm.
 
 ---
 
@@ -1527,8 +1525,8 @@ function FeatureGate({ flag, children, fallback }: {
 |-------|-------------|------------|-----------|
 | **1** | **Project scaffold** — Vite, TypeScript strict, Tailwind v4, ESLint flat config, folder structure, .env | — | 1 |
 | **2** | **Theming system** — CSS custom properties, dark + light themes, font loading, `cn()` utility | Phase 1 | 1 |
-| **3** | **App shell** — Sidebar, TopBar, RightPanel, layout grid, layout switching (Tactical/Panoptic/Clean), 300ms transitions | Phase 2 | 2 |
-| **4** | **Base UI components** — Badge, Button, Card, Chip, Input, Tooltip, Timestamp, MonoLabel, DeltaIndicator, EmptyState, LoadingSkeleton, ErrorBoundary | Phase 2 | 2 |
+| **3** | **App shell** — Sidebar, TopBar, RightPanel, layout grid, layout switching (Dashboard/Focus/Clean), 300ms transitions | Phase 2 | 2 |
+| **4** | **Base UI components** — Badge, Button, Card, Chip, Input, Tooltip, Timestamp, DataLabel, DeltaIndicator, EmptyState, LoadingSkeleton, ErrorBoundary | Phase 2 | 2 |
 | **5** | **Type definitions** — All TypeScript interfaces in `types/`, Zod schemas | Phase 1 | 1 |
 | **6** | **State stores** — All 10 Zustand stores, mitt event bus, cross-store wiring | Phase 5 | 2 |
 | **7** | **Data abstraction layer** — DataProvider interface, MockProvider stub, TanStack Query setup, query key factory | Phase 5, 6 | 1 |
@@ -1579,7 +1577,7 @@ All decisions from the Phase 1 interview are **binding constraints** for impleme
 | 1e | Sentiments | Tweet visibility | Tiered by plan | Free: aggregates only. Pro: 5 key voices per stance. Quant: full drill-down. |
 | 1f | Sentiments | Free tier | Browse top 10, track 3 | Show top 10 questions with read-only cards. "Track" button on 3 max. Upsell on track limit. |
 | 1g | Sentiments | Add Question | Trending suggestions first | Show trending-linked questions as suggestions. Fallback to search. |
-| 1h | Sentiments | Prediction summary | Terminal-style brief | Monospace card with classification header. See Section 5 spec. |
+| 1h | Sentiments | Prediction summary | Clean summary card | Modern card with structured sections, sans-serif text. See Section 5 spec. |
 | 2a | Trends | Chip count | 10-12 visible | ~220px per chip on 1440px viewport. Horizontal overflow scroll. |
 | 2b | Trends | Chip density | All data visible | Two-line chip: hashtag + velocity + market badge on line 1, lifecycle + events on line 2. |
 | 2c | Trends | Lifecycle animation | Badge transition | 200ms glow pulse on lifecycle change via framer-motion. |
@@ -1613,7 +1611,7 @@ All decisions from the Phase 1 interview are **binding constraints** for impleme
 | 10a | Hosting | Target | Vercel | Vite + Vercel. Automatic preview deploys. Edge functions if needed. |
 | 10b | Flags | System | Env vars + Zustand | `VITE_*` env vars + Zustand persist store with runtime overrides. |
 | 11a | Brand | Name | PolyMatic | Not WORLDVIEW. All branding, copy, and assets use PolyMatic. |
-| 11b | Design | Aesthetic | Subtle tactical accents | Monospace on data/timestamps, tactical classification on alerts/confidence. Clean sans-serif everywhere else. |
+| 11b | Design | Aesthetic | Minimal modern SaaS | Monospace reserved for numerical data only (prices, %, timestamps). Clean sans-serif (Inter) everywhere else. No ALL CAPS headers. |
 | 11c | Search | Ranking order | Fixed, sectioned | Trends → Markets → Sentiments → Events. Max 3-5 items per section. |
 
 ---

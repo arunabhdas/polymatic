@@ -50,7 +50,7 @@ Mock data generators MUST produce objects matching the exact TypeScript interfac
 Env vars (`VITE_*`) + Zustand persist store with runtime overrides. Use `useFeatureFlag(flag)` hook and `<FeatureGate>` component.
 
 ### Layout
-3-column CSS grid: sidebar (220px, auto-collapse at <1280px) | main content | right panel (30%, always visible). Three layout modes: Tactical (all panels), Panoptic (icon sidebar, minimal chrome), Clean (feed only). Animated transitions (300ms ease).
+3-column CSS grid: sidebar (220px, auto-collapse at <1280px) | main content | right panel (30%, always visible). Three layout modes: Dashboard (all panels), Focus (icon sidebar, minimal chrome), Clean (feed only). Animated transitions (300ms ease).
 
 ### Theming
 Dark (default) + light toggle. All colors via CSS custom properties (`var(--color-*)`). Theme applied via `data-theme` attribute on `<html>`.
@@ -63,7 +63,7 @@ These are resolved and MUST NOT be changed without explicit approval:
 - **Classification delivery:** Batch every 5-10s — not streaming
 - **Confidence visual:** Opacity + label (Low=60%, Med=85%, High=100%)
 - **Tweet visibility:** Tiered by plan (Free: aggregates, Pro: 5 key voices, Quant: full)
-- **Prediction summaries:** Terminal-style intelligence briefs (monospace, classification header)
+- **Prediction summaries:** Clean intelligence summary cards (structured sections, modern typography)
 - **Trending bar:** 10-12 chips, all data visible (~220px each), badge lifecycle transitions
 - **Feed:** Mixed density (signal-based), lead+expand clustering, react-virtuoso at 50 items
 - **Feed ranking:** 70% velocity + 30% recency (For You mode)
@@ -79,7 +79,7 @@ These are resolved and MUST NOT be changed without explicit approval:
 - **Hosting:** Vercel
 - **Feature flags:** Env vars + Zustand persist store
 - **Brand:** PolyMatic (not WORLDVIEW)
-- **Aesthetic:** Subtle tactical accents (monospace on data/timestamps, tactical on alerts/confidence)
+- **Aesthetic:** Minimal, modern SaaS — clean typography, monospace only for numerical data (prices, percentages, timestamps), no ALL CAPS classification headers
 
 ## Priority
 
@@ -95,7 +95,7 @@ These are resolved and MUST NOT be changed without explicit approval:
 - UX copy: sharp, confident, concise. "Sentiment Δ" not "Difference Between Sentiment and Market." No cute emoji in empty states.
 - Timestamps: relative when recent ("2m ago"), absolute when older ("Mar 2, 14:23 UTC"). Always show UTC.
 - Numbers: always formatted. "1.2M" not "1234567". "73%" not "0.73". "+12.4%" not "12.4% increase."
-- Monospace labels: ALL CAPS, letter-spacing 0.1em. Used sparingly for tactical personality.
+- Monospace: reserved for numerical data only (prices, percentages, timestamps, deltas). Labels use Inter (sans-serif) in normal case.
 - Virtualize everything that scrolls. Batch everything that streams. Lazy-load everything not visible.
 - Performance: target 60fps feed scroll, <3s TTI, <500MB memory with feed + 5 geo layers.
 
