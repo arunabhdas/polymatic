@@ -184,29 +184,29 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Horizontal scrolling chip bar with all trend data visible.
 
-- [ ] **E03-S01-T01** — Create `TrendingBar.tsx` — Horizontal scrolling container (64px height). Renders 10-12 `TrendChip` components. Overflow: horizontal scroll with momentum. Left/right scroll buttons on hover at edges. Consumes `useTrends()` hook.
-- [ ] **E03-S01-T02** — Create `TrendChip.tsx` — Two-line chip (~220px wide). Line 1: category color dot, hashtag label, velocity arrow+%, market badge icon (if linked). Line 2: lifecycle label, event count. Click handler: `trendsStore.selectTrend(id)`. Selected state: accent border + background highlight.
-- [ ] **E03-S01-T03** — Create `TrendLifecycleBadge.tsx` — Small badge showing lifecycle state: Emerging (pulsing outline), Trending (filled), Peaking (filled + glow), Cooling (faded). Animate transitions between states with 200ms glow pulse via framer-motion.
-- [ ] **E03-S01-T04** — Implement "View All Trends" button at the end of the bar. Opens a full trending dashboard in the right panel or as a modal with: all trends listed, historical velocity charts per trend, lifecycle stage indicators, and drill-down to topic pages.
+- [✅] **E03-S01-T01** — Create `TrendingBar.tsx` — Horizontal scrolling container (64px height). Renders 10-12 `TrendChip` components. Overflow: horizontal scroll with momentum. Left/right scroll buttons on hover at edges. Consumes `useTrends()` hook.
+- [✅] **E03-S01-T02** — Create `TrendChip.tsx` — Two-line chip (~220px wide). Line 1: category color dot, hashtag label, velocity arrow+%, market badge icon (if linked). Line 2: lifecycle label, event count. Click handler: `trendsStore.selectTrend(id)`. Selected state: accent border + background highlight.
+- [✅] **E03-S01-T03** — Create `TrendLifecycleBadge.tsx` — Small badge showing lifecycle state: Emerging (pulsing outline), Trending (filled), Peaking (filled + glow), Cooling (faded). Animate transitions between states with 200ms glow pulse via framer-motion.
+- [✅] **E03-S01-T04** — Implement "View All Trends" button at the end of the bar. Opens a full trending dashboard in the right panel or as a modal with: all trends listed, historical velocity charts per trend, lifecycle stage indicators, and drill-down to topic pages.
 
 ## Story 3.2: Feed Container & Cards
 
 > Virtualized feed with mixed-density cards and media auto-expansion.
 
-- [ ] **E03-S02-T01** — Create `FeedContainer.tsx` — Wraps `react-virtuoso` `<Virtuoso>` component. Passes `useFeed()` data. Handles variable-height rows. Overscan: 50 items. Shows `FeedSkeleton` during initial load. Infinite scroll: loads more items at bottom.
-- [ ] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `DataLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
-- [ ] **E03-S02-T03** — Create `FeedCardCompact.tsx` — Compact variant (~80px). Shows: source icon, title/first line of content, timestamp, key badges (severity, trend). No media, no body text.
-- [ ] **E03-S02-T04** — Create `FeedCardExpanded.tsx` — Expanded variant (~200px+). Shows: full content body, auto-expanded images (inline), video thumbnails with play icon, all badges, all entity chips. Action buttons: pin to watchlist, open in Geo, expand detail (→ right panel), share.
-- [ ] **E03-S02-T05** — Create `FeedSkeleton.tsx` — Loading skeleton for the feed. Renders 5-7 skeleton cards matching the mixed-density layout. Animated pulse.
-- [ ] **E03-S02-T06** — Create `FeedFilters.tsx` — Filter bar above feed or in sidebar. Source type toggles, severity threshold slider, category filter dropdown. Updates `feedStore` filters, which triggers TanStack Query refetch.
+- [✅] **E03-S02-T01** — Create `FeedContainer.tsx` — Wraps `react-virtuoso` `<Virtuoso>` component. Passes `useFeed()` data. Handles variable-height rows. Overscan: 50 items. Shows `FeedSkeleton` during initial load. Infinite scroll: loads more items at bottom.
+- [✅] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `DataLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
+- [✅] **E03-S02-T03** — Create `FeedCardCompact.tsx` — Compact variant (~80px). Shows: source icon, title/first line of content, timestamp, key badges (severity, trend). No media, no body text.
+- [✅] **E03-S02-T04** — Create `FeedCardExpanded.tsx` — Expanded variant (~200px+). Shows: full content body, auto-expanded images (inline), video thumbnails with play icon, all badges, all entity chips. Action buttons: pin to watchlist, open in Geo, expand detail (→ right panel), share.
+- [✅] **E03-S02-T05** — Create `FeedSkeleton.tsx` — Loading skeleton for the feed. Renders 5-7 skeleton cards matching the mixed-density layout. Animated pulse.
+- [✅] **E03-S02-T06** — Create `FeedFilters.tsx` — Filter bar above feed or in sidebar. Source type toggles, severity threshold slider, category filter dropdown. Updates `feedStore` filters, which triggers TanStack Query refetch.
 
 ## Story 3.3: Event Clustering
 
 > Lead card + "N more from this story" expandable clusters.
 
-- [ ] **E03-S03-T01** — Create `FeedCluster.tsx` — Renders the lead card (highest signal in cluster) followed by a "N more from this story" toggle. Toggle expands to show remaining cluster items inline. Collapse animation via framer-motion.
-- [ ] **E03-S03-T02** — Implement clustering logic in `feed.utils.ts` — Group feed items by `clusterId`. Sort each cluster by signal score (severity * velocity * market-linkage). Lead card = highest score. Apply clustering to feed before rendering.
-- [ ] **E03-S03-T03** — Wire trend selection to feed filtering: when `trendsStore.selectedTrendId` changes, `feedStore.activeTrendFilter` updates, TanStack Query refetches with trend filter, feed re-renders showing only items in that cluster. "All Trends" deselection shows the blended "For You" feed (70% velocity + 30% recency ranking).
+- [✅] **E03-S03-T01** — Create `FeedCluster.tsx` — Renders the lead card (highest signal in cluster) followed by a "N more from this story" toggle. Toggle expands to show remaining cluster items inline. Collapse animation via framer-motion.
+- [✅] **E03-S03-T02** — Implement clustering logic in `feed.utils.ts` — Group feed items by `clusterId`. Sort each cluster by signal score (severity * velocity * market-linkage). Lead card = highest score. Apply clustering to feed before rendering.
+- [✅] **E03-S03-T03** — Wire trend selection to feed filtering: when `trendsStore.selectedTrendId` changes, `feedStore.activeTrendFilter` updates, TanStack Query refetches with trend filter, feed re-renders showing only items in that cluster. "All Trends" deselection shows the blended "For You" feed (70% velocity + 30% recency ranking).
 
 ---
 
