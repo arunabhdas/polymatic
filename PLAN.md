@@ -945,3 +945,298 @@
   - npm run test — 4/4 tests pass
   - npm run dev — dev server starts and serves correctly
   - Zero TypeScript errors, no any types
+
+
+
+  ## Scenarios
+
+  ⏺ Created SCENARIOS.md at the repo root with 88 detailed test scenarios organized into 16 sections:
+
+  ┌───────────────────────────┬───────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │          Section          │ Scenarios │                                                Coverage                                                 │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Foundation &              │ 7         │ Build, TypeScript strict, dev server, tests, env vars, stores                                           │
+  │ Infrastructure            │           │                                                                                                         │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Theming & Visual Design   │ 7         │ Dark/light toggle, persistence, CSS vars, monospace rules, no ALL CAPS, SaaS aesthetic                  │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Layout & Navigation       │ 11        │ 3-column grid, sidebar collapse, layout modes, animations, routing, right panel                         │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Authentication &          │ 5         │ Landing gate, mock login, persistence, logout, protected routes                                         │
+  │ Onboarding                │           │                                                                                                         │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Mock Data Engine          │ 11        │ DataProvider init, feed/sentiment/market/trend generators, cross-domain correlation, alerts, geo        │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Home Feed                 │ 11        │ Display, mixed density, virtualization, infinite scroll, skeletons, filtering, clustering, timestamps   │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Trending Bar              │ 7         │ Chip count/width, lifecycle badges, selection, scroll, market badges                                    │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Sentiments Engine         │ 10        │ Score calculation, confidence levels, direction, delta, detail view, tweets, prediction brief,          │
+  │                           │           │ sparklines, batching                                                                                    │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Search                    │ 7         │ 2-char minimum, 200ms debounce, dropdown overlay, fixed section order, recent searches                  │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Markets Panel             │ 8         │ Card display, Bloomberg-style numbers, cross-platform, sentiment delta, sparklines, filtering, sorting  │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Topic Pages               │ 3         │ Navigation, related markets, tabs                                                                       │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Alerts                    │ 6         │ Config, triggering, toasts, mark read, dismiss, auto-generation                                         │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Geo View                  │ 3         │ Feature flag gating, CesiumJS globe, conflict zone markers                                              │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Performance               │ 5         │ TTI < 3s, 60 FPS scroll, memory < 500MB, lazy loading, bundle size                                      │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Accessibility &           │ 6         │ Number formatting, keyboard nav, toggles, tooltips, error boundary, empty states                        │
+  │ Conventions               │           │                                                                                                         │
+  ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Anti-Pattern Checks       │ 6         │ No placeholder copy, no default styling, no centered spinners, varied rhythm, product name              │
+  └───────────────────────────┴───────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+  Plus reference tables for: feature flags, numeric specifications, browser matrix, and seed data.
+
+  
+## Epic 3 Plan
+
+ Plan: Implement Epic 3 — Home Feed
+
+ Context
+
+ Epics 1 (Foundation) and 2 (Mock Data Engine) are complete. The app has a working shell with 3-column grid layout, 20 base UI components, 10 Zustand
+ stores, DataProvider abstraction with MockProvider, 6 generators, and TanStack Query hooks. HomeView.tsx is currently a stub. Epic 3 builds the core
+ Home Feed experience: trending bar, virtualized feed with mixed-density cards, event clustering, and filter controls.
+
+ Root: /Users/coder/repos/offsideAI/githubworkspace_fr8pro_active_1/polymatic/polymatic-frontend-webapp
+ Tasks: 13 tasks across 3 stories (E03-S01-T01→T04, E03-S02-T01→T06, E03-S03-T01→T03)
+
+ Existing Code to Reuse
+
+ ┌──────────────────────────────────────┬───────────────────────────────────────────────────────────────────────────┐
+ │                 File                 │                             What it provides                              │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/hooks/useTrends.ts               │ useTrends() — returns { trends, isLoading, error }, 6s refetch            │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/hooks/useFeed.ts                 │ useFeed() — infinite query + live subscription; useFeedFilters()          │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/state/trendsStore.ts             │ selectedTrendId, selectTrend(id), updateTrends(trends)                    │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/state/feedStore.ts               │ items, filters (FeedFilters), activeTrendFilter, addItems, setTrendFilter │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/Chip.tsx              │ Category-colored chip with selected state, removable variant              │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/Badge.tsx             │ Severity/category/source/custom badge variants                            │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/Card.tsx              │ Base card: default/interactive/selected variants                          │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/Sparkline.tsx         │ Recharts mini chart, no axes                                              │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/VelocityIndicator.tsx │ Arrow + percentage, green/red/gray                                        │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/SeverityDot.tsx       │ Color-coded severity dot                                                  │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/Timestamp.tsx         │ Smart relative/absolute UTC timestamp                                     │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/LoadingSkeleton.tsx   │ Pulse skeletons: card, list-row, chart, text-block                        │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/components/EmptyState.tsx        │ Icon + text + CTA empty state                                             │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/types/feed.types.ts              │ FeedItem, FeedCluster, FeedFilters, FeedMedia                             │
+ ├──────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+ │ src/types/trend.types.ts             │ Trend, TrendLifecycle, VelocityScore                                      │
+ └──────────────────────────────────────┴───────────────────────────────────────────────────────────────────────────┘
+
+ Implementation Order
+
+ Step 1: TrendLifecycleBadge (E03-S01-T03)
+
+ New file: src/trends/TrendLifecycleBadge.tsx
+
+ Small badge showing lifecycle state with visual treatment:
+ - Emerging: pulsing border animation (framer-motion animate with opacity oscillation)
+ - Trending: filled badge with category-tinted background
+ - Peaking: filled + subtle glow (box-shadow animation)
+ - Cooling: faded/dimmed (opacity 0.5)
+ - Props: lifecycle: TrendLifecycle, size?: 'sm' | 'md'
+ - 200ms transition between states
+
+ Step 2: TrendChip (E03-S01-T02)
+
+ New file: src/trends/TrendChip.tsx
+
+ Two-line chip (~220px min-width):
+ - Line 1: SeverityDot (category color), hashtag label, VelocityIndicator, market link icon (if linkedMarketIds.length > 0)
+ - Line 2: TrendLifecycleBadge, event count (formatCompact number)
+ - Click: calls trendsStore.selectTrend(id) + feedStore.setTrendFilter(id)
+ - Selected state: accent border + subtle background highlight (reuse Chip's selected pattern)
+ - Props: trend: Trend, selected?: boolean, onSelect?: (id: string) => void
+
+ Step 3: TrendingBar (E03-S01-T01)
+
+ New file: src/trends/TrendingBar.tsx
+
+ Horizontal scrolling container:
+ - Fixed height (64px), rendered above the feed in HomeView
+ - Consumes useTrends() hook, renders 10-12 TrendChip components
+ - Horizontal scroll with CSS overflow-x: auto, scroll-behavior: smooth, -webkit-overflow-scrolling: touch
+ - Left/right scroll buttons (ChevronLeft/ChevronRight from lucide) that appear on hover at edges
+ - Scroll buttons use scrollBy({ left: ±300, behavior: 'smooth' })
+ - Shows "View All Trends" button at the end (Step 4)
+ - Loading state: row of 6 skeleton chips (pulse animation)
+ - Consumes useSelectedTrend() for selected state sync
+
+ Step 4: View All Trends (E03-S01-T04)
+
+ New file: src/trends/ViewAllTrends.tsx
+
+ Rendered in the right panel (via uiStore.setRightPanelContent):
+ - Full list of all trends, sorted by velocity descending
+ - Each row: hashtag, category badge, TrendLifecycleBadge, velocity sparkline, event count, linked market count
+ - Sortable columns (click header to sort)
+ - Click row → selectTrend(id) → feed filters to that trend
+ - "View All" button at end of TrendingBar triggers this
+
+ Step 5: Feed Utilities (E03-S03-T02)
+
+ New file: src/feed/feed.utils.ts
+
+ Clustering + scoring logic:
+ - clusterFeedItems(items: FeedItem[]): { clusters: FeedCluster[], unclustered: FeedItem[] } — groups by clusterId, sorts each cluster by signal score
+ - calculateSignalScore(item: FeedItem): number — severity weight (low=1, medium=2, high=3, critical=4) × velocity factor × market-linkage bonus (1.5x
+ if relatedMarketIds.length > 0)
+ - isHighSignal(item: FeedItem): boolean — signal score > threshold (severity high/critical, or velocity > 60, or has market links)
+ - rankFeedItems(items: FeedItem[]): FeedItem[] — 70% velocity + 30% recency ("For You" ranking)
+ - Pure functions, no side effects. Easy to unit test.
+
+ Step 6: FeedCardCompact + FeedCardExpanded (E03-S02-T03, T04)
+
+ New file: src/feed/FeedCardCompact.tsx
+ Compact variant (~80px):
+ - Source icon (small, from sourceType), first line of title/content truncated, Timestamp, key badges (severity dot, trend hashtag chip if present)
+ - No media, no body text. Single row feel.
+ - Click → expand in right panel or navigate to detail
+
+ New file: src/feed/FeedCardExpanded.tsx
+ Expanded variant (~200px+):
+ - Full content body, all entity chips, all badges (category, severity, sentiment stance, market correlation)
+ - Media: auto-expanded images inline (via FeedMedia), video thumbnails with play overlay
+ - Action row: pin/bookmark icon, open in Geo icon (if geoCoords), expand to right panel, share
+ - Uses Card component with variant="interactive" as base
+
+ Step 7: FeedCard (E03-S02-T02)
+
+ New file: src/feed/FeedCard.tsx
+
+ Signal-based density routing:
+ - Receives item: FeedItem
+ - Calls isHighSignal(item) from feed.utils
+ - If high signal → renders FeedCardExpanded
+ - If low signal → renders FeedCardCompact
+ - Wraps in motion.div with layout prop for smooth height transitions
+ - Handles click: feedStore.selectItem(id), updates right panel via uiStore
+
+ Step 8: FeedCluster (E03-S03-T01)
+
+ New file: src/feed/FeedCluster.tsx
+
+ Lead card + expandable cluster:
+ - Renders lead item (highest signal score) as FeedCardExpanded
+ - Below it: clickable "N more from this story" toggle with framer-motion AnimatePresence
+ - Expand: shows remaining cluster items as FeedCardCompact list
+ - Collapse animation: height transition via framer-motion
+ - Props: cluster: FeedCluster, items: FeedItem[]
+
+ Step 9: FeedSkeleton (E03-S02-T05)
+
+ New file: src/feed/FeedSkeleton.tsx
+
+ Feed-specific loading skeleton:
+ - 5-7 mixed-height skeleton cards matching the real feed layout
+ - Alternates between tall (expanded-like, ~200px) and short (compact-like, ~80px) skeletons
+ - Reuses LoadingSkeleton patterns but with feed-specific structure (source icon area, badge row, content area)
+
+ Step 10: FeedFilters (E03-S02-T06)
+
+ New file: src/feed/FeedFilters.tsx
+
+ Filter bar above the feed:
+ - Source type toggles (chips: Twitter, Reddit, Telegram, News, Structured)
+ - Category filter dropdown (multi-select: geopolitics, economics, technology, sports, culture)
+ - Severity minimum dropdown (low, medium, high, critical)
+ - Time range selector (1h, 6h, 24h, 7d, all)
+ - Updates feedStore.updateFilters() which triggers TanStack Query refetch
+ - Compact single-row layout with overflow scroll on narrow viewports
+ - Active filter count badge
+
+ Step 11: FeedContainer (E03-S02-T01)
+
+ New file: src/feed/FeedContainer.tsx
+
+ Virtualized feed wrapper:
+ - Uses react-virtuoso <Virtuoso> with variableSizeList (variable-height rows)
+ - Data: processes useFeed() items through clusterFeedItems() + rankFeedItems()
+ - Overscan: 50 items for smooth scrolling at 60fps
+ - endReached callback → fetchNextPage() for infinite scroll
+ - Empty state: EmptyState with "No signals matching your filters" + reset CTA
+ - Loading: FeedSkeleton during initial load
+ - itemContent renderer: switches between FeedCluster (for clustered items) and FeedCard (for individual items)
+
+ Step 12: Trend→Feed Wiring (E03-S03-T03)
+
+ Modified file: src/feed/FeedContainer.tsx (or a new hook)
+
+ - When trendsStore.selectedTrendId changes, update feedStore.setTrendFilter(trendId)
+ - This triggers useFeedFilters() → filter change → TanStack Query refetch with trend filter
+ - Deselecting (null) returns to "For You" blended feed (70% velocity + 30% recency)
+ - Add useEffect in FeedContainer that syncs selectedTrendId → feedStore.setTrendFilter
+
+ Step 13: Wire HomeView (modify existing)
+
+ Modified file: src/views/HomeView.tsx
+
+ Replace stub with full layout:
+ <div className="flex flex-col h-full">
+   <TrendingBar />               ← 64px fixed
+   <FeedFilters />                ← auto height
+   <FeedContainer className="flex-1" />  ← fills remaining
+ </div>
+
+ Files Summary
+
+ New files (11):
+ - src/trends/TrendLifecycleBadge.tsx
+ - src/trends/TrendChip.tsx
+ - src/trends/TrendingBar.tsx
+ - src/trends/ViewAllTrends.tsx
+ - src/feed/feed.utils.ts
+ - src/feed/FeedCardCompact.tsx
+ - src/feed/FeedCardExpanded.tsx
+ - src/feed/FeedCard.tsx
+ - src/feed/FeedCluster.tsx
+ - src/feed/FeedSkeleton.tsx
+ - src/feed/FeedFilters.tsx
+ - src/feed/FeedContainer.tsx
+
+ Modified files (1):
+ - src/views/HomeView.tsx — replace stub with TrendingBar + FeedFilters + FeedContainer
+
+ Key Design Decisions
+
+ 1. Signal-based density: isHighSignal() determines compact vs expanded rendering — not user-controlled
+ 2. Feed ranking: 70% velocity + 30% recency for "For You" mode (per binding decisions)
+ 3. Clustering: Group by clusterId, lead card = highest signal score, rest collapsible
+ 4. Trend→Feed filter: Selecting a trend chip filters feed to that trend's items; deselecting returns to blended view
+ 5. Virtualization: react-virtuoso with 50-item overscan for 60fps scroll target
+ 6. No new stores needed: All state already exists in feedStore + trendsStore
+
+ Verification
+
+ 1. npm run build — Clean build, no TS errors
+ 2. Navigate to /app/home — TrendingBar renders with 10-12 trend chips
+ 3. Click a trend chip — Feed filters to that trend's items, chip shows selected state
+ 4. Deselect trend — Feed returns to blended "For You" ranking
+ 5. Scroll feed — Smooth 60fps, infinite scroll loads more items at bottom
+ 6. Mixed density — High-signal items render expanded, low-signal render compact
+ 7. Cluster toggle — "N more from this story" expands/collapses with animation
+ 8. Filter bar — Toggling source/category/severity/time filters updates feed in real-time
+ 9. "View All Trends" — Opens trends list in right panel
+ 10. Loading state — Feed skeleton shows during initial data load
+ 11. Empty state — Shows when filters match no items

@@ -126,3 +126,12 @@ body {
   font-size: 0.75rem;
   line-height: 1;
 }
+
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

@@ -103,6 +103,7 @@ export type RightPanelContentType =
   | { kind: 'market-detail'; marketId: string }
   | { kind: 'sentiment-detail'; questionId: string }
   | { kind: 'trend-detail'; trendId: string }
+  | { kind: 'trends-list' }
 
 // ─── Feature Flags ──────────────────────────────────────────
 
