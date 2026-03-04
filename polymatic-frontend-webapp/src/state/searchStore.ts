@@ -13,7 +13,9 @@ interface SearchState {
   openDropdown: () => void
   closeDropdown: () => void
   saveSearch: (query: string) => void
+  deleteSavedSearch: (id: string) => void
   addRecentSearch: (query: string) => void
+  clearRecentSearches: () => void
 }
 
 export const useSearchStore = create<SearchState>()((set) => ({
@@ -39,8 +41,13 @@ export const useSearchStore = create<SearchState>()((set) => ({
         },
       ],
     })),
+  deleteSavedSearch: (id) =>
+    set((s) => ({
+      savedSearches: s.savedSearches.filter((s) => s.id !== id),
+    })),
   addRecentSearch: (query) =>
     set((s) => ({
       recentSearches: [query, ...s.recentSearches.filter((q) => q !== query)].slice(0, 10),
     })),
+  clearRecentSearches: () => set({ recentSearches: [] }),
 }))

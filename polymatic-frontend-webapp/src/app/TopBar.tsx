@@ -1,7 +1,8 @@
-import { Bell, Moon, Sun, Search } from 'lucide-react'
+import { Bell, Moon, Sun } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useTheme } from '@/hooks/useTheme'
 import { useAlertsStore } from '@/state/alertsStore'
+import { SearchBar } from '@/search/SearchBar'
 
 export function TopBar() {
   const { theme, toggleTheme } = useTheme()
@@ -19,21 +20,8 @@ export function TopBar() {
       {/* Left: spacer for sidebar alignment */}
       <div className="w-48" />
 
-      {/* Center: search placeholder */}
-      <div className="flex-1 max-w-xl mx-auto">
-        <div
-          className={cn(
-            'flex items-center gap-2 px-3 py-2 rounded-lg',
-            'bg-[var(--color-bg-primary)] border border-[var(--color-border)]',
-            'text-[var(--color-text-tertiary)] text-sm cursor-pointer',
-            'hover:border-[var(--color-accent)] transition-colors',
-          )}
-        >
-          <Search size={16} />
-          <span>Search topics, markets, entities...</span>
-          <kbd className="ml-auto text-xs font-mono opacity-50">⌘K</kbd>
-        </div>
-      </div>
+      {/* Center: search */}
+      <SearchBar />
 
       {/* Right: actions */}
       <div className="flex items-center gap-2 w-48 justify-end">

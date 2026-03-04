@@ -1442,3 +1442,150 @@
 │ 8. Feed cards show sentiment stance badges when relevant                                                                                             │
 │ 9. Animations are smooth (sort reorder, expand/collapse)                                                                                             │
 │ 10. All text follows typography rules (no ALL CAPS, monospace numbers only)
+
+
+## Epic 6 Plan
+
+ Plan: Implement Epic 6 — Search (P0)
+
+ Context
+
+ Epic 6 implements global search: a command-palette-style dropdown in the TopBar and a full-page results view. All data infrastructure exists (types,
+ store, hook with 200ms debounce, mock provider). Only UI components remain: 10 tasks across 3 stories.
+
+ What Already Exists
+
+ ┌───────────────┬───────────────────────────────────────┬───────────────────────────────────────────────────────────────────┐
+ │     Layer     │                 File                  │                              Status                               │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Types         │ src/types/search.types.ts             │ Complete — SearchQuery, SearchOptions, SearchResults, SavedSearch │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Store         │ src/state/searchStore.ts              │ Complete — query, isOpen, results, recentSearches, savedSearches  │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Hook          │ src/hooks/useSearch.ts                │ Complete — 200ms debounce, ≥2 chars, syncs results to store       │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Mock Provider │ src/services/mockProvider.ts search() │ Complete — searches trends, markets, sentiments, feedItems        │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ View Stub     │ src/views/SearchResultsView.tsx       │ Stub — placeholder text                                           │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ TopBar        │ src/app/TopBar.tsx                    │ Has placeholder div (not a real input)                            │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Input         │ src/components/Input.tsx              │ Complete — variant="search" with icon + clear button              │
+ ├───────────────┼───────────────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Routing       │ src/App.tsx                           │ /app/search route already configured                              │
+ └───────────────┴───────────────────────────────────────┴───────────────────────────────────────────────────────────────────┘
+
+ Files to Create
+
+ All new files in src/search/:
+
+ ┌─────┬──────────────────────┬────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────────┐
+ │  #  │         File         │                  Task IDs                  │                             Description                             │
+ ├─────┼──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+ │ 1   │ search.utils.ts      │ E06-S01-T03, E06-S03-T01                   │ FlattenedResult type, flattenResults(), nav targets, section labels │
+ ├─────┼──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+ │ 2   │ SearchResultItem.tsx │ E06-S02-T03                                │ Type-specific row rendering (Trend/Market/Sentiment/Event)          │
+ ├─────┼──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+ │ 3   │ SearchSection.tsx    │ E06-S02-T02                                │ Section header + result list + empty state                          │
+ ├─────┼──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+ │ 4   │ SearchDropdown.tsx   │ E06-S02-T01, T04, E06-S01-T03, E06-S03-T03 │ Overlay with sections, recent/saved, keyboard nav, click-outside    │
+ ├─────┼──────────────────────┼────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+ │ 5   │ SearchBar.tsx        │ E06-S01-T01, T02                           │ Input + dropdown, Cmd+K shortcut, keyboard delegation               │
+ └─────┴──────────────────────┴────────────────────────────────────────────┴─────────────────────────────────────────────────────────────────────┘
+
+ Files to Modify
+
+ ┌─────────────────────────────────┬───────────────────────────────────────────────────────────┐
+ │              File               │                          Change                           │
+ ├─────────────────────────────────┼───────────────────────────────────────────────────────────┤
+ │ src/app/TopBar.tsx              │ Replace placeholder div with <SearchBar />                │
+ ├─────────────────────────────────┼───────────────────────────────────────────────────────────┤
+ │ src/views/SearchResultsView.tsx │ Full rewrite: URL query sync (?q=), sections, save action │
+ ├─────────────────────────────────┼───────────────────────────────────────────────────────────┤
+ │ src/state/searchStore.ts        │ Add deleteSavedSearch(id) and clearRecentSearches()       │
+ └─────────────────────────────────┴───────────────────────────────────────────────────────────┘
+
+ Implementation Steps
+
+ Step 1: Store Update + Utilities
+
+ - Add deleteSavedSearch and clearRecentSearches to searchStore.ts
+ - Create search.utils.ts:
+   - FlattenedResult type: { type, id, data } union over Trend/Market/Sentiment/FeedItem
+   - flattenResults(results, limits) — ordered array: Trends→Markets→Sentiments→Events
+   - DROPDOWN_LIMITS = { trends: 3, markets: 3, sentiments: 3, events: 5 }
+   - getNavigationTarget(result) — react-router path per type
+   - getSectionLabel/Icon/EmptyMessage(type) helpers
+
+ Step 2: SearchResultItem (E06-S02-T03)
+
+ - Four rendering variants:
+   - Trend: hashtag + VelocityIndicator + TrendLifecycleBadge
+   - Market: question text + ProbabilityDisplay + DeltaIndicator + platform Badge
+   - Sentiment: question text + score % (mono) + ConfidenceBadge + direction arrow
+   - Event: source icon + title + Timestamp
+ - isActive prop for keyboard highlight (bg-hover + left accent border)
+ - role="option", aria-selected
+
+ Step 3: SearchSection (E06-S02-T02)
+
+ - Section header: icon + label (sentence case, data-label class)
+ - Maps results → SearchResultItem
+ - Empty state per section: "No matching {type}"
+
+ Step 4: SearchDropdown (E06-S02-T01, T04, E06-S01-T03, E06-S03-T03)
+
+ - Three display modes:
+   a. Recent/Saved: open + query < 2 chars → recent (Clock icon) + saved (Bookmark + delete X)
+   b. Loading: isSearching → LoadingSkeleton list-row ×3
+   c. Results: 4 SearchSections in fixed order + "View all results" footer
+ - Keyboard nav: activeIndex state, ArrowDown/Up cycle flat list, Enter navigates, reset on results change
+ - Click-outside: ref-based mousedown on document, excludes input ref
+ - framer-motion: AnimatePresence, opacity+y(-4)+scale(0.98), 150ms
+ - Position: absolute top-full, z-[60], max-h-[70vh] overflow-y-auto
+
+ Step 5: SearchBar (E06-S01-T01, T02)
+
+ - Uses Input variant="search", wired to searchStore query
+ - Cmd+K / Ctrl+K global shortcut to focus
+ - Keyboard: ArrowDown/Up → activeIndex, Enter → navigate, Escape → clear then close then blur
+ - Calls useSearch() for debounced query
+ - ⌘K hint badge when input empty + unfocused
+ - Wraps Input + SearchDropdown in relative container
+
+ Step 6: Wire TopBar
+
+ - Replace placeholder div (lines 22-35) with <SearchBar />
+ - Update imports, remove unused Search icon import
+
+ Step 7: SearchResultsView (E06-S03-T02)
+
+ - Read ?q= from URL via useSearchParams()
+ - Sync URL query to store on mount
+ - Full-page: header (query + count), sections with higher limits, richer cards
+ - Empty state when 0 results
+ - "Save this search" button
+ - Click navigation same as dropdown
+
+ Key Design Decisions
+
+ - Keyboard nav ownership: SearchBar owns activeIndex, passes to dropdown
+ - Click-outside: Custom ref-based mousedown (not Radix Popover — simpler, no keyboard nav conflicts)
+ - No virtualization: Dropdown max 14 items, results page max ~50 — unnecessary
+ - z-index: Dropdown z-[60], above TopBar z-50, below modals
+ - Double-Escape: First clears query, second closes and blurs
+
+ Verification
+
+ 1. npm run build — no type errors
+ 2. Click search bar or Cmd+K → input focuses
+ 3. Type ≥2 chars → dropdown with results in fixed-order sections
+ 4. Arrow keys navigate, Enter selects, Escape closes
+ 5. Click result → navigates to correct view
+ 6. "View all results" → /app/search?q=query with full results
+ 7. Empty input + focused → recent searches shown
+ 8. Save/delete searches works
+ 9. Click outside → closes dropdown
+ 10. Typography rules followed (no ALL CAPS, monospace numbers only)
+
+ 
