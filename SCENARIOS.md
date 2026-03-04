@@ -835,84 +835,303 @@ recent classified tweets with stance labels, linked trend hashtags, confidence-w
 
 ## 9. Search
 
-### SC-09-001: Search Input Location
+### SC-09-001: Search Bar — Location and Visual Presentation
 **Priority:** P0
-**Preconditions:** Logged in.
+**Preconditions:** Logged in, on any `/app/*` page.
 **Steps:**
-1. Locate the search input in the top bar.
-2. Observe the placeholder text and keyboard shortcut hint.
-**Expected Result:** Search input visible in top bar with magnifying glass icon. Shows "Cmd+K" (Mac) or "Ctrl+K" (Windows) hint. Clear button appears when text is entered.
+1. Observe the top bar. Locate the search input in the center region.
+2. Verify the input has a magnifying glass icon on the left.
+3. Verify the placeholder reads "Search topics, markets, entities...".
+4. When the input is **not focused and empty**, verify a `⌘K` keyboard shortcut badge is visible on the right side of the input.
+5. Click the input to focus it. Verify the `⌘K` badge disappears while focused.
+6. Type "test" — verify a clear button (X icon) appears on the right.
+7. Click the clear button — verify the input is cleared and the clear button disappears.
+**Expected Result:** Search input is centered in the top bar between the sidebar spacer and the right action buttons. Magnifying glass icon, placeholder text, `⌘K` hint badge (when unfocused + empty), and clear button (when has text) all render correctly. Input has an accent border on focus.
 
 ---
 
-### SC-09-002: Search Autocomplete — 2 Character Minimum
+### SC-09-002: Search Bar — Cmd+K / Ctrl+K Global Shortcut
+**Priority:** P0
+**Preconditions:** Logged in, search input is not focused (click somewhere else on the page first).
+**Steps:**
+1. Press `Cmd+K` (Mac) or `Ctrl+K` (Windows/Linux).
+2. Verify the search input receives focus and the cursor is blinking inside it.
+3. Verify the dropdown opens (even if empty, showing the recent/saved prompt).
+4. Type "test" to confirm the input is functional.
+5. Press `Escape` to clear, then `Escape` again to close and blur.
+6. Press `Cmd+K` again — verify focus returns to the search input immediately.
+**Expected Result:** The global `Cmd+K` / `Ctrl+K` shortcut focuses the search input and opens the dropdown from anywhere in the app. The shortcut works repeatedly.
+
+---
+
+### SC-09-003: Search Autocomplete — 2 Character Minimum
 **Priority:** P0
 **Preconditions:** Logged in.
 **Steps:**
-1. Click the search input.
+1. Click the search input or press `Cmd+K` to focus.
 2. Type one character (e.g., "I").
-3. Observe — no results dropdown.
-4. Type second character (e.g., "Ir").
-5. Observe — results dropdown appears.
+3. Observe the dropdown — it should show recent/saved searches (or the "Start typing" prompt), **not** search results.
+4. Type a second character (e.g., "r" → "Ir").
+5. Wait 200ms for the debounce to fire.
+6. Observe the dropdown — it should now display search results grouped by section.
+7. Delete one character back to "I" — verify results disappear and recent/saved mode returns.
 **Expected Result:**
-- Step 3: No autocomplete dropdown after 1 character.
-- Step 5: Dropdown overlay appears after 2nd character with matching results.
+- 1 character: No search query fires. Dropdown shows recent/saved mode.
+- 2+ characters: Search fires after 200ms debounce. Dropdown shows results sections.
+- Deleting below 2 characters reverts to recent/saved mode.
 
 ---
 
-### SC-09-003: Search Debounce — 200ms
+### SC-09-004: Search Debounce — 200ms
+**Priority:** P0
+**Preconditions:** Logged in. Open React DevTools or TanStack Query DevTools to monitor queries.
+**Steps:**
+1. Open browser DevTools → Network tab (or TanStack Query devtools if available).
+2. Click the search input and type "Iran" quickly (all 4 characters within ~100ms).
+3. Count the number of search fetch requests that fire.
+4. Now type slowly: "t" (wait 300ms) "e" (wait 300ms) "s" (wait 300ms) "t".
+5. Count the requests for the slow typing.
+**Expected Result:**
+- Fast typing ("Iran" in <200ms): Only 1 search request fires (for "Iran" after final debounce).
+- Slow typing: Up to 3 requests fire (for "te", "tes", "test") since each pause exceeds 200ms.
+- No request fires for a single character regardless of timing.
+
+---
+
+### SC-09-005: Search Dropdown — Overlay Positioning and Appearance
 **Priority:** P0
 **Preconditions:** Logged in.
 **Steps:**
-1. Open DevTools Network tab.
-2. Type "Iran" quickly in the search input.
-3. Count search API calls (or TanStack Query fetches).
-**Expected Result:** Only 1-2 search requests fire (not one per keystroke). 200ms debounce prevents excessive queries during fast typing.
+1. Type "Ir" in the search input.
+2. Observe the dropdown appears below the search bar.
+3. Verify the dropdown has: rounded corners, border matching `--color-border`, background matching `--color-bg-secondary`, subtle shadow.
+4. Verify the dropdown does **not** push page content down — it overlays on top.
+5. Verify the dropdown has a subtle entrance animation (opacity + slight upward slide).
+6. Scroll the dropdown if content exceeds viewport — verify `max-h-[70vh]` with overflow scroll.
+7. Verify z-index: the dropdown appears **above** the main content and right panel, but **below** any modal dialogs.
+**Expected Result:** Dropdown is absolutely positioned below the search bar, overlays content, has smooth enter animation, scrolls when content overflows, and respects z-index layering (z-60).
 
 ---
 
-### SC-09-004: Search Results — Dropdown Overlay
+### SC-09-006: Search Results — Fixed Section Order
 **Priority:** P0
 **Preconditions:** Logged in.
 **Steps:**
-1. Type "Iran" in search.
-2. Observe the results display.
-**Expected Result:** Results appear in a dropdown overlay below the search bar. The dropdown does NOT replace the page content. Background content remains visible behind/below the dropdown.
+1. Type a broad query that matches across all types (e.g., "Iran" or a common keyword in mock data).
+2. Observe the sections in the dropdown from top to bottom.
+3. Verify the order is always: **Trends → Markets → Sentiments → Events**.
+4. Verify each section has a header with: an icon (Hash for Trends, BarChart3 for Markets, MessageSquare for Sentiments, Rss for Events) + a label in sentence case using `data-label` class.
+5. Verify section limits: Trends (max 3), Markets (max 3), Sentiments (max 3), Events (max 5).
+6. Try different queries — verify the section order never changes regardless of result counts.
+**Expected Result:** Sections always appear in fixed order: Trends, Markets, Sentiments, Events. Each has an icon + label header. Results per section are capped at 3/3/3/5.
 
 ---
 
-### SC-09-005: Search Results — Fixed Section Order
+### SC-09-007: Search Result Items — Type-Specific Rendering
 **Priority:** P0
-**Preconditions:** Logged in, search for a term that has results across all categories.
+**Preconditions:** Logged in, search for a term with results across all types.
 **Steps:**
-1. Type "Iran" (matches trends, markets, sentiments, feed items).
-2. Observe the section order in the dropdown.
-**Expected Result:** Results are grouped into distinct sections in this fixed order:
-1. Trends
-2. Markets
-3. Sentiments
-4. Feed Items (Events)
-Each section has a clear header/divider.
+1. **Trends section:** Verify each result shows: hashtag text (truncated if long) + `VelocityIndicator` (arrow + percentage) + `TrendLifecycleBadge` (Emerging/Trending/Peaking/Cooling with appropriate color/animation).
+2. **Markets section:** Verify each result shows: question text (truncated) + `ProbabilityDisplay` (e.g., "73%") + `DeltaIndicator` (e.g., "+2.4%") + platform `Badge` (polymarket/kalshi).
+3. **Sentiments section:** Verify each result shows: question text (truncated) + score percentage in monospace (e.g., "65%") + `ConfidenceBadge` (Low/Med/High) + direction arrow (green up / red down / gray minus).
+4. **Events section:** Verify each result shows: source icon badge (𝕏/R/T/N/S/M in a small square) + title text (truncated) + relative `Timestamp` (e.g., "2m ago").
+5. Verify all numerical values (percentages, deltas) use monospace font. Labels use sans-serif.
+**Expected Result:** Each result type renders its own specific data layout using the correct UI atoms. Typography rules are respected (monospace for numbers only).
 
 ---
 
-### SC-09-006: Search — Recent Searches
+### SC-09-008: Search Result Items — Hover and Active States
+**Priority:** P0
+**Preconditions:** Logged in, search results visible in dropdown.
+**Steps:**
+1. Hover over a result item — verify it gets a `bg-hover` background color.
+2. Press `ArrowDown` to move keyboard focus to the first item — verify it shows `bg-hover` background **plus** a left accent-colored border (2px left border in `--color-accent`).
+3. Move keyboard focus to different items — verify only one item has the active state at a time.
+4. Move the mouse over a different item while keyboard focus is elsewhere — verify hover state applies independently.
+5. Verify each result item has `role="option"` and `aria-selected` reflects the active state.
+**Expected Result:** Hover shows background highlight. Keyboard-active items show background highlight + left accent border. ARIA attributes are correct for accessibility.
+
+---
+
+### SC-09-009: Search Dropdown — Keyboard Navigation
+**Priority:** P0
+**Preconditions:** Logged in, search dropdown open with results.
+**Steps:**
+1. Type a query with results (e.g., "Ir").
+2. Press `ArrowDown` — verify the first result in the first section gets active highlight.
+3. Press `ArrowDown` repeatedly — verify focus moves through all items sequentially across sections (Trends items → Markets items → Sentiments items → Events items → "View all results" footer).
+4. At the last item ("View all results"), press `ArrowDown` — verify it wraps to the first item.
+5. Press `ArrowUp` — verify it moves backwards. At the first item, press `ArrowUp` — verify it wraps to the last item.
+6. Press `Enter` on a highlighted result — verify navigation occurs to the correct route (topic page for trends, markets view for markets, sentiments view for sentiments, home for events).
+7. Press `Enter` on "View all results" — verify navigation to `/app/search?q={query}`.
+8. Press `Enter` with no item highlighted (activeIndex is null) — verify navigation to `/app/search?q={query}`.
+**Expected Result:** Arrow keys cycle through all items in order including the "View all results" footer. Navigation wraps at both ends. Enter navigates to the correct route per item type.
+
+---
+
+### SC-09-010: Search Dropdown — Escape Key Behavior (Double-Escape)
+**Priority:** P0
+**Preconditions:** Logged in, search dropdown open with text in input.
+**Steps:**
+1. Type "Iran" in the search input. Dropdown is open with results.
+2. Press `Escape` once.
+3. Verify the input text is cleared (query becomes empty), but the dropdown remains open (showing recent/saved mode).
+4. Press `Escape` a second time.
+5. Verify the dropdown closes and the input loses focus (blurs).
+6. Verify the `⌘K` hint badge reappears since input is now unfocused and empty.
+**Expected Result:** First Escape clears the query. Second Escape closes the dropdown and blurs the input. This is the "double-escape" pattern.
+
+---
+
+### SC-09-011: Search Dropdown — Click-Outside to Close
+**Priority:** P0
+**Preconditions:** Logged in, search dropdown is open.
+**Steps:**
+1. Click the search input to open the dropdown.
+2. Type "te" to get results.
+3. Click anywhere outside the search bar + dropdown (e.g., on the feed content, sidebar, or right panel).
+4. Verify the dropdown closes.
+5. Verify the search input retains its current text (clicking outside does not clear the query).
+6. Click the search input again — verify the dropdown reopens with results for the existing query.
+**Expected Result:** Clicking outside the search container closes the dropdown without clearing the query. Re-focusing the input reopens the dropdown.
+
+---
+
+### SC-09-012: Search Dropdown — Recent Searches
+**Priority:** P0
+**Preconditions:** Logged in, no prior searches in this session.
+**Steps:**
+1. Focus the search input (click or Cmd+K). With no prior searches, verify the dropdown shows a prompt: "Start typing to search topics, markets, and sentiments".
+2. Type "Iran" and wait for results to load. Then clear the input.
+3. Type "Bitcoin" and wait for results. Then clear the input.
+4. Type "election" and wait for results. Then clear the input.
+5. Focus the search input with it empty — verify the dropdown shows a "Recent" section with a `Clock` icon header.
+6. Verify recent searches are listed in reverse chronological order: "election", "Bitcoin", "Iran".
+7. Each recent entry shows a clock icon on the left and the query text.
+8. Click on "Bitcoin" — verify the input is populated with "Bitcoin" and results load for that query.
+9. Verify the "Clear" button appears next to the "Recent" header. Click it.
+10. Verify all recent searches are removed and the prompt returns.
+**Expected Result:** Recent searches accumulate (up to 10), display in reverse chronological order with clock icons, are clickable to re-run, and can be bulk-cleared.
+
+---
+
+### SC-09-013: Search Dropdown — Saved Searches
+**Priority:** P0
+**Preconditions:** Logged in.
+**Steps:**
+1. Navigate to the full search results page: type "Iran", then click "View all results" or press Enter.
+2. On the `/app/search?q=Iran` page, find and click the "Save this search" button (Bookmark icon + text).
+3. Verify the button changes to "Saved" with a filled bookmark icon and becomes disabled.
+4. Navigate back to the home feed.
+5. Focus the search input with it empty — verify a "Saved" section appears in the dropdown below recent searches, with a `Bookmark` icon header.
+6. Verify "Iran" appears as a saved search entry with a bookmark icon and a delete `X` button.
+7. Click the saved search entry "Iran" — verify the input is populated with "Iran" and results load.
+8. Clear the input. Focus it again. Click the `X` button on the "Iran" saved search.
+9. Verify the saved search is removed from the list.
+**Expected Result:** Saved searches appear in the dropdown with bookmark icons, are clickable to re-run, and each has an individual delete button. The delete button doesn't trigger the re-run action (stopPropagation).
+
+---
+
+### SC-09-014: Search Dropdown — Recent Searches Keyboard Navigation
+**Priority:** P1
+**Preconditions:** Logged in, have at least 2 recent searches stored.
+**Steps:**
+1. Focus the search input with it empty. Recent searches are shown.
+2. Press `ArrowDown` — verify the first recent search gets active highlight.
+3. Press `ArrowDown` again — verify the second recent search gets active highlight.
+4. Press `Enter` — verify the input is populated with that recent search's text and results load.
+**Expected Result:** Keyboard navigation works in recent searches mode. Enter selects and runs the highlighted recent search.
+
+---
+
+### SC-09-015: Search Dropdown — View All Results Footer
+**Priority:** P0
+**Preconditions:** Logged in, search returns results.
+**Steps:**
+1. Type "Ir" to get search results.
+2. Scroll to the bottom of the dropdown (if needed).
+3. Verify a "View all results" link with a right arrow icon appears at the bottom, separated by a top border.
+4. Click "View all results".
+5. Verify navigation to `/app/search?q=Ir`.
+6. Verify the URL contains the query parameter.
+**Expected Result:** "View all results" footer appears at the bottom of the dropdown when results exist. Clicking it navigates to the full search results page with the query preserved in the URL.
+
+---
+
+### SC-09-016: Search Results Page — URL Query Sync
+**Priority:** P0
+**Preconditions:** Logged in.
+**Steps:**
+1. Navigate directly to `/app/search?q=Iran` by typing the URL in the browser.
+2. Verify the page loads, the search runs, and results are displayed for "Iran".
+3. Verify the search input in the top bar also shows "Iran".
+4. Change the query in the search bar to "Bitcoin". Click "View all results".
+5. Verify the URL updates to `/app/search?q=Bitcoin` and results update accordingly.
+**Expected Result:** The search results page reads from the `?q=` URL parameter on mount and syncs it to the search store. The URL is the source of truth for the full results page.
+
+---
+
+### SC-09-017: Search Results Page — Full Layout
+**Priority:** P0
+**Preconditions:** Logged in, navigated to `/app/search?q=Iran`.
+**Steps:**
+1. Verify the page header shows: "Results for" followed by the query in accent color with quotes (e.g., Results for "Iran").
+2. Below the header, verify a result count in monospace (e.g., "12 results found").
+3. Verify results are displayed in the same fixed section order as the dropdown: Trends → Markets → Sentiments → Events.
+4. Verify the full results page shows **more** results per section than the dropdown (up to 20/20/20/50 vs dropdown's 3/3/3/5).
+5. Verify each section shows its empty state message when no results match (e.g., "No matching trends").
+6. Verify a "Save this search" button with Bookmark icon appears in the header area.
+**Expected Result:** Full-page results view with header (query + count), higher limits per section, all four sections always visible (with empty states), and a save action.
+
+---
+
+### SC-09-018: Search Results Page — Empty State
 **Priority:** P1
 **Preconditions:** Logged in.
 **Steps:**
-1. Search for "Iran".
-2. Close the search dropdown.
-3. Click the search input again.
-**Expected Result:** "Iran" appears in a recent searches list. Up to 10 recent searches stored. Most recent appears first.
+1. Navigate to `/app/search?q=xyznonexistent123`.
+2. Verify the page shows a centered empty state with: a search icon (SearchX), a message "No results match 'xyznonexistent123'", and a suggestion "Try different keywords or broaden your search".
+3. Verify there are NO sad emojis, no generic "Nothing here" text, no Lorem ipsum.
+**Expected Result:** Professional, actionable empty state. No anti-pattern violations (no sad emoji, no generic copy).
 
 ---
 
-### SC-09-007: Search — No Results State
+### SC-09-019: Search Result Navigation — Per-Type Routing
+**Priority:** P0
+**Preconditions:** Logged in, search results visible (dropdown or full page).
+**Steps:**
+1. Click a **Trend** result — verify navigation to `/app/topic/{trendId}`.
+2. Go back. Click a **Market** result — verify navigation to `/app/markets/{marketId}`.
+3. Go back. Click a **Sentiment** result — verify navigation to `/app/sentiments/{sentimentId}`.
+4. Go back. Click an **Event** result — verify navigation to `/app/home`.
+5. Verify that after clicking a result in the dropdown, the dropdown closes.
+**Expected Result:** Each result type navigates to its correct route. Dropdown closes after selection.
+
+---
+
+### SC-09-020: Search — Typography and Design Conventions
+**Priority:** P0
+**Preconditions:** Logged in, search dropdown or results page visible with results.
+**Steps:**
+1. Inspect section headers (Trends, Markets, Sentiments, Events) — verify they use `data-label` class: sans-serif (Inter), sentence case, no ALL CAPS, no letter-spacing treatment.
+2. Inspect numerical values (probabilities, percentages, deltas, timestamps) — verify they use monospace font (JetBrains Mono / `font-mono`).
+3. Verify the "⌘K" shortcut badge uses monospace font.
+4. Verify no ALL CAPS text anywhere in the search UI (section headers, labels, buttons).
+5. Verify the "View all results" text and "Save this search" text are in normal sentence case.
+**Expected Result:** All typography rules are followed per CLAUDE.md conventions. Monospace reserved for numbers only. Labels in Inter sans-serif sentence case.
+
+---
+
+### SC-09-021: Search — Loading State
 **Priority:** P1
 **Preconditions:** Logged in.
 **Steps:**
-1. Type "xyznonexistent123" in search.
-**Expected Result:** Professional empty state with actionable text (NOT a sad emoji). Something like "No results found for 'xyznonexistent123'." Optional suggestion to try different terms.
+1. Optionally throttle network in DevTools to slow down responses.
+2. Type a query (e.g., "test").
+3. Observe the dropdown while results are loading.
+4. Verify a loading skeleton (list-row variant, 3 rows) appears — not a centered spinner.
+5. Verify that once results arrive, the skeletons are replaced by actual result sections.
+**Expected Result:** Loading state shows skeleton rows (not a spinner). Transitions smoothly to results once loaded.
 
 ---
 
