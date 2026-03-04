@@ -7,18 +7,19 @@ import '@/styles/globals.css'
 
 // Initialize theme from persisted state
 const persisted = localStorage.getItem('polymatic-ui')
+let initialTheme = 'dark'
 if (persisted) {
   try {
     const { state } = JSON.parse(persisted) as { state: { theme?: string } }
     if (state?.theme) {
-      document.documentElement.setAttribute('data-theme', state.theme)
+      initialTheme = state.theme
     }
   } catch {
-    document.documentElement.setAttribute('data-theme', 'dark')
+    // default to dark
   }
-} else {
-  document.documentElement.setAttribute('data-theme', 'dark')
 }
+document.documentElement.setAttribute('data-theme', initialTheme)
+document.documentElement.classList.toggle('dark', initialTheme === 'dark')
 
 const queryClient = new QueryClient({
   defaultOptions: {

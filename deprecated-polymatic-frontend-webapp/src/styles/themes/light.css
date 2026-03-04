@@ -1,0 +1,40 @@
+[data-theme='light'] {
+  /* PolyMatic design tokens */
+  --color-bg-primary: #FAFAFA;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-card: #FFFFFF;
+  --color-bg-hover: #F0F0F0;
+  --color-bg-elevated: #F5F5F5;
+  --color-accent: #0097A7;
+  --color-accent-hover: #00838F;
+  --color-text-primary: #171717;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #A3A3A3;
+  --color-border: #E5E5E5;
+  --color-border-subtle: #F0F0F0;
+  --color-border-strong: #D4D4D4;
+
+  /* Shadows — light theme */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 12px rgba(0, 151, 167, 0.1);
+
+  /* shadcn/ui semantic tokens — mapped to PolyMatic values */
+  --color-background: #FAFAFA;
+  --color-foreground: #171717;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #171717;
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #171717;
+  --color-primary: #0097A7;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #F0F0F0;
+  --color-secondary-foreground: #171717;
+  --color-muted: #F5F5F5;
+  --color-muted-foreground: #525252;
+  --color-accent-foreground: #171717;
+  --color-destructive: #E53935;
+  --color-input: #E5E5E5;
+  --color-ring: #0097A7;
+}

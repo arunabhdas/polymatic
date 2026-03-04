@@ -1588,4 +1588,234 @@
  9. Click outside → closes dropdown
  10. Typography rules followed (no ALL CAPS, monospace numbers only)
 
- 
+ ## Epic 7 Plan
+
+ ⏺ Updated Epic 7 with 10 new stories (7.3–7.12) containing 52 tasks for Linear-quality UI polish. Here's the summary:
+
+  ┌───────┬─────────────────────────────────────────────────────────────────────────────┬───────┐
+  │ Story │                                    Focus                                    │ Tasks │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.3   │ Install shadcn/ui + foundation                                              │ 5     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.4   │ Dark theme color overhaul (near-black neutrals, shadow tokens)              │ 7     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.5   │ Sidebar redesign (grouped sections, favorites dots, user footer, shortcuts) │ 7     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.6   │ Typography scale + spacing rhythm                                           │ 5     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.7   │ Component migration to shadcn/ui (Button, Card, Input, ScrollArea, Command) │ 10    │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.8   │ TopBar refinement (breadcrumbs, item nav counter, icon buttons)             │ 4     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.9   │ Interactive states + keyboard shortcut system                               │ 5     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.10  │ Activity timeline component (matches Linear's Activity feed)                │ 4     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.11  │ Right panel detail view polish (metadata, collapsible sections, chat input) │ 4     │
+  ├───────┼─────────────────────────────────────────────────────────────────────────────┼───────┤
+  │ 7.12  │ Micro-interactions + animation polish (page transitions, stagger, counters) │ 5     │
+  └───────┴─────────────────────────────────────────────────────────────────────────────┴───────┘
+
+  Key design shifts to match the Linear screenshot:
+  - Colors: Blue-tinted darks (#1A1A2E) → desaturated near-blacks (#0F0F0F)
+  - Borders: Prominent (#2A3A5C) → barely visible (#2A2A2A)
+  - Depth: Flat (borders only) → subtle shadows for layering
+  - Sidebar: Accent-colored active items → brightness-based, grouped sections with favorites
+  - Components: Custom atoms → shadcn/ui primitives (focus rings, accessibility, polish)
+  - Interactions: Basic hover → hover depth, pressed states, keyboard shortcuts, staggered animations
+
+ Plan: Epic 7 Phase 1 — Foundation Polish (Stories 7.3, 7.4, 7.6, 7.7)
+
+ Context
+
+ The PolyMatic UI currently uses blue-tinted dark colors (#1A1A2E, #16213E) and flat borders with no shadow depth. The target is a Linear-quality
+ premium dark SaaS aesthetic with near-black neutrals, barely-visible borders, subtle shadows, and polished interactive states. This phase lays the
+ design system foundation that all subsequent stories (sidebar, topbar, animations) build upon.
+
+ Scope
+
+ In scope: Stories 7.3 (shadcn/ui), 7.4 (dark theme), 7.6 (typography), 7.7 (component migration)
+ Out of scope: Stories 7.1-7.2 (topic pages), 7.5 (sidebar), 7.8-7.12 (topbar, interactions, animations) — these come in Phase 2
+
+ Implementation Steps
+
+ Step 1: Dark Theme Color Overhaul (Story 7.4)
+
+ Pure CSS changes — zero JS, zero imports, immediate visual impact.
+
+ Modify src/styles/themes/dark.css:
+ - Replace blue-tinted colors with desaturated near-blacks
+ - Add 3 new tokens: --color-bg-elevated, --color-border-subtle, --color-border-strong
+
+ ┌────────────────────────┬─────────┬───────────────┐
+ │         Token          │   Old   │      New      │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-bg-primary     │ #1A1A2E │ #0F0F0F       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-bg-secondary   │ #16213E │ #171717       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-bg-card        │ #1E2A45 │ #1C1C1C       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-bg-hover       │ #243354 │ #262626       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-bg-elevated    │ —       │ #222222 (new) │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-text-primary   │ #FFFFFF │ #F5F5F5       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-text-secondary │ #B0B0B0 │ #A0A0A0       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-text-tertiary  │ #666666 │ #5C5C5C       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-border         │ #2A3A5C │ #2A2A2A       │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-border-subtle  │ —       │ #1F1F1F (new) │
+ ├────────────────────────┼─────────┼───────────────┤
+ │ --color-border-strong  │ —       │ #3A3A3A (new) │
+ └────────────────────────┴─────────┴───────────────┘
+
+ Modify src/styles/themes/light.css:
+ - Update to match new token hierarchy, add same 3 new tokens
+
+ Modify src/styles/globals.css:
+ - Register 3 new tokens in @theme block for Tailwind utility generation
+ - Add shadow tokens to :root: --shadow-sm, --shadow-md, --shadow-lg, --shadow-glow
+ - Add theme-specific shadow overrides in dark.css and light.css
+ - Add typography scale tokens: --text-xs through --text-2xl
+ - Set body { font-size: var(--text-base) /* 14px */; line-height: 1.6 }
+ - Add .inline-code utility class
+
+ Verify: npm run build, visual check both themes
+
+ ---
+ Step 2: Install shadcn/ui (Story 7.3)
+
+ Run: npx shadcn@latest init in polymatic-frontend-webapp/
+ - Style: New York
+ - Base color: Neutral
+ - Components dir: src/components/ui
+ - Utils: point to existing @/lib/cn
+
+ Post-init cleanup:
+ - Delete any generated src/lib/utils.ts (we already have cn.ts)
+ - Move shadcn's generated CSS variables from :root / .dark blocks → into our [data-theme='dark'] and [data-theme='light'] blocks in dark.css /
+ light.css
+ - Map shadcn variables to our token values:
+
+ --background → #0F0F0F (= --color-bg-primary)
+ --foreground → #F5F5F5 (= --color-text-primary)
+ --card → #1C1C1C (= --color-bg-card)
+ --popover → #222222 (= --color-bg-elevated)
+ --primary → #00BCD4 (= --color-accent)
+ --muted → #171717 (= --color-bg-secondary)
+ --muted-foreground → #A0A0A0 (= --color-text-secondary)
+ --destructive → #F44336 (= --color-danger)
+ --border → #2A2A2A (= --color-border)
+ --ring → #00BCD4 (= --color-accent)
+
+ Theme toggle compatibility:
+ - src/state/uiStore.ts: In toggleTheme and setTheme, add document.documentElement.classList.toggle('dark', next === 'dark') so shadcn's dark: variant
+ works
+ - src/main.tsx: Add matching class toggle in the initialization block
+
+ Verify: npm run build, theme toggle works, no visual regressions
+
+ ---
+ Step 3: Install shadcn/ui Primitives (Story 7.3)
+
+ npx shadcn@latest add button input badge card tooltip dropdown-menu dialog tabs separator scroll-area skeleton avatar command
+
+ All land in src/components/ui/. No existing files touched.
+
+ Verify: npm run build — all new files compile cleanly
+
+ ---
+ Step 4: Component Migration (Story 7.7)
+
+ Rewrite each existing component in src/components/ to wrap the shadcn equivalent. Same file path, same export name, same props — zero consumer changes
+  needed.
+
+ Order by blast radius (lowest first):
+
+ ┌─────┬─────────────────────┬───────────┬───────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │  #  │      Component      │ Consumers │                                             Strategy                                              │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4a  │ Input.tsx           │ 1 file    │ Wrap shadcn Input, keep search variant (icon + clear)                                             │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4b  │ Button.tsx          │ 3 files   │ Wrap shadcn Button, map variants (primary→default, danger→destructive), keep loading state        │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4c  │ Card.tsx            │ 3 files   │ Wrap shadcn Card, add --shadow-sm, keep interactive/selected variants                             │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4d  │ Tooltip.tsx         │ 3 files   │ Delegate to shadcn Tooltip, keep TooltipProvider export for main.tsx                              │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4e  │ LoadingSkeleton.tsx │ 5 files   │ Use shadcn Skeleton for pulse animation, keep variant layouts (card, list-row, chart, text-block) │
+ ├─────┼─────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ 4f  │ Badge.tsx           │ 8 files   │ Wrap shadcn Badge, preserve severity/category/source color mapping                                │
+ └─────┴─────────────────────┴───────────┴───────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ Not migrated (no shadcn equivalent or 0 consumers): Chip, DataLabel, EmptyState, Sparkline, DeltaIndicator, ProbabilityDisplay, VelocityIndicator,
+ ConfidenceBadge, SeverityDot, ErrorBoundary, FeatureGate, Tabs (0 consumers), Toggle
+
+ Verify after each: npm run build, npm run test, visual spot-check
+
+ ---
+ Step 5: SectionHeader Component (Story 7.6)
+
+ Create src/components/SectionHeader.tsx:
+ - Props: title, icon?, subtitle?, action?, className?
+ - Reusable section title for Topic Pages, feed, markets, etc.
+
+ Verify: Build passes
+
+ ---
+ Critical Files
+
+ ┌────────────────────────────────────┬──────────────────────────────────────────────────────┐
+ │                File                │                        Action                        │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/styles/themes/dark.css         │ Rewrite colors + add shadcn variables                │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/styles/themes/light.css        │ Rewrite colors + add shadcn variables                │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/styles/globals.css             │ Add tokens, shadows, typography, merge shadcn @theme │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/state/uiStore.ts               │ Add .dark class toggle alongside data-theme          │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/main.tsx                       │ Add .dark class toggle in init block                 │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/Button.tsx          │ Wrap shadcn Button                                   │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/Card.tsx            │ Wrap shadcn Card                                     │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/Badge.tsx           │ Wrap shadcn Badge                                    │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/Input.tsx           │ Wrap shadcn Input                                    │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/Tooltip.tsx         │ Wrap shadcn Tooltip                                  │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/LoadingSkeleton.tsx │ Wrap shadcn Skeleton                                 │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/SectionHeader.tsx   │ New file                                             │
+ ├────────────────────────────────────┼──────────────────────────────────────────────────────┤
+ │ src/components/ui/*.tsx            │ Generated by shadcn CLI                              │
+ └────────────────────────────────────┴──────────────────────────────────────────────────────┘
+
+ Key Decisions
+
+ - Keep both CSS variable systems. Existing --color-* tokens stay (58 files reference them). shadcn's --background/--foreground/etc. are added
+ alongside, resolving to the same values. No mass-rename.
+ - Wrap, don't replace. Existing component files become thin wrappers around shadcn primitives. Consumer imports don't change.
+ - Theme toggle emits both data-theme attribute (for PolyMatic tokens) and .dark class (for shadcn's dark: variant).
+ - Body font-size → 14px. Tailwind rem utilities are unaffected (they're relative to <html> root). Only unstyled text inherits the smaller base.
+
+ Verification
+
+ 1. npm run build — zero TypeScript errors
+ 2. npm run test — all tests pass
+ 3. Visual: body background is near-black (#0F0F0F), clear layer separation
+ 4. Visual: borders are barely visible, not prominent blue
+ 5. Theme toggle works in both directions, no flash
+ 6. Focus-visible rings appear on Button, Input when tabbing
+ 7. Card has subtle shadow depth
+ 8. Search bar + dropdown still fully functional
+ 9. All existing views render correctly (Home, Sentiments, etc.)
+

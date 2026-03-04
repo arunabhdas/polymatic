@@ -38,12 +38,14 @@ export const useUIStore = create<UIState>()(
         const next = get().theme === 'dark' ? 'light' : 'dark'
         set({ theme: next })
         document.documentElement.setAttribute('data-theme', next)
+        document.documentElement.classList.toggle('dark', next === 'dark')
         eventBus.emit('theme:changed', { theme: next })
       },
 
       setTheme: (theme) => {
         set({ theme })
         document.documentElement.setAttribute('data-theme', theme)
+        document.documentElement.classList.toggle('dark', theme === 'dark')
         eventBus.emit('theme:changed', { theme })
       },
 

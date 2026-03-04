@@ -39,71 +39,71 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Initialize the Vite + React + TypeScript project with all tooling.
 
-- [✅] **E01-S01-T01** — Initialize Vite project with React + TypeScript template. Configure `tsconfig.json` with strict mode, no implicit any, strict null checks.
-- [✅] **E01-S01-T02** — Install and configure Tailwind CSS v4. Set up `tailwind.config.ts` with custom colors, fonts, and spacing scale matching the design system.
-- [✅] **E01-S01-T03** — Install and configure ESLint 9 (flat config) with TypeScript, React, and import-order rules. Set up Prettier. Add `.editorconfig`.
-- [✅] **E01-S01-T04** — Create the full folder structure: `src/app/`, `src/views/`, `src/feed/`, `src/trends/`, `src/sentiments/`, `src/search/`, `src/markets/`, `src/topic/`, `src/alerts/`, `src/geo/`, `src/auth/`, `src/onboarding/`, `src/state/`, `src/services/`, `src/mock-data/`, `src/hooks/`, `src/components/`, `src/types/`, `src/lib/`, `src/styles/`.
-- [✅] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
-- [✅] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
-- [✅] **E01-S01-T07** — Install dev dependencies: `vitest`, `@testing-library/react`, `msw`, `@types/react`, `@types/react-dom`.
-- [✅] **E01-S01-T08** — Install CesiumJS dependencies: `cesium`, `resium`. Configure Vite for CesiumJS static asset copying (workers, assets). Set up `public/cesium/` directory.
-- [✅] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
+- [ ] **E01-S01-T01** — Initialize Vite project with React + TypeScript template. Configure `tsconfig.json` with strict mode, no implicit any, strict null checks.
+- [ ] **E01-S01-T02** — Install and configure Tailwind CSS v4. Set up `tailwind.config.ts` with custom colors, fonts, and spacing scale matching the design system.
+- [ ] **E01-S01-T03** — Install and configure ESLint 9 (flat config) with TypeScript, React, and import-order rules. Set up Prettier. Add `.editorconfig`.
+- [ ] **E01-S01-T04** — Create the full folder structure: `src/app/`, `src/views/`, `src/feed/`, `src/trends/`, `src/sentiments/`, `src/search/`, `src/markets/`, `src/topic/`, `src/alerts/`, `src/geo/`, `src/auth/`, `src/onboarding/`, `src/state/`, `src/services/`, `src/mock-data/`, `src/hooks/`, `src/components/`, `src/types/`, `src/lib/`, `src/styles/`.
+- [ ] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
+- [ ] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
+- [ ] **E01-S01-T07** — Install dev dependencies: `vitest`, `@testing-library/react`, `msw`, `@types/react`, `@types/react-dom`.
+- [ ] **E01-S01-T08** — Install CesiumJS dependencies: `cesium`, `resium`. Configure Vite for CesiumJS static asset copying (workers, assets). Set up `public/cesium/` directory.
+- [ ] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
 
 ## Story 1.2: Theming System
 
 > CSS custom properties for dark/light themes, fonts, and modern typography system.
 
-- [✅] **E01-S02-T01** — Create `src/styles/globals.css` with all CSS custom properties: colors (bg, accent, text, semantic, sentiment, delta, category), layout dimensions (sidebar, right panel, topbar, trending bar), typography (font stacks), and animation durations.
-- [✅] **E01-S02-T02** — Create `src/styles/themes/dark.css` with dark theme variable overrides. This is the default theme.
-- [✅] **E01-S02-T03** — Create `src/styles/themes/light.css` with light theme variable overrides. Adjusted accent colors for contrast on light backgrounds.
-- [✅] **E01-S02-T04** — Create `src/styles/fonts.css` with `@font-face` declarations for Inter (sans-serif) and JetBrains Mono (monospace). Set up font loading strategy (preload critical weights).
-- [✅] **E01-S02-T05** — Create `src/lib/cn.ts` — utility function combining `clsx` and `tailwind-merge` for conditional class composition.
-- [✅] **E01-S02-T06** — Implement theme toggling: apply `data-theme="dark|light"` attribute on `<html>`. Persist preference in localStorage. Wire to `uiStore.theme`.
+- [ ] **E01-S02-T01** — Create `src/styles/globals.css` with all CSS custom properties: colors (bg, accent, text, semantic, sentiment, delta, category), layout dimensions (sidebar, right panel, topbar, trending bar), typography (font stacks), and animation durations.
+- [ ] **E01-S02-T02** — Create `src/styles/themes/dark.css` with dark theme variable overrides. This is the default theme.
+- [ ] **E01-S02-T03** — Create `src/styles/themes/light.css` with light theme variable overrides. Adjusted accent colors for contrast on light backgrounds.
+- [ ] **E01-S02-T04** — Create `src/styles/fonts.css` with `@font-face` declarations for Inter (sans-serif) and JetBrains Mono (monospace). Set up font loading strategy (preload critical weights).
+- [ ] **E01-S02-T05** — Create `src/lib/cn.ts` — utility function combining `clsx` and `tailwind-merge` for conditional class composition.
+- [ ] **E01-S02-T06** — Implement theme toggling: apply `data-theme="dark|light"` attribute on `<html>`. Persist preference in localStorage. Wire to `uiStore.theme`.
 
 ## Story 1.3: App Shell & Layout
 
 > Sidebar, top bar, right panel, and the 3-column layout grid with animated layout switching.
 
-- [✅] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Dashboard/Focus/Clean mode switching.
-- [✅] **E01-S03-T02** — Create `Sidebar.tsx` — Left navigation panel with logo, nav items (Home, Sentiments, Geo, Markets, separator, POI, Layers, Scenes, Filters, separator, Alerts), layout switcher, and user menu. Auto-collapse to icon-only when viewport < 1280px. Expand on hover when collapsed.
-- [✅] **E01-S03-T03** — Create `TopBar.tsx` — Fixed top bar (56px height) spanning main content + right panel. Contains the `SearchBar` component placeholder.
-- [✅] **E01-S03-T04** — Create `RightPanel.tsx` — Persistent right panel (30% width). Renders dynamic content based on `uiStore.rightPanelContent`. Default: contextual help or trending summary. Shows EmptyState when nothing selected.
-- [✅] **E01-S03-T05** — Create `LayoutSwitcher.tsx` — Dropdown or toggle in sidebar footer. Switches between Dashboard (all panels), Focus (icon sidebar, minimal chrome), and Clean (feed only, no sidebar/panel). Animated transitions with `var(--transition-layout)` (300ms ease).
-- [✅] **E01-S03-T06** — Create `NotificationCenter.tsx` — Toast container (bottom-right) for alert notifications. Tray/bell icon in sidebar for notification list. Unread badge count.
-- [✅] **E01-S03-T07** — Implement responsive breakpoints: 1024-1279px (tablet: sidebar collapsed, right panel overlay), 1280px+ (desktop: full layout). Test layout at both breakpoints.
+- [ ] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Dashboard/Focus/Clean mode switching.
+- [ ] **E01-S03-T02** — Create `Sidebar.tsx` — Left navigation panel with logo, nav items (Home, Sentiments, Geo, Markets, separator, POI, Layers, Scenes, Filters, separator, Alerts), layout switcher, and user menu. Auto-collapse to icon-only when viewport < 1280px. Expand on hover when collapsed.
+- [ ] **E01-S03-T03** — Create `TopBar.tsx` — Fixed top bar (56px height) spanning main content + right panel. Contains the `SearchBar` component placeholder.
+- [ ] **E01-S03-T04** — Create `RightPanel.tsx` — Persistent right panel (30% width). Renders dynamic content based on `uiStore.rightPanelContent`. Default: contextual help or trending summary. Shows EmptyState when nothing selected.
+- [ ] **E01-S03-T05** — Create `LayoutSwitcher.tsx` — Dropdown or toggle in sidebar footer. Switches between Dashboard (all panels), Focus (icon sidebar, minimal chrome), and Clean (feed only, no sidebar/panel). Animated transitions with `var(--transition-layout)` (300ms ease).
+- [ ] **E01-S03-T06** — Create `NotificationCenter.tsx` — Toast container (bottom-right) for alert notifications. Tray/bell icon in sidebar for notification list. Unread badge count.
+- [ ] **E01-S03-T07** — Implement responsive breakpoints: 1024-1279px (tablet: sidebar collapsed, right panel overlay), 1280px+ (desktop: full layout). Test layout at both breakpoints.
 
 ## Story 1.4: Routing
 
 > React Router setup with lazy loading, code splitting, and auth guard.
 
-- [✅] **E01-S04-T01** — Set up `react-router-dom` with the full route map. Public routes: `/` (landing), `/login`, `/register`. Protected routes under `/app/*`: home, sentiments, sentiments/:id, markets, markets/:id, topic/:id, search, alerts, onboarding. Feature-gated: geo.
-- [✅] **E01-S04-T02** — Implement `React.lazy()` for all view components. Wrap route outlet in `<Suspense>` with a loading skeleton that matches the target view layout.
-- [✅] **E01-S04-T03** — Create `AuthGuard.tsx` — Route protection component. Checks `authStore.isAuthenticated`. Redirects to `/login` if not authenticated. Redirects to `/app/onboarding` if `user.onboardingComplete === false`.
-- [✅] **E01-S04-T04** — Create `FeatureGate.tsx` — Component that conditionally renders children based on feature flag state. Used to gate Geo route and other P1 features.
+- [ ] **E01-S04-T01** — Set up `react-router-dom` with the full route map. Public routes: `/` (landing), `/login`, `/register`. Protected routes under `/app/*`: home, sentiments, sentiments/:id, markets, markets/:id, topic/:id, search, alerts, onboarding. Feature-gated: geo.
+- [ ] **E01-S04-T02** — Implement `React.lazy()` for all view components. Wrap route outlet in `<Suspense>` with a loading skeleton that matches the target view layout.
+- [ ] **E01-S04-T03** — Create `AuthGuard.tsx` — Route protection component. Checks `authStore.isAuthenticated`. Redirects to `/login` if not authenticated. Redirects to `/app/onboarding` if `user.onboardingComplete === false`.
+- [ ] **E01-S04-T04** — Create `FeatureGate.tsx` — Component that conditionally renders children based on feature flag state. Used to gate Geo route and other P1 features.
 
 ## Story 1.5: Base UI Components
 
 > Shared atoms used throughout the application.
 
-- [✅] **E01-S05-T01** — Create `Badge.tsx` — Renders colored badges with variants: severity (green/yellow/red), category (geopolitics/economics/tech/sports/culture), source (Twitter/Reddit/Telegram/News), and custom.
-- [✅] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
-- [✅] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
-- [✅] **E01-S05-T04** — Create `Chip.tsx` — Small tag/chip for entity tags, filter pills, trend hashtags. Category-colored. Removable variant with ✕ button.
-- [✅] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
-- [✅] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
-- [✅] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
-- [✅] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
-- [✅] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
-- [✅] **E01-S05-T10** — Create `ConfidenceBadge.tsx` — Renders Low/Med/High confidence with opacity treatment (60%/85%/100%) and label. Outline badge for Low, filled for Med/High.
-- [✅] **E01-S05-T11** — Create `VelocityIndicator.tsx` — Arrow + percentage for trend velocity. Green up arrow for accelerating, red down for decelerating, gray for stable.
-- [✅] **E01-S05-T12** — Create `Sparkline.tsx` — Tiny inline chart (Recharts-based). Shows 24h price history or velocity curve. No axes, no labels — just the line.
-- [✅] **E01-S05-T13** — Create `SeverityDot.tsx` — Color-coded dot for severity levels: green (0-33), yellow (34-66), red (67-100).
-- [✅] **E01-S05-T14** — Create `EmptyState.tsx` — Contextual empty state with icon, primary text (actionable), and optional CTA button. No cute emoji. Professional copy.
-- [✅] **E01-S05-T15** — Create `LoadingSkeleton.tsx` — Animated pulse skeleton that matches the layout of the component it's replacing. Variants: card, list-row, chart, text-block.
-- [✅] **E01-S05-T16** — Create `ErrorBoundary.tsx` — React error boundary with helpful error display: what happened, retry button, report link. Catches and logs errors.
-- [✅] **E01-S05-T17** — Create `Tooltip.tsx` — Radix-based tooltip. Only used when adding information the label doesn't already convey. Dark card style.
-- [✅] **E01-S05-T18** — Create `Tabs.tsx` — Radix-based tab container. Underline style active indicator. Used in Topic Pages and settings.
-- [✅] **E01-S05-T19** — Create `Toggle.tsx` — Toggle switch for boolean settings (theme, filters). Accessible with keyboard and screen reader.
+- [ ] **E01-S05-T01** — Create `Badge.tsx` — Renders colored badges with variants: severity (green/yellow/red), category (geopolitics/economics/tech/sports/culture), source (Twitter/Reddit/Telegram/News), and custom.
+- [ ] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
+- [ ] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
+- [ ] **E01-S05-T04** — Create `Chip.tsx` — Small tag/chip for entity tags, filter pills, trend hashtags. Category-colored. Removable variant with ✕ button.
+- [ ] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
+- [ ] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
+- [ ] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
+- [ ] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
+- [ ] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
+- [ ] **E01-S05-T10** — Create `ConfidenceBadge.tsx` — Renders Low/Med/High confidence with opacity treatment (60%/85%/100%) and label. Outline badge for Low, filled for Med/High.
+- [ ] **E01-S05-T11** — Create `VelocityIndicator.tsx` — Arrow + percentage for trend velocity. Green up arrow for accelerating, red down for decelerating, gray for stable.
+- [ ] **E01-S05-T12** — Create `Sparkline.tsx` — Tiny inline chart (Recharts-based). Shows 24h price history or velocity curve. No axes, no labels — just the line.
+- [ ] **E01-S05-T13** — Create `SeverityDot.tsx` — Color-coded dot for severity levels: green (0-33), yellow (34-66), red (67-100).
+- [ ] **E01-S05-T14** — Create `EmptyState.tsx` — Contextual empty state with icon, primary text (actionable), and optional CTA button. No cute emoji. Professional copy.
+- [ ] **E01-S05-T15** — Create `LoadingSkeleton.tsx` — Animated pulse skeleton that matches the layout of the component it's replacing. Variants: card, list-row, chart, text-block.
+- [ ] **E01-S05-T16** — Create `ErrorBoundary.tsx` — React error boundary with helpful error display: what happened, retry button, report link. Catches and logs errors.
+- [ ] **E01-S05-T17** — Create `Tooltip.tsx` — Radix-based tooltip. Only used when adding information the label doesn't already convey. Dark card style.
+- [ ] **E01-S05-T18** — Create `Tabs.tsx` — Radix-based tab container. Underline style active indicator. Used in Topic Pages and settings.
+- [ ] **E01-S05-T19** — Create `Toggle.tsx` — Toggle switch for boolean settings (theme, filters). Accessible with keyboard and screen reader.
 
 ---
 
@@ -117,60 +117,60 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > All TypeScript interfaces matching future RSDIP contracts.
 
-- [✅] **E02-S01-T01** — Create `types/common.types.ts` — Shared types: `Timestamp`, `Entity` (name, type, id), `Severity` (0-100), `SourceType` (twitter, reddit, telegram, news, structured, market_signal), `Pagination`, `SortOrder`.
-- [✅] **E02-S01-T02** — Create `types/feed.types.ts` — `FeedItem` (id, source, content, timestamp, entities, trendIds, sentimentStance, marketCorrelation, geoCoords, media, severity, clusterId), `FeedCluster`, `FeedFilters`, `FeedParams`.
-- [✅] **E02-S01-T03** — Create `types/sentiment.types.ts` — `SentimentQuestion` (id, questionText, marketProbability, sentimentProbability, marketDelta, confidenceLevel, sentimentDirection, tweetVolume, stanceBreakdown, linkedTrendIds, linkedMarketIds), `ClassifiedTweet`, `StanceType`, `AggregateScore`, `SentimentDetail`, `PredictionBrief`.
-- [✅] **E02-S01-T04** — Create `types/trend.types.ts` — `Trend` (id, hashtag, category, lifecycle, velocity, velocityDelta, eventCount, linkedMarketIds, topEntities, createdAt, updatedAt), `TrendLifecycle`, `TrendCategory`, `VelocityScore`.
-- [✅] **E02-S01-T05** — Create `types/market.types.ts` — `MarketContract` (id, questionText, platform, probability, probability24hAgo, change24h, volume, sentimentDelta, linkedTrendIds, priceHistory, category), `Platform`, `PricePoint`, `MarketFilters`.
-- [✅] **E02-S01-T06** — Create `types/search.types.ts` — `SearchQuery`, `SearchResults` (trends, markets, sentiments, events — each as typed arrays), `SearchOptions`, `SavedSearch`.
-- [✅] **E02-S01-T07** — Create `types/alert.types.ts` — `AlertConfig` (id, type, targetId, threshold, channel, enabled), `Alert` (id, configId, triggeredAt, message, severity, read), `AlertType` enum.
-- [✅] **E02-S01-T08** — Create `types/geo.types.ts` — `GeoEvent`, `Layer`, `LayerType`, `POI` (id, name, severity, velocity, eventCount, linkedMarkets, linkedTrends, centroid), `MotionTrack`, `CameraPosition`, `GeoBounds`, `GeoRegion`.
-- [✅] **E02-S01-T09** — Create `types/auth.types.ts` — `User` (id, email, name, tier, onboardingComplete, preferences), `UserTier`, `AuthState`, `LoginCredentials`, `AuthResponse`.
-- [✅] **E02-S01-T10** — Create `types/api.types.ts` — `ApiResponse<T>`, `PaginatedResponse<T>`, `ErrorResponse`, `WSMessage`, `WSMessageType`.
+- [ ] **E02-S01-T01** — Create `types/common.types.ts` — Shared types: `Timestamp`, `Entity` (name, type, id), `Severity` (0-100), `SourceType` (twitter, reddit, telegram, news, structured, market_signal), `Pagination`, `SortOrder`.
+- [ ] **E02-S01-T02** — Create `types/feed.types.ts` — `FeedItem` (id, source, content, timestamp, entities, trendIds, sentimentStance, marketCorrelation, geoCoords, media, severity, clusterId), `FeedCluster`, `FeedFilters`, `FeedParams`.
+- [ ] **E02-S01-T03** — Create `types/sentiment.types.ts` — `SentimentQuestion` (id, questionText, marketProbability, sentimentProbability, marketDelta, confidenceLevel, sentimentDirection, tweetVolume, stanceBreakdown, linkedTrendIds, linkedMarketIds), `ClassifiedTweet`, `StanceType`, `AggregateScore`, `SentimentDetail`, `PredictionBrief`.
+- [ ] **E02-S01-T04** — Create `types/trend.types.ts` — `Trend` (id, hashtag, category, lifecycle, velocity, velocityDelta, eventCount, linkedMarketIds, topEntities, createdAt, updatedAt), `TrendLifecycle`, `TrendCategory`, `VelocityScore`.
+- [ ] **E02-S01-T05** — Create `types/market.types.ts` — `MarketContract` (id, questionText, platform, probability, probability24hAgo, change24h, volume, sentimentDelta, linkedTrendIds, priceHistory, category), `Platform`, `PricePoint`, `MarketFilters`.
+- [ ] **E02-S01-T06** — Create `types/search.types.ts` — `SearchQuery`, `SearchResults` (trends, markets, sentiments, events — each as typed arrays), `SearchOptions`, `SavedSearch`.
+- [ ] **E02-S01-T07** — Create `types/alert.types.ts` — `AlertConfig` (id, type, targetId, threshold, channel, enabled), `Alert` (id, configId, triggeredAt, message, severity, read), `AlertType` enum.
+- [ ] **E02-S01-T08** — Create `types/geo.types.ts` — `GeoEvent`, `Layer`, `LayerType`, `POI` (id, name, severity, velocity, eventCount, linkedMarkets, linkedTrends, centroid), `MotionTrack`, `CameraPosition`, `GeoBounds`, `GeoRegion`.
+- [ ] **E02-S01-T09** — Create `types/auth.types.ts` — `User` (id, email, name, tier, onboardingComplete, preferences), `UserTier`, `AuthState`, `LoginCredentials`, `AuthResponse`.
+- [ ] **E02-S01-T10** — Create `types/api.types.ts` — `ApiResponse<T>`, `PaginatedResponse<T>`, `ErrorResponse`, `WSMessage`, `WSMessageType`.
 
 ## Story 2.2: DataProvider Interface
 
 > Abstract data layer with mock/rsdip resolution.
 
-- [✅] **E02-S02-T01** — Create `services/dataProvider.ts` — Define the `DataProvider` interface with all method signatures for feed, sentiments, trends, markets, search, alerts, auth, and geo. Create the factory function that resolves mock vs rsdip based on `flagsStore.dataSourceMode`.
-- [✅] **E02-S02-T02** — Create `services/queryKeys.ts` — TanStack Query key factory with namespaced keys for all data domains: feed, sentiments, trends, markets, search.
-- [✅] **E02-S02-T03** — Create `services/apiClient.ts` — HTTP client wrapper (fetch-based). Includes auth token injection, 401 refresh interceptor, error normalization. Used by rsdipProvider (future) and mockProvider (for simulated latency).
-- [✅] **E02-S02-T04** — Create `services/wsClient.ts` — WebSocket client class with auto-reconnect (exponential backoff: 1s→2s→4s→8s→30s), message batching (100ms flush interval), spike detection (>50 buffered → 250ms batch + drop low-severity), and typed message dispatch.
-- [✅] **E02-S02-T05** — Create `services/rsdipProvider.ts` — Stub implementation of `DataProvider` for future RSDIP backend. Each method throws "Not implemented — switch DATA_SOURCE_MODE to mock". Ensures the interface is properly typed.
+- [ ] **E02-S02-T01** — Create `services/dataProvider.ts` — Define the `DataProvider` interface with all method signatures for feed, sentiments, trends, markets, search, alerts, auth, and geo. Create the factory function that resolves mock vs rsdip based on `flagsStore.dataSourceMode`.
+- [ ] **E02-S02-T02** — Create `services/queryKeys.ts` — TanStack Query key factory with namespaced keys for all data domains: feed, sentiments, trends, markets, search.
+- [ ] **E02-S02-T03** — Create `services/apiClient.ts` — HTTP client wrapper (fetch-based). Includes auth token injection, 401 refresh interceptor, error normalization. Used by rsdipProvider (future) and mockProvider (for simulated latency).
+- [ ] **E02-S02-T04** — Create `services/wsClient.ts` — WebSocket client class with auto-reconnect (exponential backoff: 1s→2s→4s→8s→30s), message batching (100ms flush interval), spike detection (>50 buffered → 250ms batch + drop low-severity), and typed message dispatch.
+- [ ] **E02-S02-T05** — Create `services/rsdipProvider.ts` — Stub implementation of `DataProvider` for future RSDIP backend. Each method throws "Not implemented — switch DATA_SOURCE_MODE to mock". Ensures the interface is properly typed.
 
 ## Story 2.3: Seed Data
 
 > Pre-defined realistic seed data for compelling demos.
 
-- [✅] **E02-S03-T01** — Create `mock-data/seed/questions.ts` — 20 seed prediction market questions spanning geopolitics, economics, technology, sports. Each has: question text, category, current market probability, correct answer (for historical accuracy tracking). Examples: "Will Iran close the Strait of Hormuz before July 2026?", "Will the Fed cut rates in Q2 2026?", "Will Trump impose >25% tariffs on EU goods?".
-- [✅] **E02-S03-T02** — Create `mock-data/seed/accounts.ts` — 30 seed Twitter/X accounts with display name, handle, avatar placeholder, credibility score (0-1), follower count, domain expertise tags. Include real OSINT account names: @AuroraIntel, @BNONews, @sentdefender, @bellingcat, @IntelDoge, @NOELreports, etc.
-- [✅] **E02-S03-T03** — Create `mock-data/seed/markets.ts` — 25 seed market contracts (some Polymarket, some Kalshi). Linked to seed questions. Include: current probability, 24h change, volume, platform, category.
-- [✅] **E02-S03-T04** — Create `mock-data/seed/trends.ts` — 15 seed trending topics with hashtag, category, lifecycle state, velocity, linked market IDs, and top entities. Mix of lifecycles: 3 emerging, 5 trending, 4 peaking, 3 cooling.
-- [✅] **E02-S03-T05** — Create `mock-data/seed/entities.ts` — 50 seed named entities with name, type (person/org/country/location), and linked trend/market IDs. Examples: Iran, Strait of Hormuz, IRGC, Federal Reserve, Jerome Powell, Trump, Polymarket.
+- [ ] **E02-S03-T01** — Create `mock-data/seed/questions.ts` — 20 seed prediction market questions spanning geopolitics, economics, technology, sports. Each has: question text, category, current market probability, correct answer (for historical accuracy tracking). Examples: "Will Iran close the Strait of Hormuz before July 2026?", "Will the Fed cut rates in Q2 2026?", "Will Trump impose >25% tariffs on EU goods?".
+- [ ] **E02-S03-T02** — Create `mock-data/seed/accounts.ts` — 30 seed Twitter/X accounts with display name, handle, avatar placeholder, credibility score (0-1), follower count, domain expertise tags. Include real OSINT account names: @AuroraIntel, @BNONews, @sentdefender, @bellingcat, @IntelDoge, @NOELreports, etc.
+- [ ] **E02-S03-T03** — Create `mock-data/seed/markets.ts` — 25 seed market contracts (some Polymarket, some Kalshi). Linked to seed questions. Include: current probability, 24h change, volume, platform, category.
+- [ ] **E02-S03-T04** — Create `mock-data/seed/trends.ts` — 15 seed trending topics with hashtag, category, lifecycle state, velocity, linked market IDs, and top entities. Mix of lifecycles: 3 emerging, 5 trending, 4 peaking, 3 cooling.
+- [ ] **E02-S03-T05** — Create `mock-data/seed/entities.ts` — 50 seed named entities with name, type (person/org/country/location), and linked trend/market IDs. Examples: Iran, Strait of Hormuz, IRGC, Federal Reserve, Jerome Powell, Trump, Polymarket.
 
 ## Story 2.4: Mock Data Generators
 
 > Dynamic generators that produce realistic, time-varying data.
 
-- [✅] **E02-S04-T01** — Create `mock-data/generators/feedGenerator.ts` — Generates `FeedItem` objects. Simulates bursty arrival: base rate 2/sec, burst rate 20/sec during breaking events (5% burst probability, 30s burst windows). Each item: random source type, random seed account, generated content text, random entity tags from seed, linked to active trends, sentiment stance if relevant to tracked question.
-- [✅] **E02-S04-T02** — Create `mock-data/generators/sentimentGenerator.ts` — Generates classified tweet batches every 5-10s. Each question has a "true sentiment" (0-100) that drifts over time via Brownian motion with mean reversion. Generated tweets have stance distribution matching true sentiment + noise. Confidence scores follow beta distribution (Claude-style calibration). Account credibility from seed data.
-- [✅] **E02-S04-T03** — Create `mock-data/generators/trendGenerator.ts` — Manages trend lifecycle curves. Velocity follows sigmoid: slow start → rapid growth → plateau → decay. Lifecycle transitions at velocity thresholds. Small chance (2%) of re-acceleration from cooling to emerging. Generates new trends periodically (1 every 5 minutes) and retires old ones.
-- [✅] **E02-S04-T04** — Create `mock-data/generators/marketGenerator.ts` — Generates price random walks for each market contract. Brownian motion with mean-reversion to true probability. Occasional jumps (±5-15%) correlated with trend spikes. Cross-platform spread: secondary platform = primary ± uniform(-3, 3)%. Generates 24h price history for sparklines.
-- [✅] **E02-S04-T05** — Create `mock-data/generators/alertGenerator.ts` — Evaluates alert configs against mock data streams. Triggers alerts when: sentiment reversal on watched question, trend velocity crosses threshold, market delta exceeds configured %, POI severity threshold crossed. Generates `Alert` objects with timestamp, message, and severity.
-- [✅] **E02-S04-T06** — Create `mock-data/generators/geoGenerator.ts` — Generates geospatial events with realistic coordinates. ADS-B: flight paths with waypoints and altitude. AIS: vessel tracks with heading. Conflict incidents: random coordinates within active conflict zones. Earthquakes: random magnitude/depth. Each event linked to seed entities and trends where relevant.
+- [ ] **E02-S04-T01** — Create `mock-data/generators/feedGenerator.ts` — Generates `FeedItem` objects. Simulates bursty arrival: base rate 2/sec, burst rate 20/sec during breaking events (5% burst probability, 30s burst windows). Each item: random source type, random seed account, generated content text, random entity tags from seed, linked to active trends, sentiment stance if relevant to tracked question.
+- [ ] **E02-S04-T02** — Create `mock-data/generators/sentimentGenerator.ts` — Generates classified tweet batches every 5-10s. Each question has a "true sentiment" (0-100) that drifts over time via Brownian motion with mean reversion. Generated tweets have stance distribution matching true sentiment + noise. Confidence scores follow beta distribution (Claude-style calibration). Account credibility from seed data.
+- [ ] **E02-S04-T03** — Create `mock-data/generators/trendGenerator.ts` — Manages trend lifecycle curves. Velocity follows sigmoid: slow start → rapid growth → plateau → decay. Lifecycle transitions at velocity thresholds. Small chance (2%) of re-acceleration from cooling to emerging. Generates new trends periodically (1 every 5 minutes) and retires old ones.
+- [ ] **E02-S04-T04** — Create `mock-data/generators/marketGenerator.ts` — Generates price random walks for each market contract. Brownian motion with mean-reversion to true probability. Occasional jumps (±5-15%) correlated with trend spikes. Cross-platform spread: secondary platform = primary ± uniform(-3, 3)%. Generates 24h price history for sparklines.
+- [ ] **E02-S04-T05** — Create `mock-data/generators/alertGenerator.ts` — Evaluates alert configs against mock data streams. Triggers alerts when: sentiment reversal on watched question, trend velocity crosses threshold, market delta exceeds configured %, POI severity threshold crossed. Generates `Alert` objects with timestamp, message, and severity.
+- [ ] **E02-S04-T06** — Create `mock-data/generators/geoGenerator.ts` — Generates geospatial events with realistic coordinates. ADS-B: flight paths with waypoints and altitude. AIS: vessel tracks with heading. Conflict incidents: random coordinates within active conflict zones. Earthquakes: random magnitude/depth. Each event linked to seed entities and trends where relevant.
 
 ## Story 2.5: Query Hooks & Mock Provider
 
 > TanStack Query hooks that consume the DataProvider.
 
-- [✅] **E02-S05-T01** — Create `services/mockProvider.ts` — Full `DataProvider` implementation using the generators. Each method returns realistic data with simulated latency (200-500ms). Subscribe methods use setInterval for periodic updates.
-- [✅] **E02-S05-T02** — Create `mock-data/index.ts` — Mock data orchestrator. Initializes all generators with seed data. Exposes a singleton `MockEngine` that ticks generators on an interval. Coordinates cross-domain correlations (trend spike → market jump → sentiment shift).
-- [✅] **E02-S05-T03** — Create `hooks/useFeed.ts` — TanStack Query hook for feed data. Accepts `FeedFilters`. Refetches on filter change. Supports infinite scroll pagination.
-- [✅] **E02-S05-T04** — Create `hooks/useSentiments.ts` — Hooks: `useSentimentQuestions()` (list), `useSentimentDetail(id)` (single with tweet breakdown), `useTrackQuestion()` (mutation). Refetch interval: 10s.
-- [✅] **E02-S05-T05** — Create `hooks/useTrends.ts` — Hook: `useTrends()` with refetch interval matching trend tick rate. Returns sorted trends (velocity descending).
-- [✅] **E02-S05-T06** — Create `hooks/useMarkets.ts` — Hook: `useMarkets(filters)` with refetch interval. `useMarketDetail(id)` for expanded view with price history.
-- [✅] **E02-S05-T07** — Create `hooks/useSearch.ts` — Hook: `useSearch(query)` with 200ms debounce. Only fires when query length ≥ 2. Returns `SearchResults` in fixed section order.
-- [✅] **E02-S05-T08** — Create `hooks/useAlerts.ts` — Hooks: `useAlertConfigs()`, `useActiveAlerts()`, `useCreateAlert()` (mutation), `useDismissAlert()` (mutation).
+- [ ] **E02-S05-T01** — Create `services/mockProvider.ts` — Full `DataProvider` implementation using the generators. Each method returns realistic data with simulated latency (200-500ms). Subscribe methods use setInterval for periodic updates.
+- [ ] **E02-S05-T02** — Create `mock-data/index.ts` — Mock data orchestrator. Initializes all generators with seed data. Exposes a singleton `MockEngine` that ticks generators on an interval. Coordinates cross-domain correlations (trend spike → market jump → sentiment shift).
+- [ ] **E02-S05-T03** — Create `hooks/useFeed.ts` — TanStack Query hook for feed data. Accepts `FeedFilters`. Refetches on filter change. Supports infinite scroll pagination.
+- [ ] **E02-S05-T04** — Create `hooks/useSentiments.ts` — Hooks: `useSentimentQuestions()` (list), `useSentimentDetail(id)` (single with tweet breakdown), `useTrackQuestion()` (mutation). Refetch interval: 10s.
+- [ ] **E02-S05-T05** — Create `hooks/useTrends.ts` — Hook: `useTrends()` with refetch interval matching trend tick rate. Returns sorted trends (velocity descending).
+- [ ] **E02-S05-T06** — Create `hooks/useMarkets.ts` — Hook: `useMarkets(filters)` with refetch interval. `useMarketDetail(id)` for expanded view with price history.
+- [ ] **E02-S05-T07** — Create `hooks/useSearch.ts` — Hook: `useSearch(query)` with 200ms debounce. Only fires when query length ≥ 2. Returns `SearchResults` in fixed section order.
+- [ ] **E02-S05-T08** — Create `hooks/useAlerts.ts` — Hooks: `useAlertConfigs()`, `useActiveAlerts()`, `useCreateAlert()` (mutation), `useDismissAlert()` (mutation).
 
 ---
 
@@ -184,29 +184,29 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Horizontal scrolling chip bar with all trend data visible.
 
-- [✅] **E03-S01-T01** — Create `TrendingBar.tsx` — Horizontal scrolling container (64px height). Renders 10-12 `TrendChip` components. Overflow: horizontal scroll with momentum. Left/right scroll buttons on hover at edges. Consumes `useTrends()` hook.
-- [✅] **E03-S01-T02** — Create `TrendChip.tsx` — Two-line chip (~220px wide). Line 1: category color dot, hashtag label, velocity arrow+%, market badge icon (if linked). Line 2: lifecycle label, event count. Click handler: `trendsStore.selectTrend(id)`. Selected state: accent border + background highlight.
-- [✅] **E03-S01-T03** — Create `TrendLifecycleBadge.tsx` — Small badge showing lifecycle state: Emerging (pulsing outline), Trending (filled), Peaking (filled + glow), Cooling (faded). Animate transitions between states with 200ms glow pulse via framer-motion.
-- [✅] **E03-S01-T04** — Implement "View All Trends" button at the end of the bar. Opens a full trending dashboard in the right panel or as a modal with: all trends listed, historical velocity charts per trend, lifecycle stage indicators, and drill-down to topic pages.
+- [ ] **E03-S01-T01** — Create `TrendingBar.tsx` — Horizontal scrolling container (64px height). Renders 10-12 `TrendChip` components. Overflow: horizontal scroll with momentum. Left/right scroll buttons on hover at edges. Consumes `useTrends()` hook.
+- [ ] **E03-S01-T02** — Create `TrendChip.tsx` — Two-line chip (~220px wide). Line 1: category color dot, hashtag label, velocity arrow+%, market badge icon (if linked). Line 2: lifecycle label, event count. Click handler: `trendsStore.selectTrend(id)`. Selected state: accent border + background highlight.
+- [ ] **E03-S01-T03** — Create `TrendLifecycleBadge.tsx` — Small badge showing lifecycle state: Emerging (pulsing outline), Trending (filled), Peaking (filled + glow), Cooling (faded). Animate transitions between states with 200ms glow pulse via framer-motion.
+- [ ] **E03-S01-T04** — Implement "View All Trends" button at the end of the bar. Opens a full trending dashboard in the right panel or as a modal with: all trends listed, historical velocity charts per trend, lifecycle stage indicators, and drill-down to topic pages.
 
 ## Story 3.2: Feed Container & Cards
 
 > Virtualized feed with mixed-density cards and media auto-expansion.
 
-- [✅] **E03-S02-T01** — Create `FeedContainer.tsx` — Wraps `react-virtuoso` `<Virtuoso>` component. Passes `useFeed()` data. Handles variable-height rows. Overscan: 50 items. Shows `FeedSkeleton` during initial load. Infinite scroll: loads more items at bottom.
-- [✅] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `DataLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
-- [✅] **E03-S02-T03** — Create `FeedCardCompact.tsx` — Compact variant (~80px). Shows: source icon, title/first line of content, timestamp, key badges (severity, trend). No media, no body text.
-- [✅] **E03-S02-T04** — Create `FeedCardExpanded.tsx` — Expanded variant (~200px+). Shows: full content body, auto-expanded images (inline), video thumbnails with play icon, all badges, all entity chips. Action buttons: pin to watchlist, open in Geo, expand detail (→ right panel), share.
-- [✅] **E03-S02-T05** — Create `FeedSkeleton.tsx` — Loading skeleton for the feed. Renders 5-7 skeleton cards matching the mixed-density layout. Animated pulse.
-- [✅] **E03-S02-T06** — Create `FeedFilters.tsx` — Filter bar above feed or in sidebar. Source type toggles, severity threshold slider, category filter dropdown. Updates `feedStore` filters, which triggers TanStack Query refetch.
+- [ ] **E03-S02-T01** — Create `FeedContainer.tsx` — Wraps `react-virtuoso` `<Virtuoso>` component. Passes `useFeed()` data. Handles variable-height rows. Overscan: 50 items. Shows `FeedSkeleton` during initial load. Infinite scroll: loads more items at bottom.
+- [ ] **E03-S02-T02** — Create `FeedCard.tsx` — Base event card. Renders: source icon + channel name, `Timestamp`, content body, entity tag `Chip[]`, trend hashtag `Badge[]`, sentiment stance `Badge` (if relevant), market correlation `Badge`, geo coordinate `DataLabel`. Implements signal-based density: high-signal events (severity > 70, market-linked, or velocity > threshold) render as expanded. Others render as compact.
+- [ ] **E03-S02-T03** — Create `FeedCardCompact.tsx` — Compact variant (~80px). Shows: source icon, title/first line of content, timestamp, key badges (severity, trend). No media, no body text.
+- [ ] **E03-S02-T04** — Create `FeedCardExpanded.tsx` — Expanded variant (~200px+). Shows: full content body, auto-expanded images (inline), video thumbnails with play icon, all badges, all entity chips. Action buttons: pin to watchlist, open in Geo, expand detail (→ right panel), share.
+- [ ] **E03-S02-T05** — Create `FeedSkeleton.tsx` — Loading skeleton for the feed. Renders 5-7 skeleton cards matching the mixed-density layout. Animated pulse.
+- [ ] **E03-S02-T06** — Create `FeedFilters.tsx` — Filter bar above feed or in sidebar. Source type toggles, severity threshold slider, category filter dropdown. Updates `feedStore` filters, which triggers TanStack Query refetch.
 
 ## Story 3.3: Event Clustering
 
 > Lead card + "N more from this story" expandable clusters.
 
-- [✅] **E03-S03-T01** — Create `FeedCluster.tsx` — Renders the lead card (highest signal in cluster) followed by a "N more from this story" toggle. Toggle expands to show remaining cluster items inline. Collapse animation via framer-motion.
-- [✅] **E03-S03-T02** — Implement clustering logic in `feed.utils.ts` — Group feed items by `clusterId`. Sort each cluster by signal score (severity * velocity * market-linkage). Lead card = highest score. Apply clustering to feed before rendering.
-- [✅] **E03-S03-T03** — Wire trend selection to feed filtering: when `trendsStore.selectedTrendId` changes, `feedStore.activeTrendFilter` updates, TanStack Query refetches with trend filter, feed re-renders showing only items in that cluster. "All Trends" deselection shows the blended "For You" feed (70% velocity + 30% recency ranking).
+- [ ] **E03-S03-T01** — Create `FeedCluster.tsx` — Renders the lead card (highest signal in cluster) followed by a "N more from this story" toggle. Toggle expands to show remaining cluster items inline. Collapse animation via framer-motion.
+- [ ] **E03-S03-T02** — Implement clustering logic in `feed.utils.ts` — Group feed items by `clusterId`. Sort each cluster by signal score (severity * velocity * market-linkage). Lead card = highest score. Apply clustering to feed before rendering.
+- [ ] **E03-S03-T03** — Wire trend selection to feed filtering: when `trendsStore.selectedTrendId` changes, `feedStore.activeTrendFilter` updates, TanStack Query refetches with trend filter, feed re-renders showing only items in that cluster. "All Trends" deselection shows the blended "For You" feed (70% velocity + 30% recency ranking).
 
 ---
 
@@ -219,25 +219,25 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Full trending topics view accessible from the trending bar.
 
-- [✅] **E04-S01-T01** — Create `ViewAllTrends.tsx` — Full-page or right-panel view showing all active trends in a sortable list. Columns: hashtag, category, lifecycle, velocity (with sparkline), event count (24h), linked market count. Sortable by each column.
-- [✅] **E04-S01-T02** — Add historical velocity mini-chart (Recharts sparkline) for each trend in the view-all list. Shows 24h velocity curve. Color matches lifecycle state.
-- [✅] **E04-S01-T03** — Implement lifecycle filter in ViewAllTrends: toggle to show only Emerging, Trending, Peaking, or Cooling. Default: show all.
+- [ ] **E04-S01-T01** — Create `ViewAllTrends.tsx` — Full-page or right-panel view showing all active trends in a sortable list. Columns: hashtag, category, lifecycle, velocity (with sparkline), event count (24h), linked market count. Sortable by each column.
+- [ ] **E04-S01-T02** — Add historical velocity mini-chart (Recharts sparkline) for each trend in the view-all list. Shows 24h velocity curve. Color matches lifecycle state.
+- [ ] **E04-S01-T03** — Implement lifecycle filter in ViewAllTrends: toggle to show only Emerging, Trending, Peaking, or Cooling. Default: show all.
 
 ## Story 4.2: Trend ↔ Markets Linking
 
 > Handle trends with and without linked markets.
 
-- [✅] **E04-S02-T01** — When user clicks a trend with linked markets: filter Markets panel to show only correlated contracts. Display market cards with sentiment delta.
-- [✅] **E04-S02-T02** — When user clicks a trend with NO linked markets: show "Related Markets" fallback section with semantically similar markets. Calculate similarity using shared entities. Never show empty panel.
-- [✅] **E04-S02-T03** — Add market-linked badge (📊 icon) to trend chips. Tooltip on hover shows linked market count and top market question.
+- [ ] **E04-S02-T01** — When user clicks a trend with linked markets: filter Markets panel to show only correlated contracts. Display market cards with sentiment delta.
+- [ ] **E04-S02-T02** — When user clicks a trend with NO linked markets: show "Related Markets" fallback section with semantically similar markets. Calculate similarity using shared entities. Never show empty panel.
+- [ ] **E04-S02-T03** — Add market-linked badge (📊 icon) to trend chips. Tooltip on hover shows linked market count and top market question.
 
 ## Story 4.3: Trend Chip Interactions
 
 > Hover, selection, and real-time update behavior.
 
-- [✅] **E04-S03-T01** — Implement chip selection state: selected chip gets accent border, slightly lighter background. Only one chip selected at a time. Click again to deselect (returns to "For You" feed).
-- [✅] **E04-S03-T02** — Implement real-time chip updates: when `trendsStore.trends` updates (via polling/WS), chip order may change (velocity re-sort). Animate position changes with framer-motion `layoutId`.
-- [✅] **E04-S03-T03** — Implement new trend arrival animation: when a new trend enters the bar, it slides in from the left with a brief highlight pulse (300ms).
+- [ ] **E04-S03-T01** — Implement chip selection state: selected chip gets accent border, slightly lighter background. Only one chip selected at a time. Click again to deselect (returns to "For You" feed).
+- [ ] **E04-S03-T02** — Implement real-time chip updates: when `trendsStore.trends` updates (via polling/WS), chip order may change (velocity re-sort). Animate position changes with framer-motion `layoutId`.
+- [ ] **E04-S03-T03** — Implement new trend arrival animation: when a new trend enters the bar, it slides in from the left with a brief highlight pulse (300ms).
 
 ---
 
@@ -251,49 +251,49 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Main view listing tracked prediction questions.
 
-- [✅] **E05-S01-T01** — Create `SentimentsPanel.tsx` — Scrollable list of `QuestionCard` components. Sort controls at top: Market Δ (default), Velocity, Volume, Watchlist. Consumes `useSentimentQuestions()` hook.
-- [✅] **E05-S01-T02** — Create `QuestionCard.tsx` — Collapsed card showing: market question text (truncated to 2 lines), `ProbabilityDisplay` for market price, `ProbabilityDisplay` for sentiment probability, `MarketDeltaBadge`, `ConfidenceBadge` (with opacity treatment), `DeltaIndicator` for sentiment direction. Click to expand.
-- [✅] **E05-S01-T03** — Create `MarketDeltaBadge.tsx` — Shows the difference between sentiment and market probability. Color-coded: green if gap > 10% (underpricing signal), amber if 5-10%, red if < -10% (overpricing). Format: "+23%" with arrow.
-- [✅] **E05-S01-T04** — Implement sort behavior: when sort changes, list re-orders with framer-motion `layoutId` animation. Largest delta/velocity/volume surfaces to top.
+- [ ] **E05-S01-T01** — Create `SentimentsPanel.tsx` — Scrollable list of `QuestionCard` components. Sort controls at top: Market Δ (default), Velocity, Volume, Watchlist. Consumes `useSentimentQuestions()` hook.
+- [ ] **E05-S01-T02** — Create `QuestionCard.tsx` — Collapsed card showing: market question text (truncated to 2 lines), `ProbabilityDisplay` for market price, `ProbabilityDisplay` for sentiment probability, `MarketDeltaBadge`, `ConfidenceBadge` (with opacity treatment), `DeltaIndicator` for sentiment direction. Click to expand.
+- [ ] **E05-S01-T03** — Create `MarketDeltaBadge.tsx` — Shows the difference between sentiment and market probability. Color-coded: green if gap > 10% (underpricing signal), amber if 5-10%, red if < -10% (overpricing). Format: "+23%" with arrow.
+- [ ] **E05-S01-T04** — Implement sort behavior: when sort changes, list re-orders with framer-motion `layoutId` animation. Largest delta/velocity/volume surfaces to top.
 
 ## Story 5.2: Expanded Question Card
 
 > Full sentiment breakdown visible on card expansion.
 
-- [✅] **E05-S02-T01** — Create `QuestionCardExpanded.tsx` — Expands below the collapsed card with animation. Contains: StanceDistribution, SentimentTimeline, KeyVoices, PredictionBrief. Collapse on click or new selection.
-- [✅] **E05-S02-T02** — Create `StanceDistribution.tsx` — Horizontal bar chart (or pie chart) showing percentage breakdown: Supports YES (green), Supports NO (red), Neutral (gray). Labels with counts: "YES: 342 (54%) · NO: 218 (35%) · NEUTRAL: 68 (11%)". Recharts-based.
-- [✅] **E05-S02-T03** — Create `SentimentTimeline.tsx` — 24h line chart showing confidence-weighted sentiment probability over time. X-axis: time (24h). Y-axis: 0-100%. Line color: accent cyan. Shaded area for confidence band. Recharts-based.
+- [ ] **E05-S02-T01** — Create `QuestionCardExpanded.tsx` — Expands below the collapsed card with animation. Contains: StanceDistribution, SentimentTimeline, KeyVoices, PredictionBrief. Collapse on click or new selection.
+- [ ] **E05-S02-T02** — Create `StanceDistribution.tsx` — Horizontal bar chart (or pie chart) showing percentage breakdown: Supports YES (green), Supports NO (red), Neutral (gray). Labels with counts: "YES: 342 (54%) · NO: 218 (35%) · NEUTRAL: 68 (11%)". Recharts-based.
+- [ ] **E05-S02-T03** — Create `SentimentTimeline.tsx` — 24h line chart showing confidence-weighted sentiment probability over time. X-axis: time (24h). Y-axis: 0-100%. Line color: accent cyan. Shaded area for confidence band. Recharts-based.
 
 ## Story 5.3: Key Voices & Tweets
 
 > Influential accounts driving sentiment, tiered by plan.
 
-- [✅] **E05-S03-T01** — Create `KeyVoices.tsx` — Shows the most influential accounts per stance. Two columns: "Driving YES" and "Driving NO". Each entry: avatar, display name, handle, credibility badge, representative tweet text. Max 5 per stance (Pro tier). Free tier: show aggregate count only. Quant tier: "View all N tweets" link.
-- [✅] **E05-S03-T02** — Implement tier gating in KeyVoices: check `authStore.tier`. Free → show message "Upgrade to Pro to see key voices". Pro → show 5 per stance. Quant → show all + "Export" button.
-- [✅] **E05-S03-T03** — Style individual tweet entries: dark card, source icon, handle in mono, tweet text, engagement metrics (likes, retweets), stance badge (YES/NO color), confidence score.
+- [ ] **E05-S03-T01** — Create `KeyVoices.tsx` — Shows the most influential accounts per stance. Two columns: "Driving YES" and "Driving NO". Each entry: avatar, display name, handle, credibility badge, representative tweet text. Max 5 per stance (Pro tier). Free tier: show aggregate count only. Quant tier: "View all N tweets" link.
+- [ ] **E05-S03-T02** — Implement tier gating in KeyVoices: check `authStore.tier`. Free → show message "Upgrade to Pro to see key voices". Pro → show 5 per stance. Quant → show all + "Export" button.
+- [ ] **E05-S03-T03** — Style individual tweet entries: dark card, source icon, handle in mono, tweet text, engagement metrics (likes, retweets), stance badge (YES/NO color), confidence score.
 
 ## Story 5.4: AI Prediction Brief
 
 > Clean intelligence summary card.
 
-- [✅] **E05-S04-T01** — Create `PredictionBrief.tsx` — Clean intelligence summary card with structured sections. Renders: section header ("Sentiment Analysis"), assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. Uses Inter sans-serif, monospace only for numerical values. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
-- [✅] **E05-S04-T02** — Style the prediction brief: Inter sans-serif for all text, monospace only for numerical values (percentages, deltas). Card with subtle left border accent in cyan, rounded corners consistent with the design system. Section headers in medium-weight Inter, sentence case. Clean, modern SaaS card styling.
-- [✅] **E05-S04-T03** — Implement tier gating: Free → hidden with "Upgrade to see AI analysis" upsell. Pro/Quant → visible.
+- [ ] **E05-S04-T01** — Create `PredictionBrief.tsx` — Clean intelligence summary card with structured sections. Renders: section header ("Sentiment Analysis"), assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. Uses Inter sans-serif, monospace only for numerical values. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
+- [ ] **E05-S04-T02** — Style the prediction brief: Inter sans-serif for all text, monospace only for numerical values (percentages, deltas). Card with subtle left border accent in cyan, rounded corners consistent with the design system. Section headers in medium-weight Inter, sentence case. Clean, modern SaaS card styling.
+- [ ] **E05-S04-T03** — Implement tier gating: Free → hidden with "Upgrade to see AI analysis" upsell. Pro/Quant → visible.
 
 ## Story 5.5: Add Question Flow
 
 > Trending suggestions first, then search.
 
-- [✅] **E05-S05-T01** — Create `AddQuestionFlow.tsx` — "Add Question" button at bottom of sentiments panel. Opens a flow: Step 1: show trending-linked questions as suggestions (questions linked to currently trending topics). Step 2: if user doesn't find what they want, show search input to find any market question.
-- [✅] **E05-S05-T02** — Implement the suggestion list: query mock data for questions linked to trending topics that the user isn't already tracking. Show question text, market probability, trend hashtag badge. Click to track.
-- [✅] **E05-S05-T03** — Implement search fallback: text input with autocomplete against all market questions. 200ms debounce. Results show question text + platform + probability. Click to track.
-- [✅] **E05-S05-T04** — Implement free tier limit: when user has 3 tracked questions, "Add Question" button shows "Upgrade to track more" instead. Disable tracking action. Show upsell.
+- [ ] **E05-S05-T01** — Create `AddQuestionFlow.tsx` — "Add Question" button at bottom of sentiments panel. Opens a flow: Step 1: show trending-linked questions as suggestions (questions linked to currently trending topics). Step 2: if user doesn't find what they want, show search input to find any market question.
+- [ ] **E05-S05-T02** — Implement the suggestion list: query mock data for questions linked to trending topics that the user isn't already tracking. Show question text, market probability, trend hashtag badge. Click to track.
+- [ ] **E05-S05-T03** — Implement search fallback: text input with autocomplete against all market questions. 200ms debounce. Results show question text + platform + probability. Click to track.
+- [ ] **E05-S05-T04** — Implement free tier limit: when user has 3 tracked questions, "Add Question" button shows "Upgrade to track more" instead. Disable tracking action. Show upsell.
 
 ## Story 5.6: Sentiment in Other Views
 
 > Surface sentiment data throughout the app.
 
-- [✅] **E05-S06-T01** — Add sentiment stance badges to `FeedCard` when a feed item is relevant to a tracked prediction question. Show stance (YES/NO/Neutral) color dot + aggregate sentiment percentage.
+- [ ] **E05-S06-T01** — Add sentiment stance badges to `FeedCard` when a feed item is relevant to a tracked prediction question. Show stance (YES/NO/Neutral) color dot + aggregate sentiment percentage.
 - [~] **E05-S06-T02** — Add sentiment delta indicator to `MarketCard` in the Markets panel. Show sentiment probability alongside market probability with delta badge. *(Deferred: MarketCard not yet built — will be implemented in Epic 8.)*
 - [~] **E05-S06-T03** — Create sentiment summary section for Topic Pages (consumed by `TopicSentiment.tsx`). Show aggregate sentiment for all linked prediction questions. *(Deferred: TopicPages not yet built — will be implemented in Epic 7.)*
 
@@ -308,26 +308,26 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Always-visible search input in the top bar.
 
-- [✅] **E06-S01-T01** — Create `SearchBar.tsx` — Text input in `TopBar`. Placeholder: "Search topics, markets, entities...". Triggers search on ≥2 characters with 200ms debounce. `Escape` clears and closes. `Cmd+K` / `Ctrl+K` shortcut to focus.
-- [✅] **E06-S01-T02** — Wire search bar to `searchStore`: update query, open/close dropdown. Handle recent searches: show last 5 searches when input is focused and empty.
-- [✅] **E06-S01-T03** — Implement keyboard navigation: arrow keys move through dropdown results, `Enter` selects, `Escape` closes.
+- [ ] **E06-S01-T01** — Create `SearchBar.tsx` — Text input in `TopBar`. Placeholder: "Search topics, markets, entities...". Triggers search on ≥2 characters with 200ms debounce. `Escape` clears and closes. `Cmd+K` / `Ctrl+K` shortcut to focus.
+- [ ] **E06-S01-T02** — Wire search bar to `searchStore`: update query, open/close dropdown. Handle recent searches: show last 5 searches when input is focused and empty.
+- [ ] **E06-S01-T03** — Implement keyboard navigation: arrow keys move through dropdown results, `Enter` selects, `Escape` closes.
 
 ## Story 6.2: Search Dropdown
 
 > Overlay dropdown with fixed-order sections.
 
-- [✅] **E06-S02-T01** — Create `SearchDropdown.tsx` — Absolute-positioned overlay below search bar. Fixed-order sections: Trends (max 3), Markets (max 3), Sentiments (max 3), Events (max 5). Section headers in medium-weight sans-serif, sentence case. "View all results" link at bottom.
-- [✅] **E06-S02-T02** — Create `SearchSection.tsx` — Renders a section header + list of `SearchResultItem` components. Shows section even if empty (with "No matching {type}" message).
-- [✅] **E06-S02-T03** — Create `SearchResultItem.tsx` — Result row with type-specific rendering. Trends: hashtag + velocity + lifecycle. Markets: question + probability + delta. Sentiments: question + sentiment %. Events: source + content snippet + timestamp.
-- [✅] **E06-S02-T04** — Implement click-outside-to-close behavior. Use Radix `Popover` or custom hook with ref detection.
+- [ ] **E06-S02-T01** — Create `SearchDropdown.tsx` — Absolute-positioned overlay below search bar. Fixed-order sections: Trends (max 3), Markets (max 3), Sentiments (max 3), Events (max 5). Section headers in medium-weight sans-serif, sentence case. "View all results" link at bottom.
+- [ ] **E06-S02-T02** — Create `SearchSection.tsx` — Renders a section header + list of `SearchResultItem` components. Shows section even if empty (with "No matching {type}" message).
+- [ ] **E06-S02-T03** — Create `SearchResultItem.tsx` — Result row with type-specific rendering. Trends: hashtag + velocity + lifecycle. Markets: question + probability + delta. Sentiments: question + sentiment %. Events: source + content snippet + timestamp.
+- [ ] **E06-S02-T04** — Implement click-outside-to-close behavior. Use Radix `Popover` or custom hook with ref detection.
 
 ## Story 6.3: Search Actions
 
 > Navigation from search results.
 
-- [✅] **E06-S03-T01** — Implement result click actions: Trend result → navigate to topic page + select trend. Market result → navigate to markets view + select market. Sentiment result → navigate to sentiments view + expand question. Event result → open event detail in right panel.
-- [✅] **E06-S03-T02** — Implement "View all results" navigation: navigate to `/app/search?q={query}`. Create `SearchResultsView.tsx` with full-page results, same fixed-order sections but with pagination.
-- [✅] **E06-S03-T03** — Implement saved searches: "Save this search" action in dropdown. Saved searches appear in search dropdown when focused. Saved searches can be deleted.
+- [ ] **E06-S03-T01** — Implement result click actions: Trend result → navigate to topic page + select trend. Market result → navigate to markets view + select market. Sentiment result → navigate to sentiments view + expand question. Event result → open event detail in right panel.
+- [ ] **E06-S03-T02** — Implement "View all results" navigation: navigate to `/app/search?q={query}`. Create `SearchResultsView.tsx` with full-page results, same fixed-order sections but with pagination.
+- [ ] **E06-S03-T03** — Implement saved searches: "Save this search" action in dropdown. Saved searches appear in search dropdown when focused. Saved searches can be deleted.
 
 ---
 
@@ -722,7 +722,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 | Epic | Priority | Stories | Tasks | Status |
 |------|----------|---------|-------|--------|
-| E01: Foundation | P0 | 5 | 40 | [✅] |
+| E01: Foundation | P0 | 5 | 40 | [ ] |
 | E02: Mock Data Engine | P0 | 5 | 30 | [ ] |
 | E03: Home Feed | P0 | 3 | 14 | [ ] |
 | E04: Trending Bar | P0 | 3 | 9 | [ ] |
