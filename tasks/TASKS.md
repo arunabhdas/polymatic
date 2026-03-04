@@ -251,51 +251,51 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Main view listing tracked prediction questions.
 
-- [ ] **E05-S01-T01** — Create `SentimentsPanel.tsx` — Scrollable list of `QuestionCard` components. Sort controls at top: Market Δ (default), Velocity, Volume, Watchlist. Consumes `useSentimentQuestions()` hook.
-- [ ] **E05-S01-T02** — Create `QuestionCard.tsx` — Collapsed card showing: market question text (truncated to 2 lines), `ProbabilityDisplay` for market price, `ProbabilityDisplay` for sentiment probability, `MarketDeltaBadge`, `ConfidenceBadge` (with opacity treatment), `DeltaIndicator` for sentiment direction. Click to expand.
-- [ ] **E05-S01-T03** — Create `MarketDeltaBadge.tsx` — Shows the difference between sentiment and market probability. Color-coded: green if gap > 10% (underpricing signal), amber if 5-10%, red if < -10% (overpricing). Format: "+23%" with arrow.
-- [ ] **E05-S01-T04** — Implement sort behavior: when sort changes, list re-orders with framer-motion `layoutId` animation. Largest delta/velocity/volume surfaces to top.
+- [✅] **E05-S01-T01** — Create `SentimentsPanel.tsx` — Scrollable list of `QuestionCard` components. Sort controls at top: Market Δ (default), Velocity, Volume, Watchlist. Consumes `useSentimentQuestions()` hook.
+- [✅] **E05-S01-T02** — Create `QuestionCard.tsx` — Collapsed card showing: market question text (truncated to 2 lines), `ProbabilityDisplay` for market price, `ProbabilityDisplay` for sentiment probability, `MarketDeltaBadge`, `ConfidenceBadge` (with opacity treatment), `DeltaIndicator` for sentiment direction. Click to expand.
+- [✅] **E05-S01-T03** — Create `MarketDeltaBadge.tsx` — Shows the difference between sentiment and market probability. Color-coded: green if gap > 10% (underpricing signal), amber if 5-10%, red if < -10% (overpricing). Format: "+23%" with arrow.
+- [✅] **E05-S01-T04** — Implement sort behavior: when sort changes, list re-orders with framer-motion `layoutId` animation. Largest delta/velocity/volume surfaces to top.
 
 ## Story 5.2: Expanded Question Card
 
 > Full sentiment breakdown visible on card expansion.
 
-- [ ] **E05-S02-T01** — Create `QuestionCardExpanded.tsx` — Expands below the collapsed card with animation. Contains: StanceDistribution, SentimentTimeline, KeyVoices, PredictionBrief. Collapse on click or new selection.
-- [ ] **E05-S02-T02** — Create `StanceDistribution.tsx` — Horizontal bar chart (or pie chart) showing percentage breakdown: Supports YES (green), Supports NO (red), Neutral (gray). Labels with counts: "YES: 342 (54%) · NO: 218 (35%) · NEUTRAL: 68 (11%)". Recharts-based.
-- [ ] **E05-S02-T03** — Create `SentimentTimeline.tsx` — 24h line chart showing confidence-weighted sentiment probability over time. X-axis: time (24h). Y-axis: 0-100%. Line color: accent cyan. Shaded area for confidence band. Recharts-based.
+- [✅] **E05-S02-T01** — Create `QuestionCardExpanded.tsx` — Expands below the collapsed card with animation. Contains: StanceDistribution, SentimentTimeline, KeyVoices, PredictionBrief. Collapse on click or new selection.
+- [✅] **E05-S02-T02** — Create `StanceDistribution.tsx` — Horizontal bar chart (or pie chart) showing percentage breakdown: Supports YES (green), Supports NO (red), Neutral (gray). Labels with counts: "YES: 342 (54%) · NO: 218 (35%) · NEUTRAL: 68 (11%)". Recharts-based.
+- [✅] **E05-S02-T03** — Create `SentimentTimeline.tsx` — 24h line chart showing confidence-weighted sentiment probability over time. X-axis: time (24h). Y-axis: 0-100%. Line color: accent cyan. Shaded area for confidence band. Recharts-based.
 
 ## Story 5.3: Key Voices & Tweets
 
 > Influential accounts driving sentiment, tiered by plan.
 
-- [ ] **E05-S03-T01** — Create `KeyVoices.tsx` — Shows the most influential accounts per stance. Two columns: "Driving YES" and "Driving NO". Each entry: avatar, display name, handle, credibility badge, representative tweet text. Max 5 per stance (Pro tier). Free tier: show aggregate count only. Quant tier: "View all N tweets" link.
-- [ ] **E05-S03-T02** — Implement tier gating in KeyVoices: check `authStore.tier`. Free → show message "Upgrade to Pro to see key voices". Pro → show 5 per stance. Quant → show all + "Export" button.
-- [ ] **E05-S03-T03** — Style individual tweet entries: dark card, source icon, handle in mono, tweet text, engagement metrics (likes, retweets), stance badge (YES/NO color), confidence score.
+- [✅] **E05-S03-T01** — Create `KeyVoices.tsx` — Shows the most influential accounts per stance. Two columns: "Driving YES" and "Driving NO". Each entry: avatar, display name, handle, credibility badge, representative tweet text. Max 5 per stance (Pro tier). Free tier: show aggregate count only. Quant tier: "View all N tweets" link.
+- [✅] **E05-S03-T02** — Implement tier gating in KeyVoices: check `authStore.tier`. Free → show message "Upgrade to Pro to see key voices". Pro → show 5 per stance. Quant → show all + "Export" button.
+- [✅] **E05-S03-T03** — Style individual tweet entries: dark card, source icon, handle in mono, tweet text, engagement metrics (likes, retweets), stance badge (YES/NO color), confidence score.
 
 ## Story 5.4: AI Prediction Brief
 
 > Clean intelligence summary card.
 
-- [ ] **E05-S04-T01** — Create `PredictionBrief.tsx` — Clean intelligence summary card with structured sections. Renders: section header ("Sentiment Analysis"), assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. Uses Inter sans-serif, monospace only for numerical values. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
-- [ ] **E05-S04-T02** — Style the prediction brief: Inter sans-serif for all text, monospace only for numerical values (percentages, deltas). Card with subtle left border accent in cyan, rounded corners consistent with the design system. Section headers in medium-weight Inter, sentence case. Clean, modern SaaS card styling.
-- [ ] **E05-S04-T03** — Implement tier gating: Free → hidden with "Upgrade to see AI analysis" upsell. Pro/Quant → visible.
+- [✅] **E05-S04-T01** — Create `PredictionBrief.tsx` — Clean intelligence summary card with structured sections. Renders: section header ("Sentiment Analysis"), assessment paragraph, confidence assessment, market delta + signal, historical accuracy callout, caveat, timestamp. Uses Inter sans-serif, monospace only for numerical values. See IMPLEMENTATION-PLAN.md Section 5 for exact spec.
+- [✅] **E05-S04-T02** — Style the prediction brief: Inter sans-serif for all text, monospace only for numerical values (percentages, deltas). Card with subtle left border accent in cyan, rounded corners consistent with the design system. Section headers in medium-weight Inter, sentence case. Clean, modern SaaS card styling.
+- [✅] **E05-S04-T03** — Implement tier gating: Free → hidden with "Upgrade to see AI analysis" upsell. Pro/Quant → visible.
 
 ## Story 5.5: Add Question Flow
 
 > Trending suggestions first, then search.
 
-- [ ] **E05-S05-T01** — Create `AddQuestionFlow.tsx` — "Add Question" button at bottom of sentiments panel. Opens a flow: Step 1: show trending-linked questions as suggestions (questions linked to currently trending topics). Step 2: if user doesn't find what they want, show search input to find any market question.
-- [ ] **E05-S05-T02** — Implement the suggestion list: query mock data for questions linked to trending topics that the user isn't already tracking. Show question text, market probability, trend hashtag badge. Click to track.
-- [ ] **E05-S05-T03** — Implement search fallback: text input with autocomplete against all market questions. 200ms debounce. Results show question text + platform + probability. Click to track.
-- [ ] **E05-S05-T04** — Implement free tier limit: when user has 3 tracked questions, "Add Question" button shows "Upgrade to track more" instead. Disable tracking action. Show upsell.
+- [✅] **E05-S05-T01** — Create `AddQuestionFlow.tsx` — "Add Question" button at bottom of sentiments panel. Opens a flow: Step 1: show trending-linked questions as suggestions (questions linked to currently trending topics). Step 2: if user doesn't find what they want, show search input to find any market question.
+- [✅] **E05-S05-T02** — Implement the suggestion list: query mock data for questions linked to trending topics that the user isn't already tracking. Show question text, market probability, trend hashtag badge. Click to track.
+- [✅] **E05-S05-T03** — Implement search fallback: text input with autocomplete against all market questions. 200ms debounce. Results show question text + platform + probability. Click to track.
+- [✅] **E05-S05-T04** — Implement free tier limit: when user has 3 tracked questions, "Add Question" button shows "Upgrade to track more" instead. Disable tracking action. Show upsell.
 
 ## Story 5.6: Sentiment in Other Views
 
 > Surface sentiment data throughout the app.
 
-- [ ] **E05-S06-T01** — Add sentiment stance badges to `FeedCard` when a feed item is relevant to a tracked prediction question. Show stance (YES/NO/Neutral) color dot + aggregate sentiment percentage.
-- [ ] **E05-S06-T02** — Add sentiment delta indicator to `MarketCard` in the Markets panel. Show sentiment probability alongside market probability with delta badge.
-- [ ] **E05-S06-T03** — Create sentiment summary section for Topic Pages (consumed by `TopicSentiment.tsx`). Show aggregate sentiment for all linked prediction questions.
+- [✅] **E05-S06-T01** — Add sentiment stance badges to `FeedCard` when a feed item is relevant to a tracked prediction question. Show stance (YES/NO/Neutral) color dot + aggregate sentiment percentage.
+- [~] **E05-S06-T02** — Add sentiment delta indicator to `MarketCard` in the Markets panel. Show sentiment probability alongside market probability with delta badge. *(Deferred: MarketCard not yet built — will be implemented in Epic 8.)*
+- [~] **E05-S06-T03** — Create sentiment summary section for Topic Pages (consumed by `TopicSentiment.tsx`). Show aggregate sentiment for all linked prediction questions. *(Deferred: TopicPages not yet built — will be implemented in Epic 7.)*
 
 ---
 
