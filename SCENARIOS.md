@@ -770,7 +770,11 @@ Each scenario follows this format:
 **Steps:**
 1. View a sentiment question that has a linked market.
 2. Observe the market delta badge.
-**Expected Result:** Shows difference between sentiment probability and market probability. Formatted as "+12.4%" or "-5.2%" with directional color (green for positive, red for negative). Bloomberg-style number+arrow rendering.
+**Expected Result:** 
+
+Shows difference between sentiment probability and market probability. 
+
+Formatted as "+12.4%" or "-5.2%" with directional color (green for positive, red for negative). Bloomberg-style number+arrow rendering.
 
 ---
 
@@ -780,7 +784,11 @@ Each scenario follows this format:
 **Steps:**
 1. Click on a sentiment question to expand/view detail.
 2. Observe the expanded content.
-**Expected Result:** Shows: stance breakdown (yes/no/neutral/ambiguous counts), sentiment sparkline (24h history), recent classified tweets with stance labels, linked trend hashtags, confidence-weighted timeline.
+**Expected Result:** 
+
+Shows: stance breakdown (yes/no/neutral/ambiguous counts), sentiment sparkline (24h history), 
+
+recent classified tweets with stance labels, linked trend hashtags, confidence-weighted timeline.
 
 ---
 
