@@ -3,8 +3,9 @@ import { cn } from '@/lib/cn'
 import { Layers } from 'lucide-react'
 import { ViewAllTrends } from '@/trends/ViewAllTrends'
 import { TrendDetail } from '@/trends/TrendDetail'
+import { SentimentDetail } from '@/sentiments/SentimentDetail'
 
-const FULL_HEIGHT_PANELS = new Set(['trends-list', 'trend-detail'])
+const FULL_HEIGHT_PANELS = new Set(['trends-list', 'trend-detail', 'sentiment-detail'])
 
 export function RightPanel() {
   const content = useUIStore((s) => s.rightPanelContent)
@@ -29,9 +30,7 @@ export function RightPanel() {
         </div>
       )}
       {content.kind === 'sentiment-detail' && (
-        <div className="data-label text-[var(--color-text-tertiary)]">
-          Sentiment detail — {content.questionId}
-        </div>
+        <SentimentDetail questionId={content.questionId} />
       )}
       {content.kind === 'trend-detail' && (
         <TrendDetail trendId={content.trendId} />

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useDataProvider } from './useDataProvider'
 import { useSentimentsStore } from '@/state/sentimentsStore'
 import { queryKeys } from '@/services/queryKeys'
+import { getMockEngine } from '@/mock-data'
 
 // ─── useSentimentQuestions ────────────────────────────────────
 
@@ -34,6 +35,22 @@ export function useSentimentDetail(questionId: string | null) {
     enabled: !!provider && !!questionId,
     refetchInterval: 5_000,
     staleTime: 3_000,
+  })
+}
+
+// ─── usePredictionBrief ──────────────────────────────────────
+
+export function usePredictionBrief(questionId: string | null) {
+  return useQuery({
+    queryKey: [...queryKeys.sentiments.detail(questionId ?? ''), 'brief'],
+    queryFn: () => {
+      if (!questionId) throw new Error('No question ID')
+      const engine = getMockEngine()
+      return engine.sentiments.getBrief(questionId)
+    },
+    enabled: !!questionId,
+    refetchInterval: 15_000,
+    staleTime: 10_000,
   })
 }
 

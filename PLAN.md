@@ -1240,3 +1240,205 @@
  9. "View All Trends" — Opens trends list in right panel
  10. Loading state — Feed skeleton shows during initial data load
  11. Empty state — Shows when filters match no items
+
+
+## Epic 5 Plan
+
+│ Plan: Implement Epic 5 — Sentiments Engine (P0)                                                                                                      │
+│                                                                                                                                                      │
+│ Context                                                                                                                                              │
+│                                                                                                                                                      │
+│ Epic 5 is the highest-priority feature after foundation. It implements the Sentiments Engine UI — the core intelligence product that surfaces        │
+│ Twitter/X crowd sentiment for prediction market questions. All data infrastructure is already built (types, store, hooks, mock generator, mock       │
+│ provider). Only UI components remain: 21 tasks across 6 stories.                                                                                     │
+│                                                                                                                                                      │
+│ What Already Exists                                                                                                                                  │
+│                                                                                                                                                      │
+│ ┌──────────────┬────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────┐  │
+│ │    Layer     │                      File                      │                                     Status                                      │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Types        │ src/types/sentiment.types.ts                   │ Complete — SentimentQuestion, ClassifiedTweet, StanceBreakdown,                 │  │
+│ │              │                                                │ SentimentDetail, PredictionBrief                                                │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Store        │ src/state/sentimentsStore.ts                   │ Complete — questions, trackedQuestionIds, expandedQuestionId,                   │  │
+│ │              │                                                │ track/untrack/expand actions                                                    │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Hooks        │ src/hooks/useSentiments.ts                     │ Complete — useSentimentQuestions (10s refetch), useSentimentDetail (5s          │  │
+│ │              │                                                │ refetch), useTrackQuestion                                                      │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Mock         │ src/mock-data/generators/sentimentGenerator.ts │ Complete — 20 questions, Brownian motion, batch tweets, scoring, getBrief()     │  │
+│ │ Generator    │                                                │                                                                                 │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Mock         │ src/services/mockProvider.ts                   │ Complete — getSentimentQuestions, getSentimentDetail, subscribeSentimentUpdates │  │
+│ │ Provider     │                                                │                                                                                 │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ View         │ src/views/SentimentsView.tsx                   │ Stub — placeholder text only                                                    │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Auth Store   │ src/state/authStore.ts                         │ Complete — user.tier available (dev user defaults to 'quant')                   │  │
+│ ├──────────────┼────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────┤  │
+│ │ Base         │ src/components/*                               │ Complete — Card, Badge, Chip, ConfidenceBadge, DeltaIndicator,                  │  │
+│ │ Components   │                                                │ ProbabilityDisplay, Sparkline, EmptyState, LoadingSkeleton, Tabs                │  │
+│ └──────────────┴────────────────────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                                                                                      │
+│ Note: PredictionBrief data is available via engine.sentiments.getBrief(id) but NOT exposed through the DataProvider interface. We'll access it       │
+│ through the SentimentDetail data or add a hook that calls the generator directly via the mock engine for now.                                        │
+│                                                                                                                                                      │
+│ Files to Create                                                                                                                                      │
+│                                                                                                                                                      │
+│ All new files go in polymatic-frontend-webapp/src/sentiments/:                                                                                       │
+│                                                                                                                                                      │
+│ ┌─────┬──────────────────────────┬────────────────────────────┬───────────────────────────────────────────────────┐                                  │
+│ │  #  │           File           │          Task IDs          │                    Description                    │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 1   │ SentimentsPanel.tsx      │ E05-S01-T01, T04           │ Main scrollable list with sort controls           │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 2   │ QuestionCard.tsx         │ E05-S01-T02                │ Collapsed question card with key metrics          │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 3   │ MarketDeltaBadge.tsx     │ E05-S01-T03                │ Sentiment-vs-market delta badge                   │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 4   │ QuestionCardExpanded.tsx │ E05-S02-T01                │ Expanded card with full breakdown                 │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 5   │ StanceDistribution.tsx   │ E05-S02-T02                │ Horizontal bar showing YES/NO/Neutral             │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 6   │ SentimentTimeline.tsx    │ E05-S02-T03                │ 24h sentiment line chart                          │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 7   │ KeyVoices.tsx            │ E05-S03-T01, T02, T03      │ Influential accounts per stance, tier-gated       │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 8   │ PredictionBrief.tsx      │ E05-S04-T01, T02, T03      │ AI intelligence summary card, tier-gated          │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 9   │ AddQuestionFlow.tsx      │ E05-S05-T01, T02, T03, T04 │ Add question modal/flow with suggestions + search │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 10  │ SentimentDetail.tsx      │ —                          │ Right panel detail view (wires into RightPanel)   │                                  │
+│ ├─────┼──────────────────────────┼────────────────────────────┼───────────────────────────────────────────────────┤                                  │
+│ │ 11  │ sentiments.utils.ts      │ —                          │ Sort helpers, formatting                          │                                  │
+│ └─────┴──────────────────────────┴────────────────────────────┴───────────────────────────────────────────────────┘                                  │
+│                                                                                                                                                      │
+│ Files to Modify                                                                                                                                      │
+│                                                                                                                                                      │
+│ ┌──────────────────────────────┬─────────────────────────────────────────────────────────┐                                                           │
+│ │             File             │                         Change                          │                                                           │
+│ ├──────────────────────────────┼─────────────────────────────────────────────────────────┤                                                           │
+│ │ src/views/SentimentsView.tsx │ Replace stub with SentimentsPanel + layout              │                                                           │
+│ ├──────────────────────────────┼─────────────────────────────────────────────────────────┤                                                           │
+│ │ src/app/RightPanel.tsx       │ Wire sentiment-detail kind to SentimentDetail component │                                                           │
+│ ├──────────────────────────────┼─────────────────────────────────────────────────────────┤                                                           │
+│ │ src/hooks/useSentiments.ts   │ Add usePredictionBrief(questionId) hook                 │                                                           │
+│ ├──────────────────────────────┼─────────────────────────────────────────────────────────┤                                                           │
+│ │ src/state/sentimentsStore.ts │ Add sortBy field (delta/velocity/volume/watchlist)      │                                                           │
+│ └──────────────────────────────┴─────────────────────────────────────────────────────────┘                                                           │
+│                                                                                                                                                      │
+│ Implementation Steps                                                                                                                                 │
+│                                                                                                                                                      │
+│ Step 1: Utilities & Store Updates                                                                                                                    │
+│                                                                                                                                                      │
+│ - Create src/sentiments/sentiments.utils.ts — sort functions for questions by delta, velocity, volume, watchlist                                     │
+│ - Update sentimentsStore.ts — add sortBy: 'delta' | 'velocity' | 'volume' | 'watchlist' and setSortBy action                                         │
+│ - Add usePredictionBrief hook to useSentiments.ts — fetches brief data from mock engine                                                              │
+│                                                                                                                                                      │
+│ Step 2: MarketDeltaBadge (E05-S01-T03)                                                                                                               │
+│                                                                                                                                                      │
+│ - Green if gap > 10% (underpricing), amber if 5-10%, red if < -10% (overpricing)                                                                     │
+│ - Format: "+23%" with directional arrow                                                                                                              │
+│ - Reuses DeltaIndicator pattern but with sentiment-specific color thresholds                                                                         │
+│                                                                                                                                                      │
+│ Step 3: QuestionCard (E05-S01-T02)                                                                                                                   │
+│                                                                                                                                                      │
+│ - Card variant="interactive", onClick expands                                                                                                        │
+│ - Market question text (2 lines max)                                                                                                                 │
+│ - Two ProbabilityDisplay: market price + sentiment score                                                                                             │
+│ - MarketDeltaBadge, ConfidenceBadge (opacity treatment), direction indicator                                                                         │
+│ - Sparkline for 24h sentiment history                                                                                                                │
+│ - Track/untrack toggle button                                                                                                                        │
+│                                                                                                                                                      │
+│ Step 4: StanceDistribution (E05-S02-T02)                                                                                                             │
+│                                                                                                                                                      │
+│ - Horizontal segmented bar (not pie) — YES green / NO red / Neutral gray                                                                             │
+│ - Labels with counts: "YES: 342 (54%) · NO: 218 (35%) · NEUTRAL: 68 (11%)"                                                                           │
+│ - Uses Recharts BarChart or pure CSS for simplicity                                                                                                  │
+│                                                                                                                                                      │
+│ Step 5: SentimentTimeline (E05-S02-T03)                                                                                                              │
+│                                                                                                                                                      │
+│ - 24h Recharts LineChart with area fill                                                                                                              │
+│ - X: timestamps, Y: 0-100% sentiment probability                                                                                                     │
+│ - Accent cyan line, subtle area fill below                                                                                                           │
+│ - No axes labels (compact), tooltip on hover with value + time                                                                                       │
+│                                                                                                                                                      │
+│ Step 6: KeyVoices (E05-S03-T01, T02, T03)                                                                                                            │
+│                                                                                                                                                      │
+│ - Two columns: "Driving YES" / "Driving NO"                                                                                                          │
+│ - Each entry: avatar placeholder, display name, handle (mono), tweet text, engagement, stance badge, confidence                                      │
+│ - Tier gating: free → "Upgrade to Pro" message, pro → 5 per stance, quant → all + export button                                                      │
+│ - Uses authStore.tier for gating                                                                                                                     │
+│                                                                                                                                                      │
+│ Step 7: PredictionBrief (E05-S04-T01, T02, T03)                                                                                                      │
+│                                                                                                                                                      │
+│ - Clean intelligence card with subtle left cyan border                                                                                               │
+│ - Sections: Assessment (paragraph), Confidence note, Market delta + signal, Historical accuracy, Caveat, Timestamp                                   │
+│ - Inter sans-serif for text, monospace for numbers only                                                                                              │
+│ - Tier gating: free → "Upgrade to see AI analysis", pro/quant → visible                                                                              │
+│                                                                                                                                                      │
+│ Step 8: QuestionCardExpanded (E05-S02-T01)                                                                                                           │
+│                                                                                                                                                      │
+│ - AnimatePresence expand below collapsed card                                                                                                        │
+│ - Contains: StanceDistribution, SentimentTimeline, KeyVoices, PredictionBrief                                                                        │
+│ - Fetches detail data via useSentimentDetail(questionId)                                                                                             │
+│ - Collapse on click or new selection                                                                                                                 │
+│                                                                                                                                                      │
+│ Step 9: SentimentsPanel (E05-S01-T01, T04)                                                                                                           │
+│                                                                                                                                                      │
+│ - Sort controls at top: Market delta (default), Velocity, Volume, Watchlist                                                                          │
+│ - Scrollable list of QuestionCard components                                                                                                         │
+│ - framer-motion layoutId for re-ordering animation                                                                                                   │
+│ - Loading skeleton on initial load                                                                                                                   │
+│ - Consumes useSentimentQuestions() hook                                                                                                              │
+│                                                                                                                                                      │
+│ Step 10: AddQuestionFlow (E05-S05-T01, T02, T03, T04)                                                                                                │
+│                                                                                                                                                      │
+│ - "Add Question" button at panel bottom                                                                                                              │
+│ - Opens overlay/modal: Step 1 — trending-linked suggestions, Step 2 — search fallback (200ms debounce, autocomplete)                                 │
+│ - Free tier: when 3 tracked → show "Upgrade to track more", disable action                                                                           │
+│ - Click to track question                                                                                                                            │
+│                                                                                                                                                      │
+│ Step 11: SentimentDetail (Right Panel)                                                                                                               │
+│                                                                                                                                                      │
+│ - Full-page right panel detail for a selected question                                                                                               │
+│ - Same content as expanded card but with more space                                                                                                  │
+│ - Header: question text, score, market delta, track button                                                                                           │
+│ - Body: StanceDistribution, SentimentTimeline, KeyVoices (full), PredictionBrief                                                                     │
+│                                                                                                                                                      │
+│ Step 12: Wire Everything                                                                                                                             │
+│                                                                                                                                                      │
+│ - Update SentimentsView.tsx — compose SentimentsPanel + AddQuestionFlow                                                                              │
+│ - Update RightPanel.tsx — render SentimentDetail for sentiment-detail kind                                                                           │
+│ - Wire card clicks to set rightPanelContent: { kind: 'sentiment-detail', questionId }                                                                │
+│                                                                                                                                                      │
+│ Step 13: Feed & Market Integration (E05-S06-T01, T02, T03)                                                                                           │
+│                                                                                                                                                      │
+│ - Add sentiment stance badges to FeedCard (when item has sentimentStance + relatedMarketIds)                                                         │
+│ - Add sentiment delta to market cards (already have sentimentScore/sentimentDelta on MarketContract)                                                 │
+│ - Create TopicSentiment stub for future Topic Pages integration                                                                                      │
+│                                                                                                                                                      │
+│ Key Patterns to Follow                                                                                                                               │
+│                                                                                                                                                      │
+│ - Views are thin — SentimentsView composes SentimentsPanel, doesn't contain logic                                                                    │
+│ - Store for UI state — expanded question ID, sort mode, tracked IDs                                                                                  │
+│ - Hooks for data — useSentimentQuestions, useSentimentDetail for server state                                                                        │
+│ - Card composition — Card component wraps content, variant="interactive" for clickable                                                               │
+│ - Right panel driven by store — set rightPanelContent kind to show detail                                                                            │
+│ - framer-motion for animations — layoutId for reorder, AnimatePresence for expand/collapse                                                           │
+│ - CSS custom properties — all colors via var(--color-*), never hardcoded                                                                             │
+│ - Monospace only for numbers — Inter for labels, font-mono for percentages/deltas/timestamps                                                         │
+│ - Tier gating — check useAuthStore(s => s.tier), dev user defaults to 'quant'                                                                        │
+│                                                                                                                                                      │
+│ Verification                                                                                                                                         │
+│                                                                                                                                                      │
+│ 1. npm run build — no type errors                                                                                                                    │
+│ 2. npm run dev — navigate to Sentiments view, see 20 questions                                                                                       │
+│ 3. Questions sort by delta/velocity/volume/watchlist                                                                                                 │
+│ 4. Click question → expands with stance distribution, timeline, key voices, prediction brief                                                         │
+│ 5. Click question → right panel shows full sentiment detail                                                                                          │
+│ 6. Track/untrack questions, verify persistence                                                                                                       │
+│ 7. Add Question flow shows suggestions + search fallback                                                                                             │
+│ 8. Feed cards show sentiment stance badges when relevant                                                                                             │
+│ 9. Animations are smooth (sort reorder, expand/collapse)                                                                                             │
+│ 10. All text follows typography rules (no ALL CAPS, monospace numbers only)

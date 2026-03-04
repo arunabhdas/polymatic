@@ -50,6 +50,17 @@ export function FeedCardCompact({ item, onClick, className }: FeedCardCompactPro
         </p>
         <div className="flex items-center gap-1.5 mt-0.5">
           <SeverityDot severity={item.severity} size="sm" />
+          {item.sentimentStance && (
+            <span
+              className={cn(
+                'inline-block w-1.5 h-1.5 rounded-full shrink-0',
+                item.sentimentStance === 'supports_yes' && 'bg-[var(--color-sentiment-yes)]',
+                item.sentimentStance === 'supports_no' && 'bg-[var(--color-sentiment-no)]',
+                item.sentimentStance === 'neutral' && 'bg-[var(--color-sentiment-neutral)]',
+              )}
+              title={item.sentimentStance === 'supports_yes' ? 'YES stance' : item.sentimentStance === 'supports_no' ? 'NO stance' : 'Neutral'}
+            />
+          )}
           {item.relatedTrendIds.length > 0 && (
             <Chip
               label={`#${item.relatedTrendIds[0].slice(0, 8)}`}

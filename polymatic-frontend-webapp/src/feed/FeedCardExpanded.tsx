@@ -87,10 +87,16 @@ export function FeedCardExpanded({ item, onClick, className }: FeedCardExpandedP
           <Badge variant="category" category={item.category} label={item.category} />
           <Badge variant="source" label={sourceLabels[item.source] ?? item.source} />
           {item.sentimentStance && (
-            <Badge
-              variant="custom"
-              label={`Stance: ${stanceLabels[item.sentimentStance] ?? item.sentimentStance}`}
-            />
+            <span
+              className={cn(
+                'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium data-label',
+                item.sentimentStance === 'supports_yes' && 'bg-[var(--color-sentiment-yes)]/15 text-[var(--color-sentiment-yes)]',
+                item.sentimentStance === 'supports_no' && 'bg-[var(--color-sentiment-no)]/15 text-[var(--color-sentiment-no)]',
+                item.sentimentStance === 'neutral' && 'bg-[var(--color-sentiment-neutral)]/15 text-[var(--color-sentiment-neutral)]',
+              )}
+            >
+              {stanceLabels[item.sentimentStance] ?? item.sentimentStance}
+            </span>
           )}
           {item.velocity > 0 && <VelocityIndicator value={item.velocity / 100} />}
         </div>
