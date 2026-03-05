@@ -184,36 +184,36 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > All TypeScript interfaces matching future RSDIP contracts.
 
-- [ ] **E02-S01-T01** — Create `types/common.types.ts` — Shared types: `Timestamp`, `Entity` (name, type, id), `Severity` (0-100), `SourceType` (twitter, reddit, telegram, news, structured, market_signal), `Pagination`, `SortOrder`.
-- [ ] **E02-S01-T02** — Create `types/feed.types.ts` — `FeedItem` (id, source, content, timestamp, entities, trendIds, sentimentStance, marketCorrelation, geoCoords, media, severity, clusterId), `FeedCluster`, `FeedFilters`, `FeedParams`.
-- [ ] **E02-S01-T03** — Create `types/sentiment.types.ts` — `SentimentQuestion` (id, questionText, marketProbability, sentimentProbability, marketDelta, confidenceLevel, sentimentDirection, tweetVolume, stanceBreakdown, linkedTrendIds, linkedMarketIds), `ClassifiedTweet`, `StanceType`, `AggregateScore`, `SentimentDetail`, `PredictionBrief`.
-- [ ] **E02-S01-T04** — Create `types/trend.types.ts` — `Trend` (id, hashtag, category, lifecycle, velocity, velocityDelta, eventCount, linkedMarketIds, topEntities, createdAt, updatedAt), `TrendLifecycle`, `TrendCategory`, `VelocityScore`.
-- [ ] **E02-S01-T05** — Create `types/market.types.ts` — `MarketContract` (id, questionText, platform, probability, probability24hAgo, change24h, volume, sentimentDelta, linkedTrendIds, priceHistory, category), `Platform`, `PricePoint`, `MarketFilters`.
-- [ ] **E02-S01-T06** — Create `types/search.types.ts` — `SearchQuery`, `SearchResults` (trends, markets, sentiments, events — each as typed arrays), `SearchOptions`, `SavedSearch`.
-- [ ] **E02-S01-T07** — Create `types/alert.types.ts` — `AlertConfig` (id, type, targetId, threshold, channel, enabled), `Alert` (id, configId, triggeredAt, message, severity, read), `AlertType` enum.
-- [ ] **E02-S01-T08** — Create `types/geo.types.ts` — `GeoEvent`, `Layer`, `LayerType`, `POI` (id, name, severity, velocity, eventCount, linkedMarkets, linkedTrends, centroid), `MotionTrack`, `CameraPosition`, `GeoBounds`, `GeoRegion`.
-- [ ] **E02-S01-T09** — Create `types/auth.types.ts` — `User` (id, email, name, tier, onboardingComplete, preferences), `UserTier`, `AuthState`, `LoginCredentials`, `AuthResponse`.
-- [ ] **E02-S01-T10** — Create `types/api.types.ts` — `ApiResponse<T>`, `PaginatedResponse<T>`, `ErrorResponse`, `WSMessage`, `WSMessageType`.
+- [✅] **E02-S01-T01** — Create `types/common.types.ts` — Shared types: `Timestamp`, `Entity` (name, type, id), `Severity` (0-100), `SourceType` (twitter, reddit, telegram, news, structured, market_signal), `Pagination`, `SortOrder`.
+- [✅] **E02-S01-T02** — Create `types/feed.types.ts` — `FeedItem` (id, source, content, timestamp, entities, trendIds, sentimentStance, marketCorrelation, geoCoords, media, severity, clusterId), `FeedCluster`, `FeedFilters`, `FeedParams`.
+- [✅] **E02-S01-T03** — Create `types/sentiment.types.ts` — `SentimentQuestion` (id, questionText, marketProbability, sentimentProbability, marketDelta, confidenceLevel, sentimentDirection, tweetVolume, stanceBreakdown, linkedTrendIds, linkedMarketIds), `ClassifiedTweet`, `StanceType`, `AggregateScore`, `SentimentDetail`, `PredictionBrief`.
+- [✅] **E02-S01-T04** — Create `types/trend.types.ts` — `Trend` (id, hashtag, category, lifecycle, velocity, velocityDelta, eventCount, linkedMarketIds, topEntities, createdAt, updatedAt), `TrendLifecycle`, `TrendCategory`, `VelocityScore`.
+- [✅] **E02-S01-T05** — Create `types/market.types.ts` — `MarketContract` (id, questionText, platform, probability, probability24hAgo, change24h, volume, sentimentDelta, linkedTrendIds, priceHistory, category), `Platform`, `PricePoint`, `MarketFilters`.
+- [✅] **E02-S01-T06** — Create `types/search.types.ts` — `SearchQuery`, `SearchResults` (trends, markets, sentiments, events — each as typed arrays), `SearchOptions`, `SavedSearch`.
+- [✅] **E02-S01-T07** — Create `types/alert.types.ts` — `AlertConfig` (id, type, targetId, threshold, channel, enabled), `Alert` (id, configId, triggeredAt, message, severity, read), `AlertType` enum.
+- [✅] **E02-S01-T08** — Create `types/geo.types.ts` — `GeoEvent`, `Layer`, `LayerType`, `POI` (id, name, severity, velocity, eventCount, linkedMarkets, linkedTrends, centroid), `MotionTrack`, `CameraPosition`, `GeoBounds`, `GeoRegion`.
+- [✅] **E02-S01-T09** — Create `types/auth.types.ts` — `User` (id, email, name, tier, onboardingComplete, preferences), `UserTier`, `AuthState`, `LoginCredentials`, `AuthResponse`.
+- [✅] **E02-S01-T10** — Create `types/api.types.ts` — `ApiResponse<T>`, `PaginatedResponse<T>`, `ErrorResponse`, `WSMessage`, `WSMessageType`.
 
 ## Story 2.2: DataProvider Interface
 
 > Abstract data layer with mock/rsdip resolution.
 
-- [ ] **E02-S02-T01** — Create `services/dataProvider.ts` — Define the `DataProvider` interface with all method signatures for feed, sentiments, trends, markets, search, alerts, auth, and geo. Create the factory function that resolves mock vs rsdip based on `flagsStore.dataSourceMode`.
-- [ ] **E02-S02-T02** — Create `services/queryKeys.ts` — TanStack Query key factory with namespaced keys for all data domains: feed, sentiments, trends, markets, search.
-- [ ] **E02-S02-T03** — Create `services/apiClient.ts` — HTTP client wrapper (fetch-based). Includes auth token injection, 401 refresh interceptor, error normalization. Used by rsdipProvider (future) and mockProvider (for simulated latency).
-- [ ] **E02-S02-T04** — Create `services/wsClient.ts` — WebSocket client class with auto-reconnect (exponential backoff: 1s→2s→4s→8s→30s), message batching (100ms flush interval), spike detection (>50 buffered → 250ms batch + drop low-severity), and typed message dispatch.
-- [ ] **E02-S02-T05** — Create `services/rsdipProvider.ts` — Stub implementation of `DataProvider` for future RSDIP backend. Each method throws "Not implemented — switch DATA_SOURCE_MODE to mock". Ensures the interface is properly typed.
+- [✅] **E02-S02-T01** — Create `services/dataProvider.ts` — Define the `DataProvider` interface with all method signatures for feed, sentiments, trends, markets, search, alerts, auth, and geo. Create the factory function that resolves mock vs rsdip based on `flagsStore.dataSourceMode`.
+- [✅] **E02-S02-T02** — Create `services/queryKeys.ts` — TanStack Query key factory with namespaced keys for all data domains: feed, sentiments, trends, markets, search.
+- [✅] **E02-S02-T03** — Create `services/apiClient.ts` — HTTP client wrapper (fetch-based). Includes auth token injection, 401 refresh interceptor, error normalization. Used by rsdipProvider (future) and mockProvider (for simulated latency).
+- [✅] **E02-S02-T04** — Create `services/wsClient.ts` — WebSocket client class with auto-reconnect (exponential backoff: 1s→2s→4s→8s→30s), message batching (100ms flush interval), spike detection (>50 buffered → 250ms batch + drop low-severity), and typed message dispatch.
+- [✅] **E02-S02-T05** — Create `services/rsdipProvider.ts` — Stub implementation of `DataProvider` for future RSDIP backend. Each method throws "Not implemented — switch DATA_SOURCE_MODE to mock". Ensures the interface is properly typed.
 
 ## Story 2.3: Seed Data
 
 > Pre-defined realistic seed data for compelling demos.
 
-- [ ] **E02-S03-T01** — Create `mock-data/seed/questions.ts` — 20 seed prediction market questions spanning geopolitics, economics, technology, sports. Each has: question text, category, current market probability, correct answer (for historical accuracy tracking). Examples: "Will Iran close the Strait of Hormuz before July 2026?", "Will the Fed cut rates in Q2 2026?", "Will Trump impose >25% tariffs on EU goods?".
-- [ ] **E02-S03-T02** — Create `mock-data/seed/accounts.ts` — 30 seed Twitter/X accounts with display name, handle, avatar placeholder, credibility score (0-1), follower count, domain expertise tags. Include real OSINT account names: @AuroraIntel, @BNONews, @sentdefender, @bellingcat, @IntelDoge, @NOELreports, etc.
-- [ ] **E02-S03-T03** — Create `mock-data/seed/markets.ts` — 25 seed market contracts (some Polymarket, some Kalshi). Linked to seed questions. Include: current probability, 24h change, volume, platform, category.
-- [ ] **E02-S03-T04** — Create `mock-data/seed/trends.ts` — 15 seed trending topics with hashtag, category, lifecycle state, velocity, linked market IDs, and top entities. Mix of lifecycles: 3 emerging, 5 trending, 4 peaking, 3 cooling.
-- [ ] **E02-S03-T05** — Create `mock-data/seed/entities.ts` — 50 seed named entities with name, type (person/org/country/location), and linked trend/market IDs. Examples: Iran, Strait of Hormuz, IRGC, Federal Reserve, Jerome Powell, Trump, Polymarket.
+- [✅] **E02-S03-T01** — Create `mock-data/seed/questions.ts` — 20 seed prediction market questions spanning geopolitics, economics, technology, sports. Each has: question text, category, current market probability, correct answer (for historical accuracy tracking). Examples: "Will Iran close the Strait of Hormuz before July 2026?", "Will the Fed cut rates in Q2 2026?", "Will Trump impose >25% tariffs on EU goods?".
+- [✅] **E02-S03-T02** — Create `mock-data/seed/accounts.ts` — 30 seed Twitter/X accounts with display name, handle, avatar placeholder, credibility score (0-1), follower count, domain expertise tags. Include real OSINT account names: @AuroraIntel, @BNONews, @sentdefender, @bellingcat, @IntelDoge, @NOELreports, etc.
+- [✅] **E02-S03-T03** — Create `mock-data/seed/markets.ts` — 25 seed market contracts (some Polymarket, some Kalshi). Linked to seed questions. Include: current probability, 24h change, volume, platform, category.
+- [✅] **E02-S03-T04** — Create `mock-data/seed/trends.ts` — 15 seed trending topics with hashtag, category, lifecycle state, velocity, linked market IDs, and top entities. Mix of lifecycles: 3 emerging, 5 trending, 4 peaking, 3 cooling.
+- [✅] **E02-S03-T05** — Create `mock-data/seed/entities.ts` — 50 seed named entities with name, type (person/org/country/location), and linked trend/market IDs. Examples: Iran, Strait of Hormuz, IRGC, Federal Reserve, Jerome Powell, Trump, Polymarket.
 
 ## Story 2.4: Mock Data Generators
 
