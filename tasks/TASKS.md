@@ -46,7 +46,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
 - [✅] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
 - [ ] **E01-S01-T07** — Install dev dependencies: `vitest`, `@testing-library/react`, `msw`, `@types/react`, `@types/react-dom`.
-- [ ] **E01-S01-T08** — Install CesiumJS dependencies: `cesium`, `resium`. Configure Vite for CesiumJS static asset copying (workers, assets). Set up `public/cesium/` directory.
+- [ ] **E01-S01-T08** — Install Three.js + react-three-fiber dependencies: `three`, `resium`. Configure Vite for Three.js + react-three-fiber static asset copying (workers, assets). Set up `public/three/` directory.
 - [ ] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
 
 ## Story 1.2: Theming System
@@ -417,7 +417,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E07-S02-T02** — Create `TopicMarkets.tsx` — All correlated market contracts. Compact market cards with probability, 24h change, and sentiment delta. Click to open in markets view.
 - [ ] **E07-S02-T03** — Create `TopicTimeline.tsx` — Chronological feed of all events in the trend cluster. Uses `react-virtuoso` for virtualization. Same card rendering as home feed but filtered to this trend.
 - [ ] **E07-S02-T04** — Create `TopicEntities.tsx` — Key named entities extracted from the cluster. Ranked by mention frequency. Clickable: opens search for that entity.
-- [ ] **E07-S02-T05** — Create `TopicGeoContext.tsx` — Mini-map showing event locations if the topic has geographic relevance. Static map image or simplified CesiumJS embed. "Open in Geo" link.
+- [ ] **E07-S02-T05** — Create `TopicGeoContext.tsx` — Mini-map showing event locations if the topic has geographic relevance. Static map image or simplified Three.js + react-three-fiber embed. "Open in Geo" link.
 - [ ] **E07-S02-T06** — Create `TopicRelated.tsx` — Related trends that share entities or semantic overlap. Rendered as a horizontal row of compact TrendChips. Click to navigate to that topic page.
 
 ## Story 7.3: Activity Timeline Component [UI/UX]
@@ -546,15 +546,15 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 # Epic 11: Geo View (P1)
 
-> CesiumJS 3D globe with data layers and interactions.
+> Three.js + react-three-fiber 3D globe with data layers and interactions.
 > **Depends on:** Epic 1, Epic 2.
 > **Feature-flagged: `enableGeoView`.**
 
 ## Story 11.1: Globe Setup
 
-> CesiumJS viewer initialization and camera controls.
+> Three.js + react-three-fiber viewer initialization and camera controls.
 
-- [ ] **E11-S01-T01** — Create `GlobeContainer.tsx` — Initialize CesiumJS Viewer via `resium`. Configure: Cesium ion token, imagery provider (hybrid: vector tiles at zoom-out, satellite at city-level), terrain provider, scene mode (3D). Disable default Cesium widgets (use custom UI).
+- [ ] **E11-S01-T01** — Create `GlobeContainer.tsx` — Initialize Three.js + react-three-fiber Viewer via `resium`. Configure: imagery provider (hybrid: vector tiles at zoom-out, satellite at city-level), terrain provider, scene mode (3D). .
 - [ ] **E11-S01-T02** — Create `GlobeCamera.tsx` — Camera control manager. Implements `flyTo(lat, lng, altitude)` for smooth camera transitions when navigating from other views. Default position: centered on the area of most activity.
 - [ ] **E11-S01-T03** — Create `RegionSelect.tsx` — Tools for selecting regions on the globe: polygon draw, rectangle select, country/admin boundary click. Selected region is stored in `geoStore`. Used for Detect (spatial anomaly detection).
 - [ ] **E11-S01-T04** — Integrate with navigation: clicking "Open in Geo" on a geolocated feed event → switch to Geo tab → `flyTo` the event's coordinates. Clicking a POI in sidebar → switch to Geo → fly to POI centroid.
@@ -566,13 +566,13 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E11-S02-T01** — Create `LayerManager.tsx` — Panel (sidebar or overlay) listing all available data layers with toggle switches. Layers load lazily: component not instantiated until toggled on. Shows layer event count badge.
 - [ ] **E11-S02-T02** — Create `LayerRenderer.tsx` — Generic layer rendering component. Accepts layer config + data array. Renders markers, polylines, or polygons based on layer type. Handles clustering at configurable zoom thresholds.
 - [ ] **E11-S02-T03** — Implement layer-specific renderers: Aircraft (flight paths with altitude coloring), Maritime (vessel tracks with type icons), Earthquakes (magnitude circles with depth coloring), Conflicts (event icons with density heatmap), News (geolocated story clusters). Each as a lazy-loaded sub-component.
-- [ ] **E11-S02-T04** — Create `MarkerCluster.tsx` — Cluster markers at zoom-out using CesiumJS clustering. Configurable threshold per layer type. Show count badge on clusters. Click to zoom in and scatter.
+- [ ] **E11-S02-T04** — Create `MarkerCluster.tsx` — Cluster markers at zoom-out using Three.js + react-three-fiber clustering. Configurable threshold per layer type. Show count badge on clusters. Click to zoom in and scatter.
 
 ## Story 11.3: Globe Interaction
 
 > Event detail, POI display, and motion trails.
 
-- [ ] **E11-S03-T01** — Create `MotionTrail.tsx` — Animated polyline trails for ADS-B and AIS data. Trail fades over time (time-decay opacity). Color by type (aircraft: blue, vessel: orange). GPU-accelerated via CesiumJS primitives.
+- [ ] **E11-S03-T01** — Create `MotionTrail.tsx` — Animated polyline trails for ADS-B and AIS data. Trail fades over time (time-decay opacity). Color by type (aircraft: blue, vessel: orange). GPU-accelerated via Three.js + react-three-fiber primitives.
 - [ ] **E11-S03-T02** — Create `GeoDetail.tsx` — Info popup/panel when clicking a marker or POI on the globe. Shows: event details, source, timestamp, linked trends, linked markets, severity. "Open in Feed" action to navigate back to home with this event highlighted.
 - [ ] **E11-S03-T03** — Implement cross-view filter carry-over: when navigating from Home → Geo, active trend filter and time window persist. Globe shows only events matching the active trend. Clear filter shows all events.
 - [ ] **E11-S03-T04** — Add "Geo context" mini-map to Topic Pages. Static map image showing event locations for the topic. Click opens full Geo view filtered to this topic.
@@ -680,7 +680,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Bundle size, render performance, and memory optimization.
 
-- [ ] **E16-S04-T01** — Analyze bundle with `rollup-plugin-visualizer`. Identify largest chunks. Target: main bundle < 80 KB, largest feature bundle < 60 KB (excluding CesiumJS).
+- [ ] **E16-S04-T01** — Analyze bundle with `rollup-plugin-visualizer`. Identify largest chunks. Target: main bundle < 80 KB, largest feature bundle < 60 KB (excluding Three.js + react-three-fiber).
 - [ ] **E16-S04-T02** — Optimize feed rendering: verify react-virtuoso is properly recycling DOM nodes. Profile with React DevTools. Target: < 16ms per frame during scroll.
 - [ ] **E16-S04-T03** — Optimize TanStack Query caching: ensure stale data is garbage-collected. Set appropriate `gcTime` for each query. Monitor memory with DevTools.
 - [ ] **E16-S04-T04** — Implement progressive loading: skeleton screens for all data-dependent views. Prioritize above-fold content. Defer below-fold sections.

@@ -1344,7 +1344,7 @@ recent classified tweets with stance labels, linked trend hashtags, confidence-w
 1. Log in.
 2. Click "Geo" in sidebar.
 3. Observe the geo view.
-**Expected Result:** CesiumJS globe loads. Geo events plotted as markers in conflict zones. ADS-B/AIS motion tracks visible as animated trails.
+**Expected Result:** Three.js + react-three-fiber globe loads. Geo events plotted as markers in conflict zones. ADS-B/AIS motion tracks visible as animated trails.
 
 ---
 
@@ -1415,7 +1415,7 @@ recent classified tweets with stance labels, linked trend hashtags, confidence-w
 **Steps:**
 1. Observe build output size.
 2. Check for code splitting (separate chunks for recharts, radix, etc.).
-**Expected Result:** Main bundle is reasonable (< 500KB gzipped). Recharts and Radix are in separate chunks. CesiumJS is externalized (not in main bundle).
+**Expected Result:** Main bundle is reasonable (< 500KB gzipped). Recharts and Radix are in separate chunks. Three.js + react-three-fiber is externalized (not in main bundle).
 
 ---
 
@@ -1551,7 +1551,7 @@ recent classified tweets with stance labels, linked trend hashtags, confidence-w
 
 | Flag | `true` Behavior | `false` Behavior |
 |------|----------------|-----------------|
-| `VITE_ENABLE_GEO_VIEW` | Geo nav link visible, `/app/geo` accessible with CesiumJS globe | Geo nav link hidden, `/app/geo` blocked by FeatureGate |
+| `VITE_ENABLE_GEO_VIEW` | Geo nav link visible, `/app/geo` accessible with Three.js + react-three-fiber globe | Geo nav link hidden, `/app/geo` blocked by FeatureGate |
 | `VITE_ENABLE_DETECT` | Detect feature accessible | Detect feature hidden |
 | `VITE_ENABLE_WHALE_TRACKING` | Whale tracking feature accessible | Whale tracking hidden |
 | `VITE_ENABLE_TIMELINE` | Timeline feature accessible | Timeline hidden |

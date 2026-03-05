@@ -63,8 +63,8 @@
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `cesium` | ^1.115 | 3D globe engine |
-| `resium` | ^1.18 | React bindings for CesiumJS |
+| `three` | ^1.115 | 3D globe engine |
+| `resium` | ^1.18 | React bindings for Three.js + react-three-fiber |
 
 ### Routing
 
@@ -105,7 +105,7 @@ polymatic-frontend-webapp/
 ├── .env.example
 ├── public/
 │   ├── favicon.svg
-│   └── cesium/                       # CesiumJS static assets (ion token, workers)
+│   └── three/                       # Three.js + react-three-fiber static assets (ion token, workers)
 │
 ├── src/
 │   ├── main.tsx                      # React root, providers, QueryClient
@@ -123,7 +123,7 @@ polymatic-frontend-webapp/
 │   ├── views/                        # Route-level view components
 │   │   ├── HomeView.tsx              # Trending bar + feed + right panel
 │   │   ├── SentimentsView.tsx        # Sentiments engine full view
-│   │   ├── GeoView.tsx               # CesiumJS globe (P1)
+│   │   ├── GeoView.tsx               # Three.js + react-three-fiber globe (P1)
 │   │   ├── MarketsView.tsx           # Markets panel full view
 │   │   ├── TopicPageView.tsx         # Topic drill-down dashboard
 │   │   ├── SearchResultsView.tsx     # Dedicated search results (if navigated)
@@ -195,7 +195,7 @@ polymatic-frontend-webapp/
 │   │   └── alerts.utils.ts          # Threshold evaluation, delivery
 │   │
 │   ├── geo/                          # Geo view domain (P1)
-│   │   ├── GlobeContainer.tsx        # CesiumJS viewer wrapper
+│   │   ├── GlobeContainer.tsx        # Three.js + react-three-fiber viewer wrapper
 │   │   ├── GlobeCamera.tsx           # Camera controls, flyTo
 │   │   ├── LayerManager.tsx          # Data layer toggle panel
 │   │   ├── LayerRenderer.tsx         # Generic layer rendering
@@ -1063,7 +1063,7 @@ const OnboardingView = lazy(() => import('./views/OnboardingView'));
 | `home` | Feed, trending bar, cards | ~60 KB |
 | `sentiments` | Sentiments panel, charts, prediction brief | ~50 KB |
 | `markets` | Markets panel, sparklines | ~40 KB |
-| `geo` | CesiumJS, globe, layers | ~500 KB (+ CesiumJS worker ~2 MB) |
+| `geo` | Three.js + react-three-fiber, globe, layers | ~500 KB (+ Three.js + react-three-fiber worker ~2 MB) |
 | `topic` | Topic page components | ~30 KB |
 | `auth` | Login, register, onboarding | ~25 KB |
 | `search` | Search results page | ~20 KB |
@@ -1235,7 +1235,7 @@ const layerComponents: Record<LayerType, () => Promise<ComponentType>> = {
 | Feed (virtualized) | < 50 MB | 50 DOM nodes, recycled |
 | Sentiments | < 20 MB | 20 questions cached |
 | Markets | < 15 MB | 50 contracts + sparkline data |
-| CesiumJS globe | < 200 MB | Lazy, only when Geo tab active |
+| Three.js + react-three-fiber globe | < 200 MB | Lazy, only when Geo tab active |
 | WS buffer | < 5 MB | Flush at 100ms |
 | **Total target** | **< 500 MB** | With feed + 5 geo layers active |
 
@@ -1594,7 +1594,7 @@ All decisions from the Phase 1 interview are **binding constraints** for impleme
 | 5a | Markets | Card design | Full cards + sparkline | Multi-line cards with 24h sparkline chart. Not compact list rows. |
 | 5b | Markets | Cross-platform | Primary + delta | Show primary platform price + delta from secondary. Platform badges. |
 | 5c | Markets | Sentiment delta | Number + arrow | "+12.4%" in green with ▲ arrow. Bloomberg-style. |
-| 6a | Geo | Renderer | CesiumJS from day one | Install CesiumJS/resium in Phase 1. Build Geo route behind feature flag. |
+| 6a | Geo | Renderer | Three.js + react-three-fiber from day one | Install Three.js + react-three-fiber/resium in Phase 1. Build Geo route behind feature flag. |
 | 6b | Geo | Detail level | Hybrid | Stylized at zoom-out (vector tiles), satellite imagery at city-level. |
 | 6c | Geo | Motion data | Animated trails | Full animated polyline trails for ADS-B/AIS. GPU-accelerated. |
 | 7a | Layout | Right panel | Always visible (30%) | CSS grid: `sidebar | main | right-panel(30%)`. Persistent. |

@@ -281,7 +281,7 @@ Accessed via the Geo tab. Provides spatial analysis when geographic context is n
 
 #### 3D World Engine
 
-- **Preferred renderer:** CesiumJS (geospatial accuracy, terrain, imagery tiles)
+- **Preferred renderer:** Three.js + react-three-fiber (geospatial accuracy, terrain, imagery tiles)
 - **Alternative:** Three.js + react-three-fiber (full shader control)
 - City-level zoom, smooth flyTo, layer stacking, instanced rendering for 10,000+ markers
 - Region selection: polygon draw, rectangle select, country/admin boundary click
@@ -486,7 +486,7 @@ Intelligence-grade. Minimalist. Cinematic. High-end. The platform should feel li
 - React 18+ with TypeScript in strict mode
 - Zustand or Jotai for state management
 - React Query (TanStack Query) for server state and caching
-- CesiumJS (preferred) or Three.js + react-three-fiber for Geo view
+- Three.js + react-three-fiber (preferred) or Three.js + react-three-fiber for Geo view
 - WebSocket client with auto-reconnection and backpressure
 - Feature flag system for `DATA_SOURCE_MODE` and progressive rollout
 

@@ -34,7 +34,7 @@ See `CLAUDE.md` for the summarized list.
 - Brand identity: PolyMatic (evolved from WORLDVIEW)
 - Dark + light theme support (not dark-only)
 - Wide device range including low-end laptops
-- CesiumJS from day one (ambitious geo strategy)
+- Three.js + react-three-fiber from day one (ambitious geo strategy)
 
 ## Build Order (Recommended)
 1. E01: Foundation (scaffold, theming, shell, routing, base components)

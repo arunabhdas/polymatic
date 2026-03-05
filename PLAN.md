@@ -138,9 +138,9 @@
   6. GEO VIEW (P1 — but architecture decisions affect P0)
 
   6a. Renderer
-  CesiumJS (true geospatial, heavier, terrain tiles) or Three.js + react-three-fiber (lighter, more shader control, stylized)? The mocks show
-  CesiumJS-style photorealistic terrain. Given geo is P1, should I:
-  - Stub the route with a placeholder and build the architecture for CesiumJS later
+  Three.js + react-three-fiber (true geospatial, heavier, terrain tiles) or Three.js + react-three-fiber (lighter, more shader control, stylized)? The mocks show
+  Three.js + react-three-fiber-style photorealistic terrain. Given geo is P1, should I:
+  - Stub the route with a placeholder and build the architecture for Three.js + react-three-fiber later
   - Build a lightweight Three.js globe now as a visual anchor
   - Skip entirely for P0
 
@@ -372,9 +372,9 @@
   6. GEO VIEW (P1 — but architecture decisions affect P0)
 
   6a. Renderer
-  CesiumJS (true geospatial, heavier, terrain tiles) or Three.js + react-three-fiber (lighter, more shader control, stylized)? The mocks show
-  CesiumJS-style photorealistic terrain. Given geo is P1, should I:
-  - Stub the route with a placeholder and build the architecture for CesiumJS later
+  Three.js + react-three-fiber (true geospatial, heavier, terrain tiles) or Three.js + react-three-fiber (lighter, more shader control, stylized)? The mocks show
+  Three.js + react-three-fiber-style photorealistic terrain. Given geo is P1, should I:
+  - Stub the route with a placeholder and build the architecture for Three.js + react-three-fiber later
   - Build a lightweight Three.js globe now as a visual anchor
   - Skip entirely for P0
 
@@ -523,11 +523,11 @@
   (architecture-level, even though P1).
 
 ⏺ User answered Claude's questions:
-  ⎿  · Geo is P1, but the architecture choice affects the whole build. What's the renderer strategy for MVP? → CesiumJS from day one
+  ⎿  · Geo is P1, but the architecture choice affects the whole build. What's the renderer strategy for MVP? → Three.js + react-three-fiber from day one
      · If/when the globe ships, what level of visual detail? → Hybrid
      · For ADS-B and AIS tracking data, motion trails or static markers? → Animated trails
 
-⏺ Ambitious — CesiumJS from day one, hybrid zoom detail, animated trails. You want the full cinematic experience. Layout and Chrome next.
+⏺ Ambitious — Three.js + react-three-fiber from day one, hybrid zoom detail, animated trails. You want the full cinematic experience. Layout and Chrome next.
 
 ⏺ User answered Claude's questions:
   ⎿  · Should the right-side detail panel be always visible or slide out on selection? → Always visible (~30%)
@@ -628,7 +628,7 @@
   ├───────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
   │ Geo View          │                         │                                                                                     │
   ├───────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
-  │ 6a                │ Renderer                │ CesiumJS from day one                                                               │
+  │ 6a                │ Renderer                │ Three.js + react-three-fiber from day one                                                               │
   ├───────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
   │ 6b                │ Detail level            │ Hybrid (stylized at zoom-out, satellite at city-level)                              │
   ├───────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
@@ -723,10 +723,10 @@
  - Create .env and .env.example with all VITE_* flags
  - Extend vite-env.d.ts with typed env declarations
 
- Step 7: CesiumJS setup (E01-S01-T08)
- - Install cesium, resium, vite-plugin-cesium
+ Step 7: Three.js + react-three-fiber setup (E01-S01-T08)
+ - Install three, resium, vite-plugin-three
  - Configure vite plugin in vite.config.ts
- - Create public/cesium/ directory
+ - Create public/three/ directory
  - Note: Geo view is P1 behind feature flag — this just ensures the dep is wired
 
  Step 8: Vitest setup (E01-S01-T09)
@@ -872,7 +872,7 @@
  Key Technical Notes
 
  1. Tailwind v4 uses CSS-based config (@theme in CSS), not the old tailwind.config.ts. The Vite plugin is @tailwindcss/vite.
- 2. CesiumJS via vite-plugin-cesium handles the asset copying. If that plugin isn't v4-compatible, we'll configure the copy manually in vite.config.ts.
+ 2. Three.js + react-three-fiber via vite-plugin-three handles the asset copying. If that plugin isn't v4-compatible, we'll configure the copy manually in vite.config.ts.
  3. Store stubs for domains not yet implemented (feed, trends, etc.) will have correct TypeScript interfaces but empty implementations — ensures
  imports work when wiring the shell.
  4. View stubs are minimal components that render the view name. This lets routing work end-to-end. Real implementations come in Epics 3-10.
@@ -900,7 +900,7 @@
   Phase A: Scaffold
 
   - Vite + React 18 + TypeScript (strict mode, path aliases @/*)
-  - All dependencies installed (Zustand, TanStack Query, Framer Motion, Recharts, Radix UI, CesiumJS, etc.)
+  - All dependencies installed (Zustand, TanStack Query, Framer Motion, Recharts, Radix UI, Three.js + react-three-fiber, etc.)
   - Tailwind CSS v4 with @tailwindcss/vite plugin
   - ESLint 9 flat config + Prettier
   - Vitest configured with jsdom + @testing-library
@@ -982,7 +982,7 @@
   ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ Alerts                    │ 6         │ Config, triggering, toasts, mark read, dismiss, auto-generation                                         │
   ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ Geo View                  │ 3         │ Feature flag gating, CesiumJS globe, conflict zone markers                                              │
+  │ Geo View                  │ 3         │ Feature flag gating, Three.js + react-three-fiber globe, conflict zone markers                                              │
   ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ Performance               │ 5         │ TTI < 3s, 60 FPS scroll, memory < 500MB, lazy loading, bundle size                                      │
   ├───────────────────────────┼───────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────┤

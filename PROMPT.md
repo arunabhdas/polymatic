@@ -86,7 +86,7 @@ How should the sentiment delta be visualized inline? Color bar? Number with arro
 
 Geo View (P1 — if time permits)
 
-Renderer choice: CesiumJS vs Three.js + react-three-fiber
+Renderer choice: Three.js + react-three-fiber vs Three.js + react-three-fiber
 Level of 3D detail: photorealistic terrain or stylized/flat globe?
 Animation strategy: motion trails for ADS-B/AIS or static position markers?
 Data density thresholds: at what zoom level do markers cluster vs. scatter?
@@ -150,7 +150,7 @@ Alert system UI (notification center, threshold configuration)
 Authentication and user state
 
 If Time Permits (P1):
-12. Geo view with CesiumJS (or Three.js) globe
+12. Geo view with Three.js + react-three-fiber (or Three.js) globe
 13. Data layers and POI system
 14. Detect (anomaly detection UI)
 15. Whale tracking display

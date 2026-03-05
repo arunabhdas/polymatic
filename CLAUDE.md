@@ -29,7 +29,7 @@ PolyMatic.App is an AI-powered Geospatial OSINT + Prediction Market Intelligence
 - **Charts:** Recharts (sparklines, sentiment timelines, velocity charts)
 - **Icons:** lucide-react
 - **Primitives:** Radix UI (dialog, dropdown, tooltip, tabs)
-- **Geo (P1):** CesiumJS + resium
+- **Geo (P1):** Three.js + react-three-fiber + resium
 - **Routing:** react-router-dom v6 (lazy loaded)
 - **Validation:** Zod (runtime schema validation)
 - **Hosting:** Vercel
@@ -69,7 +69,7 @@ These are resolved and MUST NOT be changed without explicit approval:
 - **Feed ranking:** 70% velocity + 30% recency (For You mode)
 - **Search:** 2-char autocomplete, 200ms debounce, dropdown overlay, fixed-order sections
 - **Markets:** Full cards with sparklines, primary+delta cross-platform, Bloomberg-style number+arrow
-- **Geo:** CesiumJS from day one (behind feature flag), hybrid detail, animated motion trails
+- **Geo:** Three.js + react-three-fiber from day one (behind feature flag), hybrid detail, animated motion trails
 - **Right panel:** Always visible (30%)
 - **Sidebar:** Auto-collapse on narrow viewports
 - **Layout switching:** Animated 300ms ease
