@@ -1,8 +1,12 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
-import { AppShell } from './app/AppShell'
+import { AppShell } from "./app/AppShell"
+
+// Lazy load feature views
+const HomeFeed = lazy(() => import("./feed/HomeFeed"))
+// const SentimentsView = lazy(() => import("./sentiments/SentimentsView"))
 
 const router = createBrowserRouter([
   {
@@ -12,10 +16,13 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <div className="p-8">
-            <h1 className="text-3xl font-semibold mb-2 text-foreground tracking-tight">Home Feed</h1>
-            <p className="text-muted-foreground text-sm">Feed content and dynamic modules will load here...</p>
-          </div>
+          <Suspense fallback={
+            <div className="flex h-full items-center justify-center">
+              <div className="animate-pulse w-8 h-8 rounded-full bg-accent/20" />
+            </div>
+          }>
+            <HomeFeed />
+          </Suspense>
         )
       },
       {

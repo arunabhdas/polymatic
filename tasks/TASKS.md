@@ -23,9 +23,10 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 ## Status Legend
 
 - `[ ]` = Not started
-- `[~]` = In progress
-- `[x]` = Complete
-- `[—]` = Blocked
+- `[🏗️]` = In progress
+- `[⏰]` = Defer
+- `[✅]` = Complete
+- `[🛑]` = Blocked
 
 ---
 
@@ -86,14 +87,14 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 > Shared atoms used throughout the application.
 
 - [ ] **E01-S05-T01** — Create `Badge.tsx` — Renders colored badges with variants: severity (green/yellow/red), category (geopolitics/economics/tech/sports/culture), source (Twitter/Reddit/Telegram/News), and custom.
-- [ ✅] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
-- [ ✅] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
+- [✅] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
+- [✅] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
 - [ ] **E01-S05-T04** — Create `Chip.tsx` — Small tag/chip for entity tags, filter pills, trend hashtags. Category-colored. Removable variant with ✕ button.
-- [ ✅] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
-- [ ✅] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
-- [ ✅] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
-- [ ✅] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
-- [ ✅] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
+- [✅] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
+- [✅] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
+- [✅] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
+- [✅] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
+- [✅] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
 - [ ] **E01-S05-T10** — Create `ConfidenceBadge.tsx` — Renders Low/Med/High confidence with opacity treatment (60%/85%/100%) and label. Outline badge for Low, filled for Med/High.
 - [ ] **E01-S05-T11** — Create `VelocityIndicator.tsx` — Arrow + percentage for trend velocity. Green up arrow for accelerating, red down for decelerating, gray for stable.
 - [ ] **E01-S05-T12** — Create `Sparkline.tsx` — Tiny inline chart (Recharts-based). Shows 24h price history or velocity curve. No axes, no labels — just the line.
