@@ -105,6 +105,71 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E01-S05-T18** — Create `Tabs.tsx` — Radix-based tab container. Underline style active indicator. Used in Topic Pages and settings.
 - [ ] **E01-S05-T19** — Create `Toggle.tsx` — Toggle switch for boolean settings (theme, filters). Accessible with keyboard and screen reader.
 
+## Story 1.6: Install shadcn/ui + Design System Foundation [UI/UX]
+
+> Install shadcn/ui (Tailwind-based, headless) as the component primitive layer. Configure its theme tokens to align with PolyMatic's CSS custom property system.
+
+- [✅] **E01-S06-T01** — Install and initialize shadcn/ui with Tailwind v4: `npx shadcn@latest init`. Configure `components.json`. Select "New York" style. Set dark theme as default.
+- [✅] **E01-S06-T02** — Install core shadcn/ui primitives (`Button`, `Card`, `Tooltip`, etc).
+- [✅] **E01-S06-T03** — Map shadcn/ui CSS variables to PolyMatic's existing `--color-*` tokens in `globals.css`.
+
+## Story 1.7: Dark Theme Refinement — Linear-Grade Color Depth [UI/UX]
+
+> Overhaul the dark theme color palette to match Linear's near-black neutral foundation (#0D0D0D, #1A1A1A).
+
+- [✅] **E01-S07-T01** — Update `dark.css` background tokens to desaturated near-blacks (`--color-bg-primary: #0F0F0F`, `--color-bg-secondary: #171717`, `--color-bg-card: #1C1C1C`).
+- [✅] **E01-S07-T02** — Update border tokens (`--color-border: #2A2A2A`, `--color-border-subtle: #1F1F1F`).
+- [✅] **E01-S07-T03** — Update text tokens for better hierarchy (`--color-text-primary: #F5F5F5`, `--color-text-secondary: #A0A0A0`).
+- [✅] **E01-S07-T04** — Refine accent color for darker backgrounds.
+- [✅] **E01-S07-T05** — Add shadow tokens to `globals.css` (`--shadow-sm`, `--shadow-md`, `--shadow-lg`, `--shadow-glow`).
+
+## Story 1.8: Sidebar — Linear-Quality Navigation [UI/UX]
+
+> Redesign the sidebar to match Linear's clean grouped sections, muted category headers, subtle hover states, and refined iconography.
+
+- [✅] **E01-S08-T01** — Refactor sidebar section groups with muted uppercase labels (10px, spacing 0.05em, weight 500).
+- [✅] **E01-S08-T02** — Refine sidebar nav item styling (32px height, 8px padding, 6px radius, hover bg without accent color).
+- [✅] **E01-S08-T03** — Redesign sidebar brand section to a clean wordmark (Inter 600 weight, 15px).
+- [✅] **E01-S08-T04** — Add "Favorites" section with colored indicator dots.
+- [✅] **E01-S08-T05** — Add a sidebar footer with user avatar and standard settings.
+- [ ] **E01-S08-T06** — Implement sidebar collapse animation refinement.
+
+## Story 1.9: Typography & Spacing Rhythm [UI/UX]
+
+> Establish a more refined typographic scale and spacing rhythm matching Linear's generous layout.
+
+- [✅] **E01-S09-T01** — Define formal typographic scale in `globals.css` (11px, 12px, 14px, 16px, 20px, 24px) utilizing Inter and JetBrains Mono.
+- [✅] **E01-S09-T02** — Define spacing scale tokens (`--space-0` through `--space-12`).
+
+## Story 1.10: Component Uplift — shadcn/ui Migration [UI/UX]
+
+> Progressively migrate core atoms from custom implementations to shadcn/ui primitives for consistent focus rings, keyboard accessibility, animation, and premium feel.
+
+- [✅] **E01-S10-T01** — Migrate `Button.tsx` to wrap or extend shadcn `Button` and preserve variants.
+- [✅] **E01-S10-T02** — Migrate `Card.tsx` to wrap shadcn `Card`.
+- [ ] **E01-S10-T03** — Migrate `Badge.tsx` to wrap shadcn `Badge`.
+- [ ] **E01-S10-T04** — Replace all Radix `Tooltip` usage with shadcn `Tooltip`.
+- [ ] **E01-S10-T05** — Replace `LoadingSkeleton.tsx` with shadcn `Skeleton`.
+
+## Story 1.11: TopBar & Header Polish [UI/UX]
+
+> Refine the TopBar to match Linear's clean header bar: minimal chrome, subtle icon buttons, clean separator between sections.
+
+- [✅] **E01-S11-T01** — Reduce TopBar visual weight (match body bg, thin bottom border).
+- [✅] **E01-S11-T02** — Refine TopBar icon buttons (ghost variant, rounded-md, no custom styling).
+- [✅] **E01-S11-T03** — Add breadcrumb context to TopBar left section (e.g., "Home").
+- [✅] **E01-S11-T04** — Add item navigation counter (e.g., "02 / 145").
+
+## Story 1.12: Interactive States & Focus System [UI/UX]
+
+> Implement a comprehensive interactive state system: focus-visible rings, refined hover states, pressed states, and keyboard navigation indicators.
+
+- [✅] **E01-S12-T01** — Define global focus-visible styles in `globals.css`.
+- [✅] **E01-S12-T02** — Implement hover state depth (`--shadow-sm` + subtle border brightness increase).
+- [✅] **E01-S12-T03** — Add pressed/active states for buttons and interactive elements (`active:scale-[0.98]`).
+- [ ] **E01-S12-T04** — Implement global keyboard shortcuts system (e.g., `G then H`).
+- [ ] **E01-S12-T05** — Create `KeyboardShortcutsDialog.tsx` using shadcn `Dialog`.
+
 ---
 
 # Epic 2: Mock Data Engine (P0)
@@ -355,111 +420,33 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E07-S02-T05** — Create `TopicGeoContext.tsx` — Mini-map showing event locations if the topic has geographic relevance. Static map image or simplified CesiumJS embed. "Open in Geo" link.
 - [ ] **E07-S02-T06** — Create `TopicRelated.tsx` — Related trends that share entities or semantic overlap. Rendered as a horizontal row of compact TrendChips. Click to navigate to that topic page.
 
-## Story 7.3: Install shadcn/ui + Design System Foundation
-
-> Install shadcn/ui (Tailwind-based, headless) as the component primitive layer. Configure its theme tokens to align with PolyMatic's CSS custom property system. This gives us Linear-quality component primitives with proper focus rings, keyboard nav, and animation polish out of the box.
-
-- [ ] **E07-S03-T01** — Install and initialize shadcn/ui with Tailwind v4: `npx shadcn@latest init`. Configure `components.json` to output to `src/components/ui/`. Select "New York" style (tighter, more professional spacing). Set dark theme as default. Ensure the generated `cn()` utility doesn't conflict with the existing `src/lib/cn.ts`.
-- [ ] **E07-S03-T02** — Install core shadcn/ui primitives: `Button`, `Input`, `Badge`, `Card`, `Tooltip`, `DropdownMenu`, `Dialog`, `Tabs`, `Separator`, `ScrollArea`, `Skeleton`, `Avatar`, `Command` (for command palette search). These replace or wrap existing atoms.
-- [ ] **E07-S03-T03** — Map shadcn/ui CSS variables to PolyMatic's existing `--color-*` tokens in `globals.css`. Shadcn uses `--background`, `--foreground`, `--card`, `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`. Map each to the corresponding PolyMatic token so both systems coexist. Use HSL format as shadcn requires.
-- [ ] **E07-S03-T04** — Create a migration guide comment in `src/components/README.md` (or top of `ui/` directory) documenting which existing PolyMatic atoms map to which shadcn/ui components. E.g., `Badge.tsx` → `ui/badge.tsx`, `Button.tsx` → `ui/button.tsx`, `Card.tsx` → `ui/card.tsx`, `Input.tsx` → `ui/input.tsx`, `LoadingSkeleton.tsx` → `ui/skeleton.tsx`. Existing atoms should progressively wrap or be replaced by shadcn equivalents.
-- [ ] **E07-S03-T05** — Verify build passes with shadcn/ui installed. Confirm no style conflicts between existing Tailwind classes and shadcn's generated styles. Fix any CSS specificity issues.
-
-## Story 7.4: Dark Theme Refinement — Linear-Grade Color Depth
-
-> Overhaul the dark theme color palette to match Linear's near-black neutral foundation. Current colors are blue-tinted (#1A1A2E, #16213E, #1E2A45); Linear uses desaturated near-blacks (#0D0D0D, #1A1A1A, #262626) that feel more premium and let accent colors pop.
-
-- [ ] **E07-S04-T01** — Update `dark.css` background tokens to desaturated near-blacks. New values: `--color-bg-primary: #0F0F0F` (body/root, near-black), `--color-bg-secondary: #171717` (sidebar, panels, topbar), `--color-bg-card: #1C1C1C` (card surfaces), `--color-bg-hover: #262626` (hover states), `--color-bg-elevated: #222222` (dropdown overlays, modals — new token). Ensure sufficient contrast ratio between layers (WCAG AA for text).
-- [ ] **E07-S04-T02** — Update border token: `--color-border: #2A2A2A` (barely visible, same as Linear). Add a new `--color-border-subtle: #1F1F1F` token for hairline separators within panels (e.g., between activity items). Add `--color-border-strong: #3A3A3A` for emphasized dividers.
-- [ ] **E07-S04-T03** — Update text tokens for better hierarchy on darker backgrounds: `--color-text-primary: #F5F5F5` (slightly off-white, less harsh than pure #FFF), `--color-text-secondary: #A0A0A0` (descriptions, metadata), `--color-text-tertiary: #5C5C5C` (hints, disabled, timestamps). Verify contrast ratios meet WCAG AA (4.5:1 for body text, 3:1 for large text).
-- [ ] **E07-S04-T04** — Refine accent color for darker backgrounds. Current `--color-accent: #00BCD4` (teal/cyan) may need slight adjustment for contrast. Verify it pops against #0F0F0F. Consider a slightly warmer or brighter variant if needed. Update `--color-accent-hover` accordingly.
-- [ ] **E07-S04-T05** — Add shadow tokens to `globals.css`: `--shadow-sm: 0 1px 2px rgba(0,0,0,0.3)` (cards, subtle depth), `--shadow-md: 0 4px 12px rgba(0,0,0,0.4)` (dropdowns, popovers), `--shadow-lg: 0 8px 24px rgba(0,0,0,0.5)` (modals, dialogs), `--shadow-glow: 0 0 0 1px rgba(var(--accent-rgb), 0.15)` (focus ring glow). Apply `--shadow-sm` to Card, `--shadow-md` to SearchDropdown and tooltips, `--shadow-lg` to Dialog.
-- [ ] **E07-S04-T06** — Update `light.css` to maintain the same relative hierarchy with the new token names. Light theme should feel equally premium: `--color-bg-primary: #FAFAFA`, `--color-bg-secondary: #FFFFFF`, `--color-bg-card: #FFFFFF`, `--color-bg-hover: #F0F0F0`, `--color-bg-elevated: #FFFFFF`, `--color-border: #E5E5E5`, `--color-border-subtle: #EEEEEE`, `--color-border-strong: #D4D4D4`.
-- [ ] **E07-S04-T07** — Audit all existing components and views for hardcoded color values or opacity modifiers that break with the new palette. Search for any `bg-[#...]` or `text-[#...]` literals. Migrate them to use CSS custom properties. Fix any contrast issues that emerge.
-
-## Story 7.5: Sidebar — Linear-Quality Navigation
-
-> Redesign the sidebar to match Linear's clean grouped sections, muted category headers, subtle hover states, and refined iconography. Linear uses: section groups with uppercase muted labels, clean item rows with icon + label, colored indicator dots for favorites, minimal chrome.
-
-- [ ] **E07-S05-T01** — Refactor sidebar section groups to use a clear visual pattern: each group gets a muted uppercase label (10px, `--color-text-tertiary`, letter-spacing 0.05em, font-weight 500). Groups: "Navigation" (Home, Sentiments, Markets), "Workspace" (Alerts, Layers, Filters), "Favorites" (pinned trends/topics — user-configurable). Use shadcn `Separator` between groups.
-- [ ] **E07-S05-T02** — Refine sidebar nav item styling: 32px row height, 8px left padding, 6px border-radius, 14px icon size (standardized). Hover: `--color-bg-hover` background with 100ms transition. Active/current: `--color-bg-hover` background + `--color-text-primary` text (no bold, no accent color on the icon — just text brightness change, matching Linear). Remove any accent-colored active indicators.
-- [ ] **E07-S05-T03** — Redesign sidebar brand section. Replace "POLYMATIC" uppercase monospace with a clean wordmark: "Polymatic" in Inter 600 weight, 15px, `--color-text-primary`. Optionally add a small logo icon (20×20px) to the left. Collapsed state: show only the logo icon centered. Match Linear's "Linear" brand placement (top-left, clean, no decorative treatment).
-- [ ] **E07-S05-T04** — Add "Favorites" section to sidebar with colored indicator dots. Each favorited item (trends, topics) shows: colored dot (6px, category color) + label text. On hover: subtle background. This matches Linear's "Favorites" section with colored dots for each project. Wire to a new `favorites` array in `uiStore`.
-- [ ] **E07-S05-T05** — Add a sidebar footer with user avatar (shadcn `Avatar`, 28px), display name (truncated), and a subtle gear icon button for settings. On click: dropdown menu (shadcn `DropdownMenu`) with: Profile, Preferences, Theme toggle, Keyboard shortcuts, Log out. Match Linear's bottom-left user section.
-- [ ] **E07-S05-T06** — Implement sidebar collapse animation refinement. Currently collapses to 64px icon-only. Improve: animate width smoothly (200ms ease), fade out labels (opacity 0 at <120px width), keep icons centered. On hover when collapsed: show a tooltip (shadcn `Tooltip`) with the nav item label. Do NOT expand the sidebar on hover — just show tooltip.
-- [ ] **E07-S05-T07** — Add keyboard shortcut indicators next to sidebar nav items (right-aligned, muted). Home: `G then H`, Sentiments: `G then S`, Markets: `G then M`, Alerts: `G then A`. Render as `<kbd>` elements styled like Linear's shortcut hints (10px monospace, `--color-text-tertiary`, `--color-bg-hover` background pill).
-
-## Story 7.6: Typography & Spacing Rhythm
-
-> Establish a more refined typographic scale and spacing rhythm matching Linear's generous, breathing layout. Linear uses ~14px body, ~12px metadata, ~20-24px headings, and generous vertical spacing between sections.
-
-- [ ] **E07-S06-T01** — Define a formal typographic scale in `globals.css`: `--text-xs: 0.6875rem` (11px), `--text-sm: 0.75rem` (12px), `--text-base: 0.875rem` (14px — body default), `--text-lg: 1rem` (16px), `--text-xl: 1.25rem` (20px), `--text-2xl: 1.5rem` (24px). Set `body { font-size: var(--text-base) }`. Audit all components to use scale tokens instead of arbitrary sizes.
-- [ ] **E07-S06-T02** — Define spacing scale tokens: `--space-0: 0`, `--space-1: 4px`, `--space-2: 8px`, `--space-3: 12px`, `--space-4: 16px`, `--space-5: 20px`, `--space-6: 24px`, `--space-8: 32px`, `--space-10: 40px`, `--space-12: 48px`. These provide consistent rhythm. Use them in new components; progressively migrate existing ones.
-- [ ] **E07-S06-T03** — Add inline code styling for data references (matching Linear's `vehicle_state` rendering in the screenshot): `.inline-code { font-family: var(--font-mono); font-size: 0.8125rem; background: var(--color-bg-hover); color: var(--color-text-primary); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border); }`. Use this for hashtag references, market IDs, and entity names in feed items and activity logs.
-- [ ] **E07-S06-T04** — Increase default line-height across the app. Current components use Tailwind defaults (~1.25-1.5). Set body line-height to 1.6 for readability. Headings: 1.3. Compact data rows (feed items, search results): 1.4. This matches Linear's generous text breathing.
-- [ ] **E07-S06-T05** — Add section header component `SectionHeader.tsx` — reusable across all views. Renders: section title (16px, 600 weight, `--color-text-primary`) with optional icon, optional subtitle (12px, `--color-text-tertiary`), optional right-side action (link or button). Use for "Activity", "Trends", "Markets" section titles everywhere. Matches Linear's "Activity" header styling.
-
-## Story 7.7: Component Uplift — shadcn/ui Migration
-
-> Progressively migrate core atoms from custom implementations to shadcn/ui primitives for consistent focus rings, keyboard accessibility, animation, and premium feel.
-
-- [ ] **E07-S07-T01** — Migrate `Button.tsx` to wrap or extend shadcn `Button`. Preserve existing variants (primary, secondary, ghost, danger) as shadcn variant mappings. Gain: proper focus-visible ring (`ring-offset-2 ring-ring`), disabled state, loading spinner integration, consistent sizing. Update all imports across the codebase.
-- [ ] **E07-S07-T02** — Migrate `Card.tsx` to wrap or extend shadcn `Card`, `CardHeader`, `CardContent`, `CardFooter`. Add shadow token (`--shadow-sm`) by default. Preserve interactive/selected variants. Gain: consistent padding, border treatment, composable header/content/footer sections.
-- [ ] **E07-S07-T03** — Migrate `Badge.tsx` to wrap shadcn `Badge` with PolyMatic's variant system (severity, category, source). Preserve the existing color mapping. Gain: consistent sizing, border-radius, font treatment.
-- [ ] **E07-S07-T04** — Migrate `Input.tsx` to wrap shadcn `Input`. Preserve the search variant (icon + clear button). Gain: proper focus-visible ring, disabled state, consistent sizing. Ensure the SearchBar still works correctly with the new Input.
-- [ ] **E07-S07-T05** — Replace all Radix `Tooltip` usage with shadcn `Tooltip` (which wraps Radix but adds consistent styling: dark bg, white text, 150ms delay, arrow, animation). Audit and apply to: sidebar collapsed items, data abbreviations, icon buttons.
-- [ ] **E07-S07-T06** — Replace `LoadingSkeleton.tsx` with shadcn `Skeleton`. Map existing variants (card, list-row, chart, text-block) to composed skeleton layouts using shadcn's `Skeleton` primitive. Gain: consistent pulse animation, proper rounded corners.
-- [ ] **E07-S07-T07** — Adopt shadcn `ScrollArea` for all scrollable containers: sidebar nav, right panel, feed list, search dropdown. Gain: custom-styled scrollbar that matches the dark theme (thin track, rounded thumb, fades on inactive), consistent cross-browser behavior.
-- [ ] **E07-S07-T08** — Adopt shadcn `Separator` for all visual dividers. Replace custom `<div>` or `<hr>` elements with `<Separator>`. Horizontal variant for section breaks, vertical variant for inline separators. Wire to `--color-border-subtle` token.
-- [ ] **E07-S07-T09** — Adopt shadcn `Avatar` for user avatars throughout the app. Use in: sidebar footer (user menu), feed items (source avatars), activity timeline (author avatars). Configure: 28px default, 24px compact, fallback to initials with `--color-bg-hover` background.
-- [ ] **E07-S07-T10** — Evaluate replacing the search dropdown with shadcn `Command` (cmdk-based command palette). The `Command` component provides: built-in search input, grouped sections, keyboard navigation, empty state, loading state — all matching Linear's Cmd+K pattern. If adopted, refactor `SearchBar.tsx` + `SearchDropdown.tsx` to use `Command`, `CommandInput`, `CommandList`, `CommandGroup`, `CommandItem`, `CommandEmpty`, `CommandSeparator`.
-
-## Story 7.8: TopBar & Header Polish
-
-> Refine the TopBar to match Linear's clean header bar: minimal chrome, subtle icon buttons, clean separator between sections, no visual heaviness.
-
-- [ ] **E07-S08-T01** — Reduce TopBar visual weight. Change background from `--color-bg-secondary` to `--color-bg-primary` (match body) with a bottom `--color-border-subtle` hairline. This makes the topbar feel integrated rather than "floating". Match Linear's top bar: same background as content, thin bottom border only.
-- [ ] **E07-S08-T02** — Refine TopBar icon buttons (theme toggle, notifications bell). Use shadcn `Button` variant="ghost" size="icon" (32×32px, 16px icon). Add subtle `rounded-md` with hover: `--color-bg-hover`. Remove any existing custom styling. Match Linear's clean icon button treatment (top-right of screenshot).
-- [ ] **E07-S08-T03** — Add breadcrumb context to TopBar left section. When on a specific view, show: "Home", "Sentiments", "Markets / {market name}", "Topic / {trend hashtag}". Use `--color-text-tertiary` for path, `--color-text-primary` for current segment. Separator: `/` or `>` in `--color-text-tertiary`. Match Linear's "Faster app launch" title in the top bar.
-- [ ] **E07-S08-T04** — Add item navigation counter when in a detail view (e.g., viewing a specific market or sentiment question): show "02 / 145" with up/down chevron buttons to navigate between items. Right-aligned in the TopBar. Match Linear's "02 / 145" with chevrons in the screenshot. Use monospace font for the numbers.
-
-## Story 7.9: Interactive States & Focus System
-
-> Implement a comprehensive interactive state system: focus-visible rings, refined hover states, pressed states, and keyboard navigation indicators. Linear has impeccable keyboard UX.
-
-- [ ] **E07-S09-T01** — Define global focus-visible styles in `globals.css`: `*:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 4px; }`. Override for components that need custom focus (inputs: inner ring, buttons: ring + shadow). Ensure focus ring is visible in both dark and light themes.
-- [ ] **E07-S09-T02** — Implement hover state depth. For interactive cards: on hover, apply `--shadow-sm` + subtle border brightness increase (`--color-border` → `--color-border-strong`). Transition: 150ms ease. This creates a "lift" effect without actually translating the element. Match Linear's hover on list items.
-- [ ] **E07-S09-T03** — Add pressed/active states for buttons and interactive elements: `active:scale-[0.98]` with 50ms transition for tactile feedback. Apply to: buttons, card clicks, sidebar nav items, search result items. Subtle enough to feel responsive without being distracting.
-- [ ] **E07-S09-T04** — Implement keyboard shortcut system. Global shortcuts: `G then H` (Home), `G then S` (Sentiments), `G then M` (Markets), `G then A` (Alerts), `Cmd+K` (Search — already done), `T` (toggle theme), `?` (show keyboard shortcuts dialog). Use a `useKeyboardShortcuts()` hook that listens for key sequences. Show shortcuts in a dialog accessible via `?`.
-- [ ] **E07-S09-T05** — Create `KeyboardShortcutsDialog.tsx` using shadcn `Dialog`. Lists all available shortcuts in a clean 2-column grid: action label (left) + key combo (right, rendered as `<kbd>` pills). Group by section: Navigation, Search, View, Actions. Match Linear's keyboard shortcuts dialog style.
-
-## Story 7.10: Activity Timeline Component
+## Story 7.3: Activity Timeline Component [UI/UX]
 
 > Create a reusable activity timeline component matching Linear's activity feed pattern. Used in Topic Pages, feed detail, and right panel.
 
-- [ ] **E07-S10-T01** — Create `ActivityTimeline.tsx` — Vertical timeline with: left gutter (avatar, 28px), connector line (1px `--color-border-subtle`), content area. Each entry: avatar/icon + author name (600 weight) + action text + relative timestamp (`--color-text-tertiary`). Match Linear's "Activity" section exactly.
-- [ ] **E07-S10-T02** — Create `ActivityEntry.tsx` variants: (a) **Comment** — avatar + name + timestamp, body text below with generous padding. (b) **Action** — icon (colored dot or lucide icon) + action text inline (e.g., "added the label **Performance** and **iOS**" with bold entity names). (c) **Status change** — colored status dot + "moved from **Todo** to **In Progress**" with bold state names.
-- [ ] **E07-S10-T03** — Style entity references within activity text using `.inline-code` for IDs/hashtags and `<strong>` for named entities. Match Linear's rendering of `vehicle_state` (code block) and "Performance" (bold) inline in activity text.
-- [ ] **E07-S10-T04** — Wire `ActivityTimeline` into the right panel's trend-detail and feed-detail views. Show recent events, classification changes, and market movements as activity entries. Use the mock data engine to generate activity entries.
+- [ ] **E07-S03-T01** — Create `ActivityTimeline.tsx` — Vertical timeline with: left gutter (avatar, 28px), connector line (1px `--color-border-subtle`), content area. Each entry: avatar/icon + author name (600 weight) + action text + relative timestamp (`--color-text-tertiary`). Match Linear's "Activity" section exactly.
+- [ ] **E07-S03-T02** — Create `ActivityEntry.tsx` variants: (a) **Comment** — avatar + name + timestamp, body text below with generous padding. (b) **Action** — icon (colored dot or lucide icon) + action text inline (e.g., "added the label **Performance** and **iOS**" with bold entity names). (c) **Status change** — colored status dot + "moved from **Todo** to **In Progress**" with bold state names.
+- [ ] **E07-S03-T03** — Style entity references within activity text using `.inline-code` for IDs/hashtags and `<strong>` for named entities. Match Linear's rendering of `vehicle_state` (code block) and "Performance" (bold) inline in activity text.
+- [ ] **E07-S03-T04** — Wire `ActivityTimeline` into the right panel's trend-detail and feed-detail views. Show recent events, classification changes, and market movements as activity entries. Use the mock data engine to generate activity entries.
 
-## Story 7.11: Right Panel — Detail View Polish
+## Story 7.4: Right Panel — Detail View Polish [UI/UX]
 
 > Redesign the right panel detail views to match Linear's clean detail sidebar: structured metadata section, activity feed, and contextual actions.
 
-- [ ] **E07-S11-T01** — Create `DetailMetadata.tsx` — Structured metadata display for the right panel header. Renders key-value pairs in a clean vertical stack: status (colored dot + label), priority (icon + label), assignees (avatar stack), labels (badge row). Match Linear's right panel metadata section (Status: In Progress, Priority: High, Labels, etc.).
-- [ ] **E07-S11-T02** — Redesign `RightPanel.tsx` header. Add: close button (X, top-right), entity type icon + title, ID badge (e.g., "ENG-2703" → market ID or trend ID in monospace). Use shadcn `Separator` below the header. Match Linear's "ENG-2703" ID display.
-- [ ] **E07-S11-T03** — Structure right panel content into collapsible sections: **Details** (metadata), **Activity** (timeline), **Related** (linked markets/trends). Each section uses `SectionHeader.tsx` (from E07-S06-T05) and is collapsible via click on header. Default: all expanded.
-- [ ] **E07-S11-T04** — Add a conversational input at the bottom of the right panel for notes/annotations. Match Linear's "Message GitHub Copilot..." input: fixed to bottom, subtle border-top, `Input` with placeholder, send button (arrow-up icon), attachment button. For MVP this is UI-only (no backend) but sets up the pattern.
+- [ ] **E07-S04-T01** — Create `DetailMetadata.tsx` — Structured metadata display for the right panel header. Renders key-value pairs in a clean vertical stack: status (colored dot + label), priority (icon + label), assignees (avatar stack), labels (badge row). Match Linear's right panel metadata section (Status: In Progress, Priority: High, Labels, etc.).
+- [ ] **E07-S04-T02** — Redesign `RightPanel.tsx` header. Add: close button (X, top-right), entity type icon + title, ID badge (e.g., "ENG-2703" → market ID or trend ID in monospace). Use shadcn `Separator` below the header. Match Linear's "ENG-2703" ID display.
+- [ ] **E07-S04-T03** — Structure right panel content into collapsible sections: **Details** (metadata), **Activity** (timeline), **Related** (linked markets/trends). Each section uses `SectionHeader.tsx` (from E01-S09) and is collapsible via click on header. Default: all expanded.
+- [ ] **E07-S04-T04** — Add a conversational input at the bottom of the right panel for notes/annotations. Match Linear's "Message GitHub Copilot..." input: fixed to bottom, subtle border-top, `Input` with placeholder, send button (arrow-up icon), attachment button. For MVP this is UI-only (no backend) but sets up the pattern.
 
-## Story 7.12: Micro-Interactions & Animation Polish
+## Story 7.5: Micro-Interactions & Animation Polish [UI/UX]
 
 > Add subtle micro-interactions and animation refinements that differentiate a premium UI from a functional one.
 
-- [ ] **E07-S12-T01** — Add page transition animations. When navigating between views (Home → Sentiments → Markets), apply a subtle fade-in (opacity 0→1, 150ms) on the main content area. Use framer-motion `AnimatePresence` on the route outlet. No slide or scale — just opacity for speed.
-- [ ] **E07-S12-T02** — Add staggered list animations for feed items and search results. When new items appear: stagger each item's opacity+translateY animation by 30ms. Total stagger cap: 300ms (first 10 items animated, rest appear instantly). Use framer-motion `variants` with `staggerChildren`.
-- [ ] **E07-S12-T03** — Add smooth counter animations for numerical changes. When a probability, delta, or velocity number updates: animate the value change over 300ms with easing. Use a `useAnimatedNumber()` hook that interpolates between old and new values using `requestAnimationFrame`.
-- [ ] **E07-S12-T04** — Refine dropdown/popover animations globally. All dropdowns (search, sidebar menus, filters) should use: `opacity 0→1, translateY -4px→0, scale 0.98→1` with 150ms ease-out on enter, 100ms ease-in on exit. Standardize this as a shared framer-motion variant object.
-- [ ] **E07-S12-T05** — Add skeleton-to-content transitions. When data loads and skeletons are replaced by real content: crossfade (skeleton fades out while content fades in) over 200ms. Prevents the jarring "flash" of skeleton→content swap.
+- [ ] **E07-S05-T01** — Add page transition animations. When navigating between views (Home → Sentiments → Markets), apply a subtle fade-in (opacity 0→1, 150ms) on the main content area. Use framer-motion `AnimatePresence` on the route outlet. No slide or scale — just opacity for speed.
+- [ ] **E07-S05-T02** — Add staggered list animations for feed items and search results. When new items appear: stagger each item's opacity+translateY animation by 30ms. Total stagger cap: 300ms (first 10 items animated, rest appear instantly). Use framer-motion `variants` with `staggerChildren`.
+- [ ] **E07-S05-T03** — Add smooth counter animations for numerical changes. When a probability, delta, or velocity number updates: animate the value change over 300ms with easing. Use a `useAnimatedNumber()` hook that interpolates between old and new values using `requestAnimationFrame`.
+- [ ] **E07-S05-T04** — Refine dropdown/popover animations globally. All dropdowns (search, sidebar menus, filters) should use: `opacity 0→1, translateY -4px→0, scale 0.98→1` with 150ms ease-out on enter, 100ms ease-in on exit. Standardize this as a shared framer-motion variant object.
+- [ ] **E07-S05-T05** — Add skeleton-to-content transitions. When data loads and skeletons are replaced by real content: crossfade (skeleton fades out while content fades in) over 200ms. Prevents the jarring "flash" of skeleton→content swap.
 
 ---
 
