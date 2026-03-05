@@ -39,12 +39,12 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > Initialize the Vite + React + TypeScript project with all tooling.
 
-- [ ] **E01-S01-T01** — Initialize Vite project with React + TypeScript template. Configure `tsconfig.json` with strict mode, no implicit any, strict null checks.
-- [ ] **E01-S01-T02** — Install and configure Tailwind CSS v4. Set up `tailwind.config.ts` with custom colors, fonts, and spacing scale matching the design system.
+- [✅] **E01-S01-T01** — Initialize Vite project with React + TypeScript template. Configure `tsconfig.json` with strict mode, no implicit any, strict null checks.
+- [✅] **E01-S01-T02** — Install and configure Tailwind CSS v4. Set up `tailwind.config.ts` with custom colors, fonts, and spacing scale matching the design system.
 - [ ] **E01-S01-T03** — Install and configure ESLint 9 (flat config) with TypeScript, React, and import-order rules. Set up Prettier. Add `.editorconfig`.
 - [ ] **E01-S01-T04** — Create the full folder structure: `src/app/`, `src/views/`, `src/feed/`, `src/trends/`, `src/sentiments/`, `src/search/`, `src/markets/`, `src/topic/`, `src/alerts/`, `src/geo/`, `src/auth/`, `src/onboarding/`, `src/state/`, `src/services/`, `src/mock-data/`, `src/hooks/`, `src/components/`, `src/types/`, `src/lib/`, `src/styles/`.
 - [ ] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
-- [ ] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
+- [✅] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
 - [ ] **E01-S01-T07** — Install dev dependencies: `vitest`, `@testing-library/react`, `msw`, `@types/react`, `@types/react-dom`.
 - [ ] **E01-S01-T08** — Install CesiumJS dependencies: `cesium`, `resium`. Configure Vite for CesiumJS static asset copying (workers, assets). Set up `public/cesium/` directory.
 - [ ] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
@@ -53,21 +53,21 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > CSS custom properties for dark/light themes, fonts, and modern typography system.
 
-- [ ] **E01-S02-T01** — Create `src/styles/globals.css` with all CSS custom properties: colors (bg, accent, text, semantic, sentiment, delta, category), layout dimensions (sidebar, right panel, topbar, trending bar), typography (font stacks), and animation durations.
-- [ ] **E01-S02-T02** — Create `src/styles/themes/dark.css` with dark theme variable overrides. This is the default theme.
+- [✅] **E01-S02-T01** — Create `src/styles/globals.css` with all CSS custom properties: colors (bg, accent, text, semantic, sentiment, delta, category), layout dimensions (sidebar, right panel, topbar, trending bar), typography (font stacks), and animation durations.
+- [✅] **E01-S02-T02** — Create `src/styles/themes/dark.css` with dark theme variable overrides. This is the default theme.
 - [ ] **E01-S02-T03** — Create `src/styles/themes/light.css` with light theme variable overrides. Adjusted accent colors for contrast on light backgrounds.
-- [ ] **E01-S02-T04** — Create `src/styles/fonts.css` with `@font-face` declarations for Inter (sans-serif) and JetBrains Mono (monospace). Set up font loading strategy (preload critical weights).
-- [ ] **E01-S02-T05** — Create `src/lib/cn.ts` — utility function combining `clsx` and `tailwind-merge` for conditional class composition.
+- [✅] **E01-S02-T04** — Create `src/styles/fonts.css` with `@font-face` declarations for Inter (sans-serif) and JetBrains Mono (monospace). Set up font loading strategy (preload critical weights).
+- [✅] **E01-S02-T05** — Create `src/lib/cn.ts` — utility function combining `clsx` and `tailwind-merge` for conditional class composition.
 - [ ] **E01-S02-T06** — Implement theme toggling: apply `data-theme="dark|light"` attribute on `<html>`. Persist preference in localStorage. Wire to `uiStore.theme`.
 
 ## Story 1.3: App Shell & Layout
 
 > Sidebar, top bar, right panel, and the 3-column layout grid with animated layout switching.
 
-- [ ] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Dashboard/Focus/Clean mode switching.
-- [ ] **E01-S03-T02** — Create `Sidebar.tsx` — Left navigation panel with logo, nav items (Home, Sentiments, Geo, Markets, separator, POI, Layers, Scenes, Filters, separator, Alerts), layout switcher, and user menu. Auto-collapse to icon-only when viewport < 1280px. Expand on hover when collapsed.
-- [ ] **E01-S03-T03** — Create `TopBar.tsx` — Fixed top bar (56px height) spanning main content + right panel. Contains the `SearchBar` component placeholder.
-- [ ] **E01-S03-T04** — Create `RightPanel.tsx` — Persistent right panel (30% width). Renders dynamic content based on `uiStore.rightPanelContent`. Default: contextual help or trending summary. Shows EmptyState when nothing selected.
+- [✅] **E01-S03-T01** — Create `AppShell.tsx` — the 3-column CSS grid layout: sidebar | main content | right panel. Grid columns: `var(--sidebar-width) 1fr var(--right-panel-width)`. Apply `framer-motion` layout animation for Dashboard/Focus/Clean mode switching.
+- [✅] **E01-S03-T02** — Create `Sidebar.tsx` — Left navigation panel with logo, nav items (Home, Sentiments, Geo, Markets, separator, POI, Layers, Scenes, Filters, separator, Alerts), layout switcher, and user menu. Auto-collapse to icon-only when viewport < 1280px. Expand on hover when collapsed.
+- [✅] **E01-S03-T03** — Create `TopBar.tsx` — Fixed top bar (56px height) spanning main content + right panel. Contains the `SearchBar` component placeholder.
+- [✅] **E01-S03-T04** — Create `RightPanel.tsx` — Persistent right panel (30% width). Renders dynamic content based on `uiStore.rightPanelContent`. Default: contextual help or trending summary. Shows EmptyState when nothing selected.
 - [ ] **E01-S03-T05** — Create `LayoutSwitcher.tsx` — Dropdown or toggle in sidebar footer. Switches between Dashboard (all panels), Focus (icon sidebar, minimal chrome), and Clean (feed only, no sidebar/panel). Animated transitions with `var(--transition-layout)` (300ms ease).
 - [ ] **E01-S03-T06** — Create `NotificationCenter.tsx` — Toast container (bottom-right) for alert notifications. Tray/bell icon in sidebar for notification list. Unread badge count.
 - [ ] **E01-S03-T07** — Implement responsive breakpoints: 1024-1279px (tablet: sidebar collapsed, right panel overlay), 1280px+ (desktop: full layout). Test layout at both breakpoints.
@@ -76,7 +76,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > React Router setup with lazy loading, code splitting, and auth guard.
 
-- [ ] **E01-S04-T01** — Set up `react-router-dom` with the full route map. Public routes: `/` (landing), `/login`, `/register`. Protected routes under `/app/*`: home, sentiments, sentiments/:id, markets, markets/:id, topic/:id, search, alerts, onboarding. Feature-gated: geo.
+- [✅] **E01-S04-T01** — Set up `react-router-dom` with the full route map. Public routes: `/` (landing), `/login`, `/register`. Protected routes under `/app/*`: home, sentiments, sentiments/:id, markets, markets/:id, topic/:id, search, alerts, onboarding. Feature-gated: geo.
 - [ ] **E01-S04-T02** — Implement `React.lazy()` for all view components. Wrap route outlet in `<Suspense>` with a loading skeleton that matches the target view layout.
 - [ ] **E01-S04-T03** — Create `AuthGuard.tsx` — Route protection component. Checks `authStore.isAuthenticated`. Redirects to `/login` if not authenticated. Redirects to `/app/onboarding` if `user.onboardingComplete === false`.
 - [ ] **E01-S04-T04** — Create `FeatureGate.tsx` — Component that conditionally renders children based on feature flag state. Used to gate Geo route and other P1 features.
@@ -86,14 +86,14 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 > Shared atoms used throughout the application.
 
 - [ ] **E01-S05-T01** — Create `Badge.tsx` — Renders colored badges with variants: severity (green/yellow/red), category (geopolitics/economics/tech/sports/culture), source (Twitter/Reddit/Telegram/News), and custom.
-- [ ] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
-- [ ] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
+- [ ✅] **E01-S05-T02** — Create `Button.tsx` — Button with variants: primary (cyan), secondary (outline), ghost (transparent), danger (red). Sizes: sm, md, lg. Loading state with spinner.
+- [ ✅] **E01-S05-T03** — Create `Card.tsx` — Base card with dark background (`var(--color-bg-card)`), subtle border, hover state. Variants: default, interactive (clickable with hover lift), selected (accent border).
 - [ ] **E01-S05-T04** — Create `Chip.tsx` — Small tag/chip for entity tags, filter pills, trend hashtags. Category-colored. Removable variant with ✕ button.
-- [ ] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
-- [ ] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
-- [ ] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
-- [ ] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
-- [ ] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
+- [ ✅] **E01-S05-T05** — Create `Input.tsx` — Text input with search variant (magnifying glass icon, clear button). Dark background, accent focus ring. Sizes: sm, md.
+- [ ✅] **E01-S05-T06** — Create `Timestamp.tsx` — Smart timestamp component. Shows relative time for recent events ("2m ago", "1h ago"), absolute for older ("Mar 2, 14:23 UTC"). Always shows UTC. Monospace font for numerical values only.
+- [ ✅] **E01-S05-T07** — Create `DataLabel.tsx` — Clean label component for section headers and metadata. Uses Inter (sans-serif) in sentence case with medium weight. Monospace variant available for numerical data only. No ALL CAPS, no letter-spacing treatment.
+- [ ✅] **E01-S05-T08** — Create `DeltaIndicator.tsx` — Shows "+12.4%" or "-5.2%" with directional arrow (▲/▼) and color (green positive, red negative). Bloomberg-style number rendering.
+- [ ✅] **E01-S05-T09** — Create `ProbabilityDisplay.tsx` — Renders "73%" with size variants and directional color. Used for both market probability and sentiment probability.
 - [ ] **E01-S05-T10** — Create `ConfidenceBadge.tsx` — Renders Low/Med/High confidence with opacity treatment (60%/85%/100%) and label. Outline badge for Low, filled for Med/High.
 - [ ] **E01-S05-T11** — Create `VelocityIndicator.tsx` — Arrow + percentage for trend velocity. Green up arrow for accelerating, red down for decelerating, gray for stable.
 - [ ] **E01-S05-T12** — Create `Sparkline.tsx` — Tiny inline chart (Recharts-based). Shows 24h price history or velocity curve. No axes, no labels — just the line.
