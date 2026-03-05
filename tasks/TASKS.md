@@ -43,13 +43,13 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 - [✅] **E01-S01-T01** — Initialize Vite project with React + TypeScript template. Configure `tsconfig.json` with strict mode, no implicit any, strict null checks.
 - [✅] **E01-S01-T02** — Install and configure Tailwind CSS v4. Set up `tailwind.config.ts` with custom colors, fonts, and spacing scale matching the design system.
-- [🚀] **E01-S01-T03** — Install and configure ESLint 9 (flat config) with TypeScript, React, and import-order rules. Set up Prettier. Add `.editorconfig`.
-- [🚀] **E01-S01-T04** — Create the full folder structure: `src/app/`, `src/views/`, `src/feed/`, `src/trends/`, `src/sentiments/`, `src/search/`, `src/markets/`, `src/topic/`, `src/alerts/`, `src/geo/`, `src/auth/`, `src/onboarding/`, `src/state/`, `src/services/`, `src/mock-data/`, `src/hooks/`, `src/components/`, `src/types/`, `src/lib/`, `src/styles/`.
-- [🚀] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
+- [✅] **E01-S01-T03** — Install and configure ESLint 9 (flat config) with TypeScript, React, and import-order rules. Set up Prettier. Add `.editorconfig`.
+- [✅] **E01-S01-T04** — Create the full folder structure: `src/app/`, `src/views/`, `src/feed/`, `src/trends/`, `src/sentiments/`, `src/search/`, `src/markets/`, `src/topic/`, `src/alerts/`, `src/geo/`, `src/auth/`, `src/onboarding/`, `src/state/`, `src/services/`, `src/mock-data/`, `src/hooks/`, `src/components/`, `src/types/`, `src/lib/`, `src/styles/`.
+- [✅] **E01-S01-T05** — Create `.env` and `.env.example` with all `VITE_*` feature flag variables. Configure Vite env type declarations in `vite-env.d.ts`.
 - [✅] **E01-S01-T06** — Install core dependencies: `zustand`, `@tanstack/react-query`, `react-router-dom`, `framer-motion`, `react-virtuoso`, `recharts`, `lucide-react`, `@radix-ui/react-*` (dialog, dropdown, tooltip, tabs), `clsx`, `tailwind-merge`, `date-fns`, `zod`, `nanoid`, `mitt`.
 - [✅] **E01-S01-T07** — Install dev dependencies: `vitest`, `@testing-library/react`, `msw`, `@types/react`, `@types/react-dom`.
-- [🚀] **E01-S01-T08** — Install Three.js + react-three-fiber dependencies: `three`, `@react-three/fiber`, `@react-three/drei`. Configure Vite for Three.js + react-three-fiber static asset copying (workers, assets). Set up `public/three/` directory.
-- [🚀] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
+- [✅] **E01-S01-T08** — Install Three.js + react-three-fiber dependencies: `three`, `@react-three/fiber`, `@react-three/drei`. Configure Vite for Three.js + react-three-fiber static asset copying (workers, assets). Set up `public/three/` directory.
+- [✅] **E01-S01-T09** — Set up Vitest config with React Testing Library. Create a sample test to verify the test pipeline works.
 
 ## Story 1.2: Theming System
 
