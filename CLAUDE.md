@@ -14,46 +14,94 @@ PolyMatic.App is an AI-powered Geospatial OSINT + Prediction Market Intelligence
 | `PROMPT.md` | Implementation brief with role definition, anti-patterns, and UX copy guidelines |
 | `PLAN.md` | Phase 1 interview questions + all resolved answers |
 | `tasks/IMPLEMENTATION-PLAN.md` | Full 16-section architecture and implementation plan |
-| `tasks/TASKS.md` | Epic/Story/Task breakdown (16 epics, 49 stories, 217 tasks) |
+| `tasks/TASKS.md` | Epic/Story/Task breakdown (16 epics, 49+ stories, 217+ tasks) |
 | `docs/` | Planning screenshots (plan_1.png through plan_33.png) |
 | `mocks/` | High-fidelity UI mockups (mock_1.png through mock_7.png) |
 
 ## Tech Stack
 
 - **Framework:** React 18 + TypeScript (strict mode, no `any`)
-- **Build:** Vite 5
-- **State:** Zustand (10 stores) + TanStack Query v5 (server state)
-- **Styling:** Tailwind CSS v4 + CSS custom properties for theming
-- **Animation:** framer-motion (layout transitions, micro-interactions)
+- **Build:** Vite 7
+- **State:** Zustand (feedStore + more as needed) + TanStack Query v5 (server state)
+- **Styling:** Tailwind CSS v4 + shadcn/ui (New York style) + CSS custom properties
+- **UI Primitives:** shadcn/ui (button, input, badge, card, tooltip, dialog, dropdown-menu, tabs, separator, scroll-area, skeleton, avatar, command)
+- **Animation:** framer-motion (layout transitions, micro-interactions) + tailwindcss-animate
 - **Virtualization:** react-virtuoso (feed, markets, timelines)
 - **Charts:** Recharts (sparklines, sentiment timelines, velocity charts)
 - **Icons:** lucide-react
-- **Primitives:** Radix UI (dialog, dropdown, tooltip, tabs)
-- **Geo (P1):** Three.js + react-three-fiber + resium
-- **Routing:** react-router-dom v6 (lazy loaded)
+- **Geo (P1):** Three.js + @react-three/fiber + @react-three/drei + resium
+- **Routing:** react-router-dom v7 with `createBrowserRouter` (lazy loaded)
 - **Validation:** Zod (runtime schema validation)
 - **Hosting:** Vercel
 
 ## Architecture Rules
+
+### Project Structure
+```
+polymatic-frontend-webapp/src/
+├── app/                 # AppShell, TopBar (layout shell)
+├── sidebar/             # Sidebar navigation
+├── panels/              # RightPanel (contextual detail)
+├── feed/                # HomeFeed, FeedItemRow, FeedFilters, TrendCarousel
+├── trends/              # (upcoming)
+├── sentiments/          # (upcoming)
+├── search/              # (upcoming)
+├── markets/             # (upcoming)
+├── topic/               # (upcoming)
+├── alerts/              # (upcoming)
+├── geo/                 # (upcoming)
+├── auth/                # (upcoming)
+├── onboarding/          # (upcoming)
+├── components/
+│   ├── base/            # Domain-specific atoms (Chip, DataLabel, DeltaIndicator, etc.)
+│   └── ui/              # shadcn/ui primitives (auto-generated, do not hand-edit)
+├── state/               # Zustand stores (feedStore.ts, more to come)
+├── services/            # apiClient, dataProvider, mockProvider, wsClient, etc.
+├── mock-data/           # Mock generators + seed data
+│   ├── generators/      # feedGenerator, marketGenerator, sentimentGenerator, trendGenerator
+│   └── seed/            # Static seed data (accounts, entities, markets, questions, trends)
+├── hooks/               # Data hooks (useFeed, useMarkets, useSentiments, useTrends)
+├── types/               # TypeScript type definitions (11 domain files)
+├── lib/                 # Utilities (utils.ts with cn() helper)
+├── utils/               # Additional utility functions
+├── index.css            # Main CSS: Tailwind v4 + shadcn theme + dark/light variables
+└── main.tsx             # Entry point: createBrowserRouter + RouterProvider
+```
+
+### Theming
+- **CSS entry:** `src/index.css` — single file for Tailwind v4, shadcn imports, and theme variables
+- **Dark mode:** `.dark` class on a wrapping `<div>` — shadcn's `@custom-variant dark` pattern
+- **Light mode:** `:root` variables (oklch colors)
+- **Dark values:** `.dark` block with hex colors (#0f0f0f bg, #fafafa fg, desaturated neutrals)
+- **Variable hierarchy:** `--background`, `--foreground`, `--card`, `--primary`, `--muted`, etc. → mapped to `--color-*` via `@theme inline` for Tailwind utility generation
+- **Chart colors:** 5 chart tokens (`--chart-1` through `--chart-5`)
+- **Sidebar colors:** Dedicated sidebar tokens (`--sidebar`, `--sidebar-foreground`, etc.)
+- **Currently hardcoded dark** in `main.tsx` — runtime toggle not yet implemented
+
+### Layout Shell
+- `AppShell.tsx`: flex container — Sidebar | Main (TopBar + content outlet) | RightPanel
+- Main content area has `rounded-lg border-t border-l border-border/40 bg-card/30 shadow-sm` for visual depth
+- Routes defined in `main.tsx` via `createBrowserRouter` with lazy-loaded views
 
 ### Data Abstraction
 All data flows through a `DataProvider` interface (`src/services/dataProvider.ts`). Resolved at runtime via `DATA_SOURCE_MODE`:
 - `"mock"` — MockProvider with generators (current)
 - `"rsdip"` — Future RSDIP WebSocket backend
 
-Mock data generators MUST produce objects matching the exact TypeScript interfaces the backend will serve. No shortcuts.
+Mock data generators MUST produce objects matching the exact TypeScript interfaces the backend will serve.
 
 ### State Management
-10 Zustand stores, one per domain: `uiStore`, `feedStore`, `trendsStore`, `sentimentsStore`, `marketsStore`, `searchStore`, `authStore`, `alertsStore`, `geoStore`, `flagsStore`. Cross-store communication via `mitt` event bus.
+Zustand stores, one per domain. Currently: `feedStore.ts`. Additional stores created as features are implemented. Cross-store communication via `mitt` event bus.
 
 ### Feature Flags
-Env vars (`VITE_*`) + Zustand persist store with runtime overrides. Use `useFeatureFlag(flag)` hook and `<FeatureGate>` component.
+Env vars (`VITE_*`) + runtime overrides planned via Zustand persist store.
 
-### Layout
-3-column CSS grid: sidebar (220px, auto-collapse at <1280px) | main content | right panel (30%, always visible). Three layout modes: Dashboard (all panels), Focus (icon sidebar, minimal chrome), Clean (feed only). Animated transitions (300ms ease).
-
-### Theming
-Dark (default) + light toggle. All colors via CSS custom properties (`var(--color-*)`). Theme applied via `data-theme` attribute on `<html>`.
+### shadcn/ui
+- Configured via `components.json` at project root
+- Components generated to `src/components/ui/`
+- Uses `@/lib/utils` for `cn()` helper
+- Style: New York, base color: Neutral
+- **Do not hand-edit** generated shadcn files — add wrappers or extend via className
 
 ## Binding Design Decisions (from Interview)
 
@@ -91,7 +139,8 @@ These are resolved and MUST NOT be changed without explicit approval:
 
 - No `any` types. No type assertions unless absolutely necessary (with explanatory comment).
 - Stores: small, focused, composable. One per domain.
-- Components: reusable atoms (Badge, Chip, DeltaIndicator) compose into larger views.
+- Components: reusable atoms in `components/base/` compose into feature-level views.
+- shadcn primitives in `components/ui/` — use directly or wrap with domain props.
 - UX copy: sharp, confident, concise. "Sentiment Δ" not "Difference Between Sentiment and Market." No cute emoji in empty states.
 - Timestamps: relative when recent ("2m ago"), absolute when older ("Mar 2, 14:23 UTC"). Always show UTC.
 - Numbers: always formatted. "1.2M" not "1234567". "73%" not "0.73". "+12.4%" not "12.4% increase."

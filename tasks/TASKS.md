@@ -1,9 +1,14 @@
 # PolyMatic — Task Breakdown
 
-**Version:** 1.0
-**Date:** March 3, 2026
+**Version:** 1.1
+**Date:** March 9, 2026
 **Format:** Epic → Story → Task
-**Total:** 16 Epics · ~45 Stories · ~200+ Tasks
+**Total:** 16 Epics · ~49 Stories · ~230+ Tasks
+
+> **Note (March 9, 2026):** The frontend was reset and rebuilt from scratch (commit `b278904`).
+> Epic 1 and Epic 2 were re-implemented in the new codebase with shadcn/ui, Three.js,
+> and a simplified architecture. Epics 3-6 completed in the old codebase need to be
+> re-implemented. Epic 7 gained new design system stories (7.6, 7.7) for foundation work.
 
 ---
 
@@ -31,10 +36,11 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 1: Foundation (P0)
+# Epic 1: Foundation (P0) — ✅ COMPLETE (rebuilt)
 
 > Scaffold, theming, layout shell, routing, and base UI components.
 > **Depends on:** Nothing. This is the starting point.
+> **Status:** Complete in new codebase. AppShell + Sidebar + TopBar + RightPanel + shadcn/ui + routing.
 > **Blocks:** Everything else.
 
 ## Story 1.1: Project Scaffold
@@ -174,11 +180,12 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 2: Mock Data Engine (P0)
+# Epic 2: Mock Data Engine (P0) — ✅ COMPLETE (rebuilt)
 
 > Type definitions, DataProvider interface, seed data, generators, and TanStack Query integration.
 > **Depends on:** Epic 1 (scaffold, types folder, stores).
 > **Blocks:** Epics 3–10 (all feature UIs).
+> **Status:** Complete in new codebase. Types, generators, seed data, hooks, and services all implemented.
 
 ## Story 2.1: Type Definitions
 
@@ -241,11 +248,12 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 3: Home Feed (P0)
+# Epic 3: Home Feed (P0) — 🏗️ PARTIAL (rebuilt)
 
 > Feed view, event cards, clustering, trending bar integration, and virtualization.
 > **Depends on:** Epic 1 (shell, UI components), Epic 2 (types, mock data, hooks).
 > **Blocks:** None directly (parallel with Epics 4-6).
+> **Status:** HomeFeed, FeedItemRow, FeedFilters, TrendCarousel, feedStore exist. Expansion, clustering, severity indicators pending.
 
 ## Story 3.1: Trending Bar
 
@@ -277,10 +285,11 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 4: Trending Bar (P0)
+# Epic 4: Trending Bar (P0) — ⬜ NOT STARTED (new codebase)
 
 > Deep-linked from Epic 3 but with its own view-all and topic page navigation.
 > **Depends on:** Epic 1, Epic 2.
+> **Status:** Needs re-implementation in new codebase.
 
 ## Story 4.1: View All Trends Dashboard
 
@@ -308,11 +317,12 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 5: Sentiments Engine (P0)
+# Epic 5: Sentiments Engine (P0) — ⬜ NOT STARTED (new codebase)
 
 > The core intelligence feature: question tracking, stance visualization, predictions.
 > **Depends on:** Epic 1, Epic 2.
 > **This is the highest-priority feature after foundation.**
+> **Status:** Needs re-implementation in new codebase.
 
 ## Story 5.1: Sentiments Panel
 
@@ -366,10 +376,11 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 6: Search (P0)
+# Epic 6: Search (P0) — ⬜ NOT STARTED (new codebase)
 
 > Global search with 2-char autocomplete, dropdown overlay, and fixed-order sections.
 > **Depends on:** Epic 1, Epic 2.
+> **Status:** Needs re-implementation in new codebase.
 
 ## Story 6.1: Search Bar
 
@@ -398,10 +409,11 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
-# Epic 7: Topic Pages + UI/UX Polish (P0)
+# Epic 7: Topic Pages + UI/UX Polish (P0) — 🏗️ PARTIAL
 
 > Multi-panel dashboard view for trend drill-downs, plus a full design system uplift to Linear-quality premium dark SaaS aesthetic.
 > **Depends on:** Epic 1, Epic 2, Epic 3 (trends), Epic 5 (sentiments).
+> **Status:** Stories 7.6 (design system) and 7.7 (base UI atoms) complete. Stories 7.1-7.5 pending.
 
 ## Story 7.1: Topic Page Layout
 
@@ -449,6 +461,31 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E07-S05-T03** — Add smooth counter animations for numerical changes. When a probability, delta, or velocity number updates: animate the value change over 300ms with easing. Use a `useAnimatedNumber()` hook that interpolates between old and new values using `requestAnimationFrame`.
 - [ ] **E07-S05-T04** — Refine dropdown/popover animations globally. All dropdowns (search, sidebar menus, filters) should use: `opacity 0→1, translateY -4px→0, scale 0.98→1` with 150ms ease-out on enter, 100ms ease-in on exit. Standardize this as a shared framer-motion variant object.
 - [ ] **E07-S05-T05** — Add skeleton-to-content transitions. When data loads and skeletons are replaced by real content: crossfade (skeleton fades out while content fades in) over 200ms. Prevents the jarring "flash" of skeleton→content swap.
+
+## Story 7.6: Design System Foundation — shadcn/ui + Theme [UI/UX]
+
+> Install and configure shadcn/ui. Establish the dark theme color palette with desaturated near-blacks and the dual CSS variable system. Set up typography scale.
+
+- [✅] **E07-S06-T01** — Install shadcn/ui (New York style, Neutral base). Configure `components.json` with correct path aliases. Install dependencies: `class-variance-authority`, `cmdk`, `radix-ui`, `tailwindcss-animate`.
+- [✅] **E07-S06-T02** — Add 13 shadcn primitives: button, input, badge, card, tooltip, dropdown-menu, dialog, tabs, separator, scroll-area, skeleton, avatar, command. All in `src/components/ui/`.
+- [✅] **E07-S06-T03** — Configure dark theme in `src/index.css`: near-black neutrals (`--background: #0f0f0f`, `--card: #141414`, `--secondary: #262626`), desaturated borders, chart colors. Light theme in `:root` with oklch values.
+- [✅] **E07-S06-T04** — Set up `@theme inline` block mapping CSS variables to Tailwind utilities (`--color-background`, `--color-foreground`, etc.). Configure `@custom-variant dark` for `.dark` class selector.
+- [✅] **E07-S06-T05** — Configure typography: Inter (sans) + JetBrains Mono (mono) via `@theme inline`. Set up sidebar-specific tokens (`--sidebar`, `--sidebar-foreground`, etc.).
+- [✅] **E07-S06-T06** — Set up `cn()` utility in `src/lib/utils.ts` (clsx + tailwind-merge). Ensure all shadcn components import from `@/lib/utils`.
+
+## Story 7.7: Base UI Atoms [UI/UX]
+
+> Domain-specific display atoms for intelligence data: deltas, probabilities, velocities, timestamps, badges, sparklines.
+
+- [✅] **E07-S07-T01** — Create `src/components/base/Chip.tsx` — Compact label chip for categories, tags, and trend identifiers.
+- [✅] **E07-S07-T02** — Create `src/components/base/DataLabel.tsx` — Sans-serif label in sentence case. Monospace reserved for numerical data only.
+- [✅] **E07-S07-T03** — Create `src/components/base/DeltaIndicator.tsx` — Signed delta display with color (green positive, red negative). Format: "+12.4%" with arrow.
+- [✅] **E07-S07-T04** — Create `src/components/base/ProbabilityDisplay.tsx` — Large probability percentage with Bloomberg-style formatting.
+- [✅] **E07-S07-T05** — Create `src/components/base/VelocityIndicator.tsx` — Velocity metric with direction arrow and magnitude.
+- [✅] **E07-S07-T06** — Create `src/components/base/ConfidenceBadge.tsx` — Confidence level badge with opacity mapping (Low=60%, Med=85%, High=100%).
+- [✅] **E07-S07-T07** — Create `src/components/base/SeverityDot.tsx` — Colored dot indicator for severity levels (low/medium/high/critical).
+- [✅] **E07-S07-T08** — Create `src/components/base/Sparkline.tsx` — Mini line chart (Recharts) for inline trend visualization.
+- [✅] **E07-S07-T09** — Create `src/components/base/Timestamp.tsx` — Relative when recent ("2m ago"), absolute when older ("Mar 2, 14:23 UTC"). Always UTC.
 
 ---
 
