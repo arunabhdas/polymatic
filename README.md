@@ -29,3 +29,75 @@ The core switching mechanism happens inside `services/dataProvider.ts`, acting a
 
 ### 4. UI Layer Agnosticism
 Because both providers conform to the exact same `DataProvider` TypeScript interface, the entire UI layer is completely blind to this switch. React components simply consume TanStack Query hooks (e.g., `useFeed()`, `useTrends()`) which ask the Factory for the current provider and call methods on it identically, making the transition seamless.
+
+## Deployment of /polymatic-mvp/polymatic-mvp-frontend
+
+The MVP frontend is a Vite + React app. Build tooling lives in `polymatic-mvp/` (the parent directory), with `vite.config.ts` setting `root: 'polymatic-mvp-frontend'` and outputting to `dist/`.
+
+### Prerequisites
+
+Install the Vercel CLI and log in:
+
+```bash
+npm i -g vercel
+vercel login
+```
+
+### 1. Test the build locally
+
+```bash
+cd polymatic-mvp
+npm install
+npm run build
+```
+
+This should produce a `dist/` folder in `polymatic-mvp/`.
+
+### 2. Deploy via CLI
+
+From the `polymatic-mvp/` directory:
+
+```bash
+vercel
+```
+
+When prompted, configure:
+- **Which scope?** — your Vercel account/team
+- **Link to existing project?** — No (first time)
+- **Project name** — `polymatic-mvp` (or your preference)
+- **In which directory is your code located?** — `./`
+- **Override build command?** — `npm run build`
+- **Override output directory?** — `dist`
+
+### 3. Set environment variables
+
+The project uses `GEMINI_API_KEY`. Set it in the Vercel dashboard or via CLI:
+
+```bash
+vercel env add GEMINI_API_KEY
+```
+
+### 4. Production deploy
+
+The first `vercel` command creates a preview deployment. For production:
+
+```bash
+vercel --prod
+```
+
+### Alternative: GitHub integration
+
+If the repo is on GitHub, connect it via the [Vercel dashboard](https://vercel.com/new):
+
+1. Import the repo
+2. Set **Root Directory** to `polymatic-mvp`
+3. Framework preset: **Vite**
+4. Build command: `npm run build`
+5. Output directory: `dist`
+6. Add `GEMINI_API_KEY` in Environment Variables
+
+This gives you automatic deploys on every push.
+
+### Note on Cesium
+
+The `vite.config.ts` uses `vite-plugin-cesium` which copies Cesium static assets into the build output. If the build fails on Vercel due to memory or timeout, check that Cesium's WASM assets are being output to `dist/` correctly, or increase the build memory limit in project settings.
