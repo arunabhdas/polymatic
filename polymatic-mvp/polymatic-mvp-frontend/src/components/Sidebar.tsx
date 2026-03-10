@@ -2,6 +2,8 @@ import { useStore, LayerKey } from '../store/useStore';
 import { Layers, Activity, Ship, Plane, MapPin, Map, Satellite, Flame, Activity as ActivityIcon, Mountain, Factory, Zap, Anchor, Crosshair, Shield, AlertTriangle, CloudRain, Droplets, Pickaxe, GitCommit, Globe as GlobeIcon, Ban, Image as ImageIcon, EyeOff, TrendingUp, Coins } from 'lucide-react';
 
 const POIS = [
+  { id: 'poi-world', name: 'World', lat: 20.0, lng: 0.0, alt: 20000000 },
+  { id: 'poi-india', name: 'India', lat: 20.5937, lng: 78.9629, alt: 4000000 },
   { id: 'poi-iran', name: 'Iran', lat: 32.4279, lng: 53.6880, alt: 3000000 },
   { id: 'poi-israel', name: 'Israel', lat: 31.0461, lng: 34.8516, alt: 1500000 },
   { id: 'poi-middle-east', name: 'Middle East', lat: 29.2985, lng: 42.5510, alt: 5000000 },
