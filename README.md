@@ -1,6 +1,8 @@
-# PolyMatic — Realtime Geospatial Intelligence
+# PolyMatic — AI-native Macro Geospatial Intelligence
 
-PolyMatic is a premium web application designed to track and cluster real-time OSINT events (geopolitics, economics, technology, sports) and correlate them with prediction markets (Polymarket, Kalshi).
+<p align="center">
+  <img src="./screenshot_1.png" alt="PolyMatic Dashboard Mockup" width="100%" />
+</p>
 
 ## Architecture: Data Source Toggle (Mock vs Real API)
 
