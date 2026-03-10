@@ -1,4 +1,6 @@
- Phase 1: INTERVIEW MODE
+ # Plan
+ 
+ ## Phase 1: INTERVIEW MODE
 
   Here are all the decision points I need resolved before writing a single line of code. I've organized them by priority and domain.
 
@@ -994,6 +996,147 @@
 
   Plus reference tables for: feature flags, numeric specifications, browser matrix, and seed data.
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+## Epic 2A1 Plan
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Landing Page with Animated Three.js Globe
+
+ Context
+
+ The app currently drops users directly into the dashboard at /. We need a landing page gate at / with a cinematic Three.js globe showing animated
+ maritime, air, and military traffic. The "Get Started" CTA navigates to the dashboard (moved to /dashboard).
+
+ All Three.js deps are already installed (three@^0.183, @react-three/fiber@^9.5, @react-three/drei@^10.7) but unused. The src/geo/ directory is empty.
+ framer-motion@^12.35 is also available.
+
+ New Files
+
+ src/landing/
+ ├── LandingPage.tsx           # Full-page layout: globe bg + hero overlay + features
+ ├── components/
+ │   ├── HeroSection.tsx       # Title, tagline, CTA buttons (framer-motion stagger)
+ │   ├── FeatureHighlights.tsx  # 4 value-prop cards below the fold
+ │   ├── GlobeCanvas.tsx       # R3F <Canvas> wrapper (lazy-loaded)
+ │   ├── Globe.tsx             # Dark sphere + lat/lng grid + continent outlines
+ │   ├── GlobeArcs.tsx         # Animated maritime/air/military arc trails
+ │   ├── GlobePoints.tsx       # Pulsing hotspot markers (instanced mesh)
+ │   ├── GlobeAtmosphere.tsx   # Fresnel edge-glow shader
+ │   └── globeData.ts          # Route coords, hotspots, continent outlines, latLngToSphere()
+
+ Modified Files
+
+ ┌─────────────────────────┬──────────────────────────────────────────────────────────────────┐
+ │          File           │                              Change                              │
+ ├─────────────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ src/main.tsx            │ / → LandingPage (lazy), /dashboard → AppShell + all child routes │
+ ├─────────────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ src/sidebar/Sidebar.tsx │ Update all to paths to /dashboard/*, fix active comparisons      │
+ └─────────────────────────┴──────────────────────────────────────────────────────────────────┘
+
+ Implementation Steps
+
+ Step 1: Router restructure (main.tsx)
+
+ - Lazy-import LandingPage at /
+ - Move AppShell + all children to /dashboard
+ - Child routes: /dashboard (HomeFeed), /dashboard/search, /dashboard/trends, /dashboard/markets, /dashboard/geo
+
+ Step 2: Sidebar path update (Sidebar.tsx)
+
+ - All to="/" → to="/dashboard", to="/search" → to="/dashboard/search", etc.
+ - Active checks: location.pathname === "/dashboard", startsWith("/dashboard/search"), etc.
+
+ Step 3: Globe data module (globeData.ts)
+
+ Pure data — no React/Three imports. Contains:
+ - latLngToSphere(lat, lng, radius) — coordinate conversion utility
+ - ~8 maritime routes (Shanghai→Rotterdam, Singapore→Hormuz, Long Beach→Yokohama, etc.) — cyan, slow, low arcs
+ - ~8 air routes (NYC→London, Dubai→Singapore, LAX→Tokyo, etc.) — amber, faster, high arcs
+ - ~4 military routes (Ukraine, Taiwan Strait, etc.) — red
+ - ~35 hotspot points (major ports, airports, conflict zones)
+ - Simplified continent outlines (~200-300 coordinate pairs, ~5-8 KB)
+
+ Step 4: Globe sphere (Globe.tsx)
+
+ - <Sphere args={[1, 64, 64]}> with dark material (#0a0f14)
+ - Lat/lng grid lines every 30° as <Line> segments (#1a2a3a, lineWidth 0.3)
+ - Continent outlines as <Line> segments (#1e3a5a, lineWidth 0.8)
+
+ Step 5: Atmosphere glow (GlobeAtmosphere.tsx)
+
+ - Slightly larger back-face sphere (radius 1.02)
+ - Custom Fresnel shader: blue edge glow, transparent center
+ - Uses drei's shaderMaterial factory
+
+ Step 6: Hotspot points (GlobePoints.tsx)
+
+ - <instancedMesh> for all ~35 points (single draw call)
+ - useFrame pulsing animation (scale + opacity oscillation)
+ - Color-coded: cyan (ports), amber (airports), red (conflict)
+
+ Step 7: Animated arcs (GlobeArcs.tsx)
+
+ - Each arc: <QuadraticBezierLine> from drei
+ - Midpoint pushed outward from sphere by arcHeight
+ - dashed={true} with animated dashOffset via useFrame — creates moving trail effect
+ - All animation via refs (no React setState in render loop)
+
+ Step 8: Canvas wrapper (GlobeCanvas.tsx)
+
+ - <Canvas camera={{ position: [0, 0, 2.5], fov: 45 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+ - <OrbitControls autoRotate autoRotateSpeed={0.3} enableZoom={false} enablePan={false}>
+ - Ambient light (0.15) + directional light (0.4)
+ - Suspense wrapper for child 3D components
+
+ Step 9: Landing page layout (LandingPage.tsx)
+
+ - Full viewport, bg-background
+ - Globe as absolute-positioned background (z-0)
+ - Gradient overlay for text readability: bg-gradient-to-b from-background/80 via-transparent to-background
+ - Minimal nav bar: PolyMatic logo + Login/Sign Up links
+ - Hero section centered over globe
+ - GlobeCanvas lazy-loaded within LandingPage
+
+ Step 10: Hero section (HeroSection.tsx)
+
+ - framer-motion staggered reveal (h1, tagline, CTA)
+ - Title: "Real-time Intelligence for Prediction Markets" (gradient text on last two words: blue→cyan)
+ - Tagline: 1-2 sentences about OSINT + sentiment + prediction markets
+ - CTA: <Button size="lg"> → <Link to="/dashboard">Get Started</Link>
+ - Secondary: outline "Learn More" button
+
+ Step 11: Feature highlights (FeatureHighlights.tsx)
+
+ - 4 cards: OSINT Aggregation, Sentiment Engine, Market Correlation, Real-time Alerts
+ - Glass-morphism style: bg-card/50 backdrop-blur-sm border border-border/50
+ - lucide-react icons
+
+ Performance
+
+ - LandingPage lazy-loaded (Three.js chunk ~800KB-1MB, only loads at /)
+ - GlobeCanvas also lazy within LandingPage (text renders first)
+ - All 3D animation via refs + useFrame (no React re-renders)
+ - Instanced mesh for points (single draw call for ~35 points)
+ - No textures (procedural generation keeps GPU memory ~10-15MB)
+ - dpr={[1, 2]} caps pixel density
+ - No shadows (expensive + unnecessary for wireframe aesthetic)
+ - ErrorBoundary around globe (graceful degradation if WebGL fails)
+
+ Verification
+
+ 1. npm run build — zero errors, check code splitting (landing chunk separate from dashboard)
+ 2. http://localhost:*/ — landing page loads with animated globe
+ 3. Globe: dark sphere with continent outlines, grid lines, atmospheric glow
+ 4. Arcs: ~20 animated trails (cyan maritime, amber air, red military) with moving dash effect
+ 5. Points: ~35 pulsing hotspots on globe surface
+ 6. Globe auto-rotates slowly, drag to rotate manually, no zoom/pan
+ 7. "Get Started" navigates to /dashboard with full AppShell + HomeFeed
+ 8. Sidebar links still work correctly under /dashboard/*
+ 9. Text overlay readable over globe (gradient ensures contrast)
+ 10. No console errors, no WebGL warnings
+
+
 
 ## Epic 3A Plan
 

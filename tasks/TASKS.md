@@ -248,6 +248,44 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
+# Epic 2A1: Landing Page with Three.js Globe (P0)
+
+> Cinematic landing page at `/` with animated Three.js globe showing maritime, air, and military traffic.
+> Dashboard moves to `/dashboard`. "Get Started" CTA navigates to dashboard.
+> **Depends on:** Epic 1 (Foundation), Epic 3A (Dark theme tokens).
+> **Reference:** Supabase/Profound dark SaaS aesthetic.
+
+## Story 2A1.1: Router Restructure + Sidebar Path Update
+
+- [ ] **E2A1-S01-T01** — Restructure `main.tsx` router: `/` → lazy-loaded `LandingPage`, `/dashboard` → `AppShell` with all child routes (`/dashboard/search`, `/dashboard/trends`, `/dashboard/markets`, `/dashboard/geo`)
+- [ ] **E2A1-S01-T02** — Update `Sidebar.tsx` nav links to `/dashboard/*` prefix. Fix `active` comparisons for new path structure.
+
+## Story 2A1.2: Globe Data Module
+
+- [ ] **E2A1-S02-T01** — Create `src/landing/components/globeData.ts` with `latLngToSphere()` conversion utility, route/hotspot TypeScript interfaces
+- [ ] **E2A1-S02-T02** — Add ~8 maritime routes (cyan, slow, low arcs): Shanghai→Rotterdam, Singapore→Hormuz, Long Beach→Yokohama, Houston→Santos, etc.
+- [ ] **E2A1-S02-T03** — Add ~8 air traffic routes (amber, fast, high arcs): NYC→London, Dubai→Singapore, LAX→Tokyo, Frankfurt→Hong Kong, etc.
+- [ ] **E2A1-S02-T04** — Add ~4 military/conflict routes (red): Ukraine, Taiwan Strait, South China Sea, Strait of Hormuz
+- [ ] **E2A1-S02-T05** — Add ~35 hotspot points (ports, airports, conflict zones) with color coding and pulse speed
+- [ ] **E2A1-S02-T06** — Add simplified continent outline coordinates (~200-300 lat/lng pairs)
+
+## Story 2A1.3: Three.js Globe Components
+
+- [ ] **E2A1-S03-T01** — Create `Globe.tsx`: dark sphere (`#0a0f14`), lat/lng grid lines every 30°, continent outlines as `<Line>` segments
+- [ ] **E2A1-S03-T02** — Create `GlobeAtmosphere.tsx`: Fresnel edge-glow shader on a back-face sphere (radius 1.02), blue atmospheric halo
+- [ ] **E2A1-S03-T03** — Create `GlobePoints.tsx`: `<instancedMesh>` for ~35 hotspots with `useFrame` pulse animation (scale + opacity), color-coded by type
+- [ ] **E2A1-S03-T04** — Create `GlobeArcs.tsx`: `<QuadraticBezierLine>` arcs with animated `dashOffset` via `useFrame` for moving trail effect. All animation via refs (no setState).
+- [ ] **E2A1-S03-T05** — Create `GlobeCanvas.tsx`: R3F `<Canvas>` wrapper with camera (fov 45, pos [0,0,2.5]), `OrbitControls` (autoRotate 0.3, no zoom/pan), ambient + directional lighting, `dpr={[1,2]}`, `alpha: true`
+
+## Story 2A1.4: Landing Page UI
+
+- [ ] **E2A1-S04-T01** — Create `LandingPage.tsx`: full-viewport layout, globe as absolute bg (z-0), gradient overlay (`from-background/80 via-transparent to-background`), minimal nav bar (logo + links), lazy-loaded `GlobeCanvas`
+- [ ] **E2A1-S04-T02** — Create `HeroSection.tsx`: framer-motion staggered reveal, title with gradient text ("Prediction Markets" in blue→cyan), tagline, "Get Started" `<Link to="/dashboard">` CTA + secondary outline button
+- [ ] **E2A1-S04-T03** — Create `FeatureHighlights.tsx`: 4 value-prop cards (OSINT Aggregation, Sentiment Engine, Market Correlation, Real-time Alerts), glass-morphism style (`bg-card/50 backdrop-blur-sm`), lucide-react icons
+- [ ] **E2A1-S04-T04** — Add `ErrorBoundary` around globe for WebGL failure graceful degradation
+
+---
+
 # Epic 3A: UI/UX Transformation (P0) — ⬜ NOT STARTED
 
 > Fix broken CSS tokens and transform to Supabase + Profound premium dark aesthetic.
