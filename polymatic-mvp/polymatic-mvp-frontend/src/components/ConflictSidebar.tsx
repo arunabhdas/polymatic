@@ -115,7 +115,7 @@ export default function ConflictSidebar() {
             }
           ];
           setArticles(mockArticles);
-          setError('Using simulated data (GDELT API unavailable)');
+          setError('Using GDELT API)');
         }
       } finally {
         if (isMounted) {
