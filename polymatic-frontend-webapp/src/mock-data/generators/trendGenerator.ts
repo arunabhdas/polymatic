@@ -1,5 +1,5 @@
 import { seedTrends } from '../seed/trends';
-import type { Trend, TrendLifecycle } from '../../types/trend.types';
+import type { Trend } from '../../types/trend.types';
 import { randomBetween } from '../../utils/mockUtils';
 
 export class TrendGenerator {

@@ -20,35 +20,31 @@ export class MockProvider implements DataProvider {
   private trendsGen = new TrendGenerator();
   private sentimentsGen = new SentimentGenerator();
   private feedGen = new FeedGenerator();
-  
+
   private feedItems: FeedItem[] = [];
 
   constructor() {
-    // Start background background ticks
     setInterval(() => this.marketsGen.tick(), 5000);
     setInterval(() => this.trendsGen.tick(), 4000);
     setInterval(() => this.sentimentsGen.tick(), 6000);
     setInterval(() => {
       const newItems = this.feedGen.tick();
       if (newItems.length > 0) {
-        // Prepend to top
         this.feedItems = [...newItems, ...this.feedItems];
-        // Mock socket emission for real-time subscribers
         wsEventEmitter.emit('feed:new_items', newItems);
       }
     }, 2000);
   }
 
-  // Feed
   async getFeed(params: FeedParams): Promise<PaginatedResponse<FeedItem>> {
     await delay(300);
     const limit = params.limit || 20;
     const page = params.page || 1;
-    const items = this.feedItems.slice(0, limit); // Simplified
+    const items = this.feedItems.slice(0, limit);
     return { data: items, page, limit, total: this.feedItems.length, hasMore: this.feedItems.length > limit };
   }
 
-  async getFeedItem(id: string): Promise<FeedItem> {
+  async getFeedItem(_id: string): Promise<FeedItem> {
     await delay(200);
     throw new Error('Not implemented yet in MockProvider');
   }
@@ -58,63 +54,58 @@ export class MockProvider implements DataProvider {
     return [];
   }
 
-  // Sentiments
-  async getSentiments(params: SentimentParams): Promise<SentimentQuestion[]> {
+  async getSentiments(_params: SentimentParams): Promise<SentimentQuestion[]> {
     await delay(300);
     return this.sentimentsGen.getQuestions();
   }
 
-  async getSentimentDetail(id: string): Promise<SentimentDetail> {
+  async getSentimentDetail(_id: string): Promise<SentimentDetail> {
     await delay(200);
     throw new Error('Not implemented yet in MockProvider');
   }
 
-  async getPredictionBrief(questionId: string): Promise<PredictionBrief> {
-    await delay(400); // Simulate LLM generation time
+  async getPredictionBrief(_questionId: string): Promise<PredictionBrief> {
+    await delay(400);
     throw new Error('Not implemented yet in MockProvider');
   }
 
-  // Trends
   async getTrends(): Promise<Trend[]> {
     await delay(200);
     return this.trendsGen.getTrends();
   }
 
-  // Markets
   async getMarkets(params: MarketParams): Promise<PaginatedResponse<MarketContract>> {
     await delay(300);
     const markets = this.marketsGen.getMarkets();
     return { data: markets, page: params.page || 1, limit: params.limit || 20, total: markets.length, hasMore: false };
   }
 
-  async getMarketDetail(id: string): Promise<MarketContract> {
+  async getMarketDetail(_id: string): Promise<MarketContract> {
     await delay(200);
     throw new Error('Not implemented yet in MockProvider');
   }
 
-  // Search
-  async search(query: SearchQuery): Promise<SearchResults> {
+  async search(_query: SearchQuery): Promise<SearchResults> {
     await delay(200);
     return { trends: [], markets: [], sentiments: [], feedItems: [], totalCount: 0 };
   }
 
-  async autocomplete(q: string): Promise<string[]> {
-    await delay(50); // Fast response for autocomplete
+  async autocomplete(_q: string): Promise<string[]> {
+    await delay(50);
     return [];
   }
 
-  // Alerts
   async getAlertConfigs(): Promise<AlertConfig[]> {
     await delay(200);
     return [];
   }
 
-  async createAlertConfig(config: Omit<AlertConfig, 'id' | 'createdAt' | 'updatedAt'>): Promise<AlertConfig> {
+  async createAlertConfig(_config: Omit<AlertConfig, 'id' | 'createdAt' | 'updatedAt'>): Promise<AlertConfig> {
     await delay(300);
     throw new Error('Not implemented yet in MockProvider');
   }
 
-  async deleteAlertConfig(id: string): Promise<void> {
+  async deleteAlertConfig(_id: string): Promise<void> {
     await delay(200);
   }
 
@@ -123,17 +114,16 @@ export class MockProvider implements DataProvider {
     return [];
   }
 
-  async dismissAlert(id: string): Promise<void> {
+  async dismissAlert(_id: string): Promise<void> {
     await delay(100);
   }
 
-  // Geo
-  async getGeoEvents(bounds: GeoBounds, layers: LayerType[]): Promise<GeoEvent[]> {
+  async getGeoEvents(_bounds: GeoBounds, _layers: LayerType[]): Promise<GeoEvent[]> {
     await delay(300);
     return [];
   }
 
-  async getGeoPOIs(bounds: GeoBounds): Promise<POI[]> {
+  async getGeoPOIs(_bounds: GeoBounds): Promise<POI[]> {
     await delay(300);
     return [];
   }

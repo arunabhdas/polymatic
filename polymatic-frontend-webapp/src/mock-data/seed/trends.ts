@@ -1,5 +1,5 @@
-import type { Trend } from '../types/trend.types';
-import { generateSparkline } from '../utils/mockUtils';
+import type { Trend } from '../../types/trend.types';
+import { generateSparkline } from '../../utils/mockUtils';
 
 export const seedTrends: Trend[] = [
   {

@@ -1,8 +1,5 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Card } from "@/components/ui/card"
-import { Hash } from "lucide-react"
 
-// Mock hot trends
 const hotTrends = [
   { id: "trn-fed-rates", title: "Fed Rates Nov 2026", velocity: 45, volume: 12500 },
   { id: "trn-semi-earnings", title: "Semiconductor Q3", velocity: -12, volume: 8400 },
@@ -14,40 +11,35 @@ const hotTrends = [
 
 export function TrendCarousel() {
   return (
-    <div className="py-4 border-b border-border/40 bg-bg-secondary/30">
-      <div className="px-6 mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2">
-          <span>Trending Topics</span>
-          <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-        </h3>
-        <span className="text-xs text-text-tertiary uppercase tracking-widest font-medium">Real-time</span>
+    <div className="py-3 border-b border-border">
+      <div className="px-5 mb-2 flex items-center justify-between">
+        <span className="text-xs font-medium text-muted-foreground">Trending</span>
       </div>
-      
-      <ScrollArea className="w-full whitespace-nowrap px-6">
-        <div className="flex w-max space-x-4 pb-4">
+
+      <ScrollArea className="w-full whitespace-nowrap px-5">
+        <div className="flex w-max space-x-3 pb-2">
           {hotTrends.map((trend) => (
-            <Card 
-              key={trend.id} 
-              className="w-[240px] shrink-0 p-3 hover:shadow-sm hover:border-border-strong transition-all cursor-pointer bg-bg-card active:scale-[0.98]"
+            <div
+              key={trend.id}
+              className="w-[220px] shrink-0 p-3 rounded-md bg-card border border-border hover:border-muted-foreground/20 transition-colors duration-150 cursor-pointer"
             >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-1.5 text-text-secondary">
-                  <Hash size={14} className="opacity-70" />
-                  <span className="text-xs font-mono truncate max-w-[120px]">{trend.id.replace("trn-", "")}</span>
-                </div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[11px] text-muted-foreground font-mono truncate max-w-[120px]">
+                  {trend.id.replace("trn-", "")}
+                </span>
                 <span className={`text-xs font-mono font-medium ${trend.velocity > 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
                   {trend.velocity > 0 ? '+' : ''}{trend.velocity}%
                 </span>
               </div>
-              
-              <h4 className="font-semibold text-sm text-text-primary truncate mb-1">
+
+              <h4 className="font-medium text-sm text-foreground truncate mb-1">
                 {trend.title}
               </h4>
-              
-              <div className="text-xs text-text-tertiary tabular-nums">
+
+              <div className="text-[11px] text-muted-foreground font-mono">
                 {(trend.volume / 1000).toFixed(1)}k signals / 24h
               </div>
-            </Card>
+            </div>
           ))}
         </div>
         <ScrollBar orientation="horizontal" className="invisible hover:visible" />

@@ -1,5 +1,5 @@
-import type { SentimentQuestion } from '../types/sentiment.types';
-import { generateSparkline } from '../utils/mockUtils';
+import type { SentimentQuestion } from '../../types/sentiment.types';
+import { generateSparkline } from '../../utils/mockUtils';
 
 export const seedQuestions: SentimentQuestion[] = [
   {

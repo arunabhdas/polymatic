@@ -10,12 +10,12 @@ export default function HomeFeed() {
   const items = filteredItems()
 
   return (
-    <div className="flex flex-col h-full bg-bg-primary">
+    <div className="flex flex-col h-full bg-background">
       <FeedFilters />
       <TrendCarousel />
-      
+
       {items.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-text-tertiary gap-3">
+        <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground gap-3">
           <Activity size={32} className="opacity-20" />
           <p className="text-sm">No activity matches your filters.</p>
         </div>

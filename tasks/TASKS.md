@@ -248,6 +248,45 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
+# Epic 3A: UI/UX Transformation (P0) — ⬜ NOT STARTED
+
+> Fix broken CSS tokens and transform to Supabase + Profound premium dark aesthetic.
+> **Depends on:** Epic 1, Epic 2, Epic 3 (partial).
+> **Reference:** supabase.com/docs, tryprofound.com
+
+## Story 3A.1: CSS Token Fix + Dark Theme Tuning
+
+> Fix the root cause of broken UI: unregistered Tailwind tokens. Tune dark values to Profound depths.
+
+- [ ] **E3A-S01-T01** — Fix `@theme inline` in `src/index.css`: register `bg-primary`, `bg-secondary`, `bg-card`, `bg-elevated`, `bg-hover`, `text-primary`, `text-secondary`, `text-tertiary`, `border-subtle`, `border-strong` as aliases to shadcn tokens.
+- [ ] **E3A-S01-T02** — Tune `.dark` values to Profound depths: `--background: #0a0a0a`, `--card: #111111`, `--border: #1e1e1e`, `--secondary/#muted/#accent: #1a1a1a`. Add `--bg-elevated`, `--bg-hover`, `--text-tertiary`, `--border-subtle`, `--border-strong` base tokens.
+- [ ] **E3A-S01-T03** — Add shadow tokens (`--shadow-sm`, `--shadow-md`) to `:root`. Update light theme correspondingly.
+
+## Story 3A.2: Layout Shell Polish
+
+> Restyle AppShell, TopBar, Sidebar, and RightPanel to match Supabase Docs aesthetic.
+
+- [ ] **E3A-S02-T01** — `AppShell.tsx`: flush columns, remove decorative rounded borders and margins. Separate panels with `border-l border-border` only.
+- [ ] **E3A-S02-T02** — `TopBar.tsx`: minimal breadcrumb with slash separators, `h-12`, remove "Active Events" counter, `border-b border-border`.
+- [ ] **E3A-S02-T03** — `Sidebar.tsx`: Supabase-style clean nav — `w-56`, `bg-background`, lowercase section headers, tighter `py-1.5` items, `hover:bg-accent/50` (no hardcoded `bg-white/5`), active indicator.
+- [ ] **E3A-S02-T04** — `RightPanel.tsx`: clean detail sidebar — replace hardcoded `bg-white/*` and `border-white/*` with theme tokens, `text-xs font-medium` labels (no uppercase tracking-widest), smaller activity dots.
+
+## Story 3A.3: Feed Visual Polish
+
+> Restyle feed components to match Profound's clean dark card aesthetic.
+
+- [ ] **E3A-S03-T01** — `FeedFilters.tsx`: minimal filter bar — remove `SlidersHorizontal` icon and "FEED" label, drop `hover:scale-105 active:scale-95`, use `transition-colors duration-150` only.
+- [ ] **E3A-S03-T02** — `TrendCarousel.tsx`: Profound-style cards — replace "Trending Topics" + pulse dot with minimal label, `bg-card border-border`, remove `active:scale-[0.98]`.
+- [ ] **E3A-S03-T03** — `FeedItemRow.tsx`: clean rows — remove left accent bar, `hover:bg-accent/30`, fix all broken `bg-bg-*`/`text-text-*` classes, muted source badge, sparkline opacity 40%→80% on hover.
+
+## Story 3A.4: Build Fix
+
+> Fix 38 TypeScript build errors for clean CI.
+
+- [ ] **E3A-S04-T01** — Fix unused params (prefix with `_`) in `mockProvider.ts`, generators, hooks. Create stub `authStore.ts` for `wsClient.ts` import. Fix type mismatches in seed data.
+
+---
+
 # Epic 3: Home Feed (P0) — 🏗️ PARTIAL (rebuilt)
 
 > Feed view, event cards, clustering, trending bar integration, and virtualization.
@@ -282,6 +321,37 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E03-S03-T01** — Create `FeedCluster.tsx` — Renders the lead card (highest signal in cluster) followed by a "N more from this story" toggle. Toggle expands to show remaining cluster items inline. Collapse animation via framer-motion.
 - [ ] **E03-S03-T02** — Implement clustering logic in `feed.utils.ts` — Group feed items by `clusterId`. Sort each cluster by signal score (severity * velocity * market-linkage). Lead card = highest score. Apply clustering to feed before rendering.
 - [ ] **E03-S03-T03** — Wire trend selection to feed filtering: when `trendsStore.selectedTrendId` changes, `feedStore.activeTrendFilter` updates, TanStack Query refetches with trend filter, feed re-renders showing only items in that cluster. "All Trends" deselection shows the blended "For You" feed (70% velocity + 30% recency ranking).
+
+---
+
+# Epic 3A: UI/UX Transformation (P0) — ✅ COMPLETE
+
+> Fix broken CSS tokens and transform to Supabase + Profound premium dark aesthetic.
+> **Depends on:** Epic 1, Epic 2, Epic 3 (partial).
+> **Reference:** supabase.com/docs, tryprofound.com
+
+## Story 3A.1: CSS Token Fix + Dark Theme Tuning
+
+- [✅] **E3A-S01-T01** — Fix @theme inline: register bg-primary/secondary/card/elevated/hover, text-primary/secondary/tertiary, border-subtle/strong aliases
+- [✅] **E3A-S01-T02** — Tune .dark values to Profound depths (#0a0a0a bg, #111111 card, #1e1e1e border)
+- [✅] **E3A-S01-T03** — Add shadow tokens and update light theme correspondingly
+
+## Story 3A.2: Layout Shell Polish
+
+- [✅] **E3A-S02-T01** — AppShell: flush columns, remove decorative rounded borders
+- [✅] **E3A-S02-T02** — TopBar: minimal breadcrumb with slash separators, remove event counter
+- [✅] **E3A-S02-T03** — Sidebar: Supabase-style clean nav, theme tokens, tighter spacing, active state
+- [✅] **E3A-S02-T04** — RightPanel: clean detail sidebar, replace hardcoded white/* with theme tokens
+
+## Story 3A.3: Feed Visual Polish
+
+- [✅] **E3A-S03-T01** — FeedFilters: minimal filter bar, remove bouncy scale animations, clean button-like badges
+- [✅] **E3A-S03-T02** — TrendCarousel: Profound-style cards, subtle transitions, tighter padding
+- [✅] **E3A-S03-T03** — FeedItemRow: clean rows, fix broken token classes, subtle hover, remove accent bar
+
+## Story 3A.4: Build Fix
+
+- [✅] **E3A-S04-T01** — Fix 37 TypeScript errors (unused params, missing authStore/flagsStore stubs, wrong import paths in seed files, erasableSyntaxOnly compliance, type mismatches)
 
 ---
 

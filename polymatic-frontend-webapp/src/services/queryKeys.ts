@@ -1,13 +1,13 @@
 export const queryKeys = {
   feed: {
     all: ['feed'] as const,
-    list: (filters: Record<string, unknown>) => ['feed', 'list', filters] as const,
+    list: (filters: object) => ['feed', 'list', filters] as const,
     detail: (id: string) => ['feed', 'detail', id] as const,
     clusters: () => ['feed', 'clusters'] as const,
   },
   sentiments: {
     all: ['sentiments'] as const,
-    list: (filters: Record<string, unknown>) => ['sentiments', 'list', filters] as const,
+    list: (filters: object) => ['sentiments', 'list', filters] as const,
     detail: (id: string) => ['sentiments', 'detail', id] as const,
     prediction: (id: string) => ['sentiments', 'prediction', id] as const,
   },
@@ -17,7 +17,7 @@ export const queryKeys = {
   },
   markets: {
     all: ['markets'] as const,
-    list: (filters: Record<string, unknown>) => ['markets', 'list', filters] as const,
+    list: (filters: object) => ['markets', 'list', filters] as const,
     detail: (id: string) => ['markets', 'detail', id] as const,
   },
   search: {
@@ -32,7 +32,7 @@ export const queryKeys = {
   },
   geo: {
     all: ['geo'] as const,
-    events: (bounds: Record<string, unknown>, layers: string[]) => ['geo', 'events', bounds, layers] as const,
-    pois: (bounds: Record<string, unknown>) => ['geo', 'pois', bounds] as const,
+    events: (bounds: object, layers: string[]) => ['geo', 'events', bounds, layers] as const,
+    pois: (bounds: object) => ['geo', 'pois', bounds] as const,
   },
 };

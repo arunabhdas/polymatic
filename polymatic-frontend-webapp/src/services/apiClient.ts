@@ -4,16 +4,21 @@ import type { ErrorResponse } from '../types/api.types';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 class ApiError extends Error {
-  constructor(public status: number, public data: ErrorResponse) {
+  status: number;
+  data: ErrorResponse;
+
+  constructor(status: number, data: ErrorResponse) {
     super(data.message || 'API Error');
     this.name = 'ApiError';
+    this.status = status;
+    this.data = data;
   }
 }
 
 export const apiClient = {
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const { token } = useAuthStore.getState();
-    
+
     const headers = new Headers(options.headers);
     headers.set('Content-Type', 'application/json');
     if (token) {
@@ -27,25 +32,23 @@ export const apiClient = {
 
     if (!response.ok) {
       if (response.status === 401) {
-        // Trigger generic logout/refresh token rotation here in the future
         useAuthStore.getState().logout();
       }
-      
-      const errorData = await response.json().catch(() => ({ 
-        status: 'error', 
-        code: 'UNKNOWN', 
-        message: 'An unknown API error occurred' 
+
+      const errorData = await response.json().catch(() => ({
+        status: 'error',
+        code: 'UNKNOWN',
+        message: 'An unknown API error occurred'
       }));
-      
+
       throw new ApiError(response.status, errorData);
     }
 
-    // All successful API calls wrap their returns in { data: T, status: 'success' }
     const json = await response.json();
     return json.data as T;
   },
 
-  get<T>(endpoint: string, params?: Record<string, any>) {
+  get<T>(endpoint: string, params?: Record<string, string | number | boolean | null | undefined>) {
     const url = new URL(`${API_BASE_URL}${endpoint}`, window.location.origin);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -54,19 +57,18 @@ export const apiClient = {
         }
       });
     }
-    // Cut off the base URL to use the relative request path wrapper
     const path = url.toString().replace(window.location.origin + API_BASE_URL, '');
     return this.request<T>(path);
   },
 
-  post<T>(endpoint: string, data?: any) {
+  post<T>(endpoint: string, data?: unknown) {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: JSON.stringify(data),
     });
   },
 
-  put<T>(endpoint: string, data?: any) {
+  put<T>(endpoint: string, data?: unknown) {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: JSON.stringify(data),

@@ -993,8 +993,263 @@
   └───────────────────────────┴───────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
   Plus reference tables for: feature flags, numeric specifications, browser matrix, and seed data.
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
-  
+## Epic 3A Plan
+
+ Epic 3A: UI/UX Transformation — Supabase + Profound Aesthetic
+
+ Context
+
+ The current UI has two critical issues:
+ 1. Broken styling: Feed components use Tailwind classes (bg-bg-primary, text-text-primary, border-border-subtle) that are NOT registered in the @theme
+  inline block of index.css. These utilities resolve to nothing — backgrounds, text colors, and borders are invisible/missing.
+ 2. Generic aesthetic: The layout is functional but lacks the premium, layered, dark SaaS feel of Supabase Docs and Profound.
+
+ Design references:
+ - Supabase Docs (supabase.com/docs): Clean three-column layout, subtle 1px borders at low opacity, icon-first sidebar, 150ms transitions, restrained
+ color, no decorative rounded corners
+ - Profound (tryprofound.com): Pure black backgrounds (#000, #0D0D0D), thin gray borders, hover opacity/scale transforms, gradient overlays, deep layer
+  separation
+
+ Goal: Fix all broken styling, transform the UI to a premium dark SaaS aesthetic.
+
+ Scope
+
+ In scope: Fix CSS tokens, restyle AppShell + Sidebar + TopBar + RightPanel + HomeFeed + FeedFilters + FeedItemRow + TrendCarousel, tune dark theme,
+ fix 38 TS build errors
+ Out of scope: New features, new routes, data model changes
+
+ ---
+ Step 1: Fix CSS Token System (src/index.css)
+
+ Root cause of broken UI. Components use bg-bg-primary, text-text-secondary, etc. but these aren't in @theme inline.
+
+ Add to @theme inline (alias old names to shadcn tokens):
+ --color-bg-primary: var(--background);
+ --color-bg-secondary: var(--muted);
+ --color-bg-card: var(--card);
+ --color-bg-elevated: var(--bg-elevated);
+ --color-bg-hover: var(--bg-hover);
+ --color-text-primary: var(--foreground);
+ --color-text-secondary: var(--muted-foreground);
+ --color-text-tertiary: var(--text-tertiary);
+ --color-border-subtle: var(--border-subtle);
+ --color-border-strong: var(--border-strong);
+ --color-accent: var(--accent);
+
+ Add to .dark block (new base tokens):
+ --bg-elevated: #1a1a1a;
+ --bg-hover: #1e1e1e;
+ --text-tertiary: #525252;
+ --border-subtle: rgba(255,255,255,0.06);
+ --border-strong: rgba(255,255,255,0.12);
+
+ Tune .dark values toward Profound's deeper blacks:
+
+ ┌──────────────┬─────────┬─────────┐
+ │    Token     │ Current │   New   │
+ ├──────────────┼─────────┼─────────┤
+ │ --background │ #0f0f0f │ #0a0a0a │
+ ├──────────────┼─────────┼─────────┤
+ │ --card       │ #141414 │ #111111 │
+ ├──────────────┼─────────┼─────────┤
+ │ --popover    │ #141414 │ #141414 │
+ ├──────────────┼─────────┼─────────┤
+ │ --secondary  │ #262626 │ #1a1a1a │
+ ├──────────────┼─────────┼─────────┤
+ │ --muted      │ #262626 │ #1a1a1a │
+ ├──────────────┼─────────┼─────────┤
+ │ --accent     │ #262626 │ #1a1a1a │
+ ├──────────────┼─────────┼─────────┤
+ │ --border     │ #262626 │ #1e1e1e │
+ ├──────────────┼─────────┼─────────┤
+ │ --input      │ #262626 │ #1e1e1e │
+ ├──────────────┼─────────┼─────────┤
+ │ --ring       │ #404040 │ #333333 │
+ └──────────────┴─────────┴─────────┘
+
+ Add to :root (shared tokens):
+ --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+ --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+
+ Update light theme correspondingly.
+
+ File: src/index.css
+
+ ---
+ Step 2: AppShell Layout (src/app/AppShell.tsx)
+
+ Remove decorative rounded borders. Go flush columns like Supabase.
+
+ - Main content: remove rounded-tl-lg border-t border-l border-border/40 bg-card/30 shadow-sm mr-2 mt-2 mb-2 rounded-lg
+ - Replace with: border-l border-border bg-background
+ - No margins, no rounded corners, full-height flush panels
+
+ File: src/app/AppShell.tsx
+
+ ---
+ Step 3: Sidebar (src/sidebar/Sidebar.tsx)
+
+ Supabase-style clean navigation:
+ - Width: w-56 (was w-64)
+ - Background: bg-background (not bg-sidebar)
+ - Section headers: text-xs font-medium text-muted-foreground (drop uppercase + tracking-widest)
+ - Nav items: tighter py-1.5, hover bg-accent/50, 150ms transitions
+ - Active indicator: bg-accent text-foreground instead of hardcoded hover:bg-white/5
+ - Keyboard shortcut: text-[10px] text-muted-foreground/60 bg-muted px-1.5 py-0.5 rounded
+ - User section: simplified
+
+ File: src/sidebar/Sidebar.tsx
+
+ ---
+ Step 4: TopBar (src/app/TopBar.tsx)
+
+ Minimal breadcrumb:
+ - Height: h-12 (was h-14)
+ - Breadcrumb: slash separators, not chevrons
+ - Remove "02 / 145 Active Events" counter (noise)
+ - Subtle border-b border-border
+ - Plain bg-background, no backdrop blur
+
+ File: src/app/TopBar.tsx
+
+ ---
+ Step 5: FeedFilters (src/feed/components/FeedFilters.tsx)
+
+ Minimal filter bar:
+ - Remove SlidersHorizontal icon and "FEED" uppercase label
+ - Use clean button-like badges, no hover:scale-105 active:scale-95
+ - transition-colors duration-150 only
+ - py-2.5 px-5, sticky with bg-background/80 backdrop-blur-sm
+
+ File: src/feed/components/FeedFilters.tsx
+
+ ---
+ Step 6: TrendCarousel (src/feed/components/TrendCarousel.tsx)
+
+ Profound-style cards:
+ - Replace "Trending Topics" + pulse dot with minimal "Trending" label
+ - Cards: bg-card border border-border hover:border-border/80 transition
+ - Remove active:scale-[0.98]
+ - Tighter padding, clean typography
+
+ File: src/feed/components/TrendCarousel.tsx
+
+ ---
+ Step 7: FeedItemRow (src/feed/components/FeedItemRow.tsx)
+
+ Clean list rows:
+ - Remove left accent bar (the w-0.5 bg-accent indicator)
+ - border-b border-border separation
+ - Hover: hover:bg-accent/30 (subtle, no accent bar)
+ - Avatar: size-7
+ - Source badge: muted text-muted-foreground text, drop outline badge
+ - Content: text-muted-foreground, text-foreground on hover
+ - Sparkline: opacity 40%, hover 80%
+ - Fix all bg-bg-* and text-text-* classes to use theme tokens
+
+ File: src/feed/components/FeedItemRow.tsx
+
+ ---
+ Step 8: RightPanel (src/panels/RightPanel.tsx)
+
+ Clean detail sidebar:
+ - Header: plain title, no heavy styling
+ - Labels: text-xs text-muted-foreground font-medium (no uppercase tracking-widest)
+ - Replace hardcoded bg-white/[0.01] with bg-background
+ - Replace bg-white/5, bg-white/10, border-white/5 with theme tokens
+ - Activity dots: smaller, use ring-background (not ring-card)
+ - Input: use shadcn-compatible styling
+
+ File: src/panels/RightPanel.tsx
+
+ ---
+ Step 9: Fix TypeScript Build Errors
+
+ 38 errors across 15 files. Approach:
+ - Prefix unused params with _ in mockProvider, generators, hooks
+ - Create stub src/state/authStore.ts for wsClient import
+ - Fix type mismatches in seed data
+ - Fix sample.test.tsx
+
+ Files: src/services/mockProvider.ts, src/services/wsClient.ts, src/services/apiClient.ts, src/services/dataProvider.ts, src/mock-data/generators/*.ts,
+  src/mock-data/seed/*.ts, src/hooks/*.ts, src/sample.test.tsx, src/state/authStore.ts (new stub)
+
+ ---
+ Critical Files
+
+ ┌───────────────────────────────────────┬─────────────────────────────────────────────────┐
+ │                 File                  │                     Action                      │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/index.css                         │ Fix token system, tune dark values, add shadows │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/app/AppShell.tsx                  │ Flush layout, remove rounded borders            │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/app/TopBar.tsx                    │ Minimal breadcrumb, remove clutter              │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/sidebar/Sidebar.tsx               │ Supabase-style clean nav                        │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/panels/RightPanel.tsx             │ Theme tokens, clean detail panel                │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/feed/HomeFeed.tsx                 │ Fix CSS class references                        │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/feed/components/FeedFilters.tsx   │ Minimal filter tabs                             │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/feed/components/FeedItemRow.tsx   │ Clean row design, fix tokens                    │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/feed/components/TrendCarousel.tsx │ Profound-style cards                            │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ src/state/authStore.ts                │ New stub (fix import error)                     │
+ ├───────────────────────────────────────┼─────────────────────────────────────────────────┤
+ │ 10+ service/mock files                │ Fix TS unused-var errors                        │
+ └───────────────────────────────────────┴─────────────────────────────────────────────────┘
+
+ TASKS.md Update
+
+ Add Epic 3A before Epic 4 in tasks/TASKS.md with all 9 steps as tasks:
+
+ # Epic 3A: UI/UX Transformation (P0)
+
+ > Fix broken CSS tokens and transform to Supabase + Profound premium dark aesthetic.
+ > **Depends on:** Epic 1, Epic 2, Epic 3 (partial).
+ > **Reference:** supabase.com/docs, tryprofound.com
+
+ ## Story 3A.1: CSS Token Fix + Dark Theme Tuning
+ - [ ] E3A-S01-T01 — Fix @theme inline: register bg-primary/secondary/card/elevated/hover, text-primary/secondary/tertiary, border-subtle/strong
+ aliases
+ - [ ] E3A-S01-T02 — Tune .dark values to Profound depths (#0a0a0a bg, #111111 card, #1e1e1e border)
+ - [ ] E3A-S01-T03 — Add shadow tokens and update light theme correspondingly
+
+ ## Story 3A.2: Layout Shell Polish
+ - [ ] E3A-S02-T01 — AppShell: flush columns, remove decorative rounded borders
+ - [ ] E3A-S02-T02 — TopBar: minimal breadcrumb with slash separators, remove event counter
+ - [ ] E3A-S02-T03 — Sidebar: Supabase-style clean nav, theme tokens, tighter spacing
+ - [ ] E3A-S02-T04 — RightPanel: clean detail sidebar, replace hardcoded white/* with theme tokens
+
+ ## Story 3A.3: Feed Visual Polish
+ - [ ] E3A-S03-T01 — FeedFilters: minimal filter bar, remove bouncy animations
+ - [ ] E3A-S03-T02 — TrendCarousel: Profound-style cards, subtle transitions
+ - [ ] E3A-S03-T03 — FeedItemRow: clean rows, fix broken token classes, subtle hover
+
+ ## Story 3A.4: Build Fix
+ - [ ] E3A-S04-T01 — Fix 38 TypeScript errors (unused params, missing authStore stub, type mismatches)
+
+ ---
+ Verification
+
+ 1. npm run build — zero TypeScript errors
+ 2. npm run dev — app loads at localhost, no console errors
+ 3. Visual: background is near-black (#0a0a0a), clear layer separation
+ 4. Visual: borders are barely visible, subtle
+ 5. Visual: feed rows are clean, readable, no missing backgrounds
+ 6. Visual: sidebar matches Supabase's navigation pattern
+ 7. Visual: trend cards have subtle depth
+ 8. Visual: right panel has clean metadata + activity
+ 9. All hover states are 150ms, no bouncy scale effects
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+
 ## Epic 3 Plan
 
  Plan: Implement Epic 3 — Home Feed

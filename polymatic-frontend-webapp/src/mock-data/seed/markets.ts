@@ -1,5 +1,5 @@
-import type { MarketContract } from '../types/market.types';
-import { generateSparkline } from '../utils/mockUtils';
+import type { MarketContract } from '../../types/market.types';
+import { generateSparkline } from '../../utils/mockUtils';
 
 export const seedMarkets: MarketContract[] = [
   {

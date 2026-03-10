@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 
 // Simple mock component to test the pipeline
 const DemoHelloWorld = () => <div>Hello Test World</div>;

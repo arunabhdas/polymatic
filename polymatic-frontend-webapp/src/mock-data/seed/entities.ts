@@ -1,4 +1,4 @@
-import type { Entity } from '../types/common.types';
+import type { Entity } from '../../types/common.types';
 
 export const seedEntities: Entity[] = [
   // Geopolitics / Defense

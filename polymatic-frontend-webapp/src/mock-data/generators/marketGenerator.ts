@@ -1,7 +1,6 @@
 import { seedMarkets } from '../seed/markets';
-import type { MarketContract, PricePoint } from '../../types/market.types';
+import type { MarketContract } from '../../types/market.types';
 import { randomBetween } from '../../utils/mockUtils';
-import { nanoid } from 'nanoid';
 
 export class MarketGenerator {
   private markets: Map<string, MarketContract> = new Map();
