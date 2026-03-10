@@ -1,6 +1,8 @@
 import { useMemo, useRef } from 'react';
 import { Viewer, Entity, PointGraphics, CameraFlyTo, ImageryLayer, CesiumComponentRef } from 'resium';
-import { Cartesian3, Color, UrlTemplateImageryProvider, Viewer as CesiumViewer } from 'cesium';
+import { Cartesian3, Color, Ion, UrlTemplateImageryProvider, Viewer as CesiumViewer } from 'cesium';
+
+Ion.defaultAccessToken = process.env.CESIUM_ION_TOKEN ?? '';
 import { Plus, Minus } from 'lucide-react';
 import { useStore } from '../store/useStore';
 

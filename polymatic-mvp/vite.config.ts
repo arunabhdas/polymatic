@@ -11,6 +11,7 @@ export default defineConfig(({mode}) => {
     plugins: [react(), tailwindcss(), cesium()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      'process.env.CESIUM_ION_TOKEN': JSON.stringify(env.CESIUM_ION_TOKEN),
     },
     resolve: {
       alias: {
