@@ -13,6 +13,7 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@tanstack/react-query": "^5.90.21",
+    "@types/react-router-dom": "^5.3.3",
     "cesium": "^1.139.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

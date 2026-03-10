@@ -1,9 +1,9 @@
 # PolyMatic — Task Breakdown
 
-**Version:** 1.1
-**Date:** March 9, 2026
+**Version:** 1.2
+**Date:** March 10, 2026
 **Format:** Epic → Story → Task
-**Total:** 16 Epics · ~49 Stories · ~230+ Tasks
+**Total:** 21 Epics · ~68 Stories · ~307 Tasks
 
 > **Note (March 9, 2026):** The frontend was reset and rebuilt from scratch (commit `b278904`).
 > Epic 1 and Epic 2 were re-implemented in the new codebase with shadcn/ui, Three.js,
@@ -24,6 +24,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - **P0** = Must ship (MVP). Epics 1–10.
 - **P1** = Ship if time permits. Epics 11–15.
 - **P0/Polish** = Final pass. Epic 16.
+- **P2** = Post-MVP. Emerging Market Intelligence. Epics 17–21.
 
 ## Status Legend
 
@@ -852,6 +853,225 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
+# Epic 17: Equity Market Intelligence (P2)
+
+> Emerging market equity layers: India, Singapore, ASEAN, and global EM comparison.
+> **Depends on:** E01 Foundation, E02 Mock Data Engine, E11 Geo View.
+> **Blocks:** E21 (AI Market Insight Engine).
+> **Target users:** Hedge funds, global macro funds, retail investors, family offices, geopolitical analysts.
+
+## Story 17.1: India Stock Market Intelligence
+
+> Live Indian index tracking, sector heatmap, and capital flow visualization overlaid on Indian economic regions.
+
+- [ ] **E17-S01-T01** — Define TypeScript types for Indian equity data: `IndiaIndex` (name, price, change, changePercent, volume), `IndiaStock` (symbol, name, sector, price, change, marketCap), `SectorHeatmapEntry` (sector, performance, weight). Add to `types/equityMarkets.ts`.
+- [ ] **E17-S01-T02** — Build mock data generator for Indian markets: simulate NIFTY 50, BSE SENSEX, NIFTY Next 50, NIFTY 500 index prices with realistic intraday drift. Generate top 20 gainers/losers with sector tags.
+- [ ] **E17-S01-T03** — Create `IndiaMarketPanel` component: live index ticker strip (NIFTY 50, SENSEX, Next 50, NIFTY 500), each showing price + delta + sparkline. Auto-refreshes every 5s.
+- [ ] **E17-S01-T04** — Create `SectorHeatmap` component: treemap visualization of Indian sectors (IT Services, Semiconductors, Manufacturing, Fintech, Renewable Energy, Pharma, Banking). Color-coded by performance (green positive, red negative). Hover shows sector details.
+- [ ] **E17-S01-T05** — Create `TopMovers` component: tabbed view showing top 10 gainers and top 10 losers. Each row: stock symbol, name, price, change%, volume. Sortable columns.
+- [ ] **E17-S01-T06** — Create `CapitalFlows` component: bar chart showing FII (Foreign Institutional Investor) and DII (Domestic Institutional Investor) net flows. Daily/weekly/monthly toggle.
+- [ ] **E17-S01-T07** — Add India market layer to Cesium globe: overlay market activity markers on major Indian economic regions (Mumbai, Delhi NCR, Bangalore, Hyderabad, Chennai). Point size proportional to trading volume. Toggle on/off via sidebar.
+
+## Story 17.2: India Sector Intelligence
+
+> Deep-dive into key Indian sectors driving growth, with policy impact and foreign investment tracking.
+
+- [ ] **E17-S02-T01** — Create `SectorIntelligence` component: card-based view for each key sector (IT Services, Semiconductors, Manufacturing, Fintech, Renewable Energy). Each card: sector momentum indicator, top 5 stocks, 30-day performance chart.
+- [ ] **E17-S02-T02** — Build mock generator for sector momentum data: simulate weekly momentum scores (0-100), policy impact events (e.g., "PLI scheme approved for semiconductors"), and foreign investment flow per sector.
+- [ ] **E17-S02-T03** — Create `PolicyImpact` component: timeline of government policy events affecting each sector. Each event: date, policy name, affected sector, estimated impact (positive/negative/neutral), source link.
+- [ ] **E17-S02-T04** — Create `ForeignInvestmentTracker` component: stacked area chart showing FDI inflows by sector over time. Hover shows exact values. Period selector (1M, 3M, 6M, 1Y).
+
+## Story 17.3: Singapore Market Intelligence
+
+> FTSE Straits Times Index tracking and SGX top 30 company analysis with financial hub overlay.
+
+- [ ] **E17-S03-T01** — Define TypeScript types for Singapore equity data: `SGXCompany` (symbol, name, sector, price, change, marketCap, dividendYield). Add to `types/equityMarkets.ts`.
+- [ ] **E17-S03-T02** — Build mock data generator for Singapore markets: simulate FTSE STI index, top 30 SGX companies with sector tags (Finance, REITs, Tech, Industrial, Consumer).
+- [ ] **E17-S03-T03** — Create `SingaporeMarketPanel` component: STI index ticker, sector performance breakdown, top 30 company table with sortable columns (price, change, market cap, dividend yield).
+- [ ] **E17-S03-T04** — Create `CapitalFlowsSGX` component: capital flow analysis for SGX — foreign vs domestic, sector rotation. Bar chart + trend line.
+- [ ] **E17-S03-T05** — Add Singapore financial hub overlay to Cesium globe: marker on Singapore with expandable detail card showing STI performance, top movers, sector breakdown.
+
+## Story 17.4: ASEAN Market Growth Tracker
+
+> Regional growth heatmap and capital rotation analysis across Indonesia, Thailand, Vietnam, Malaysia.
+
+- [ ] **E17-S04-T01** — Define TypeScript types for ASEAN markets: `ASEANIndex` (country, indexName, price, change, changePercent, ytdReturn). Markets: IDX Composite (Indonesia), SET Index (Thailand), VN30 (Vietnam), FTSE Bursa (Malaysia).
+- [ ] **E17-S04-T02** — Build mock data generator for ASEAN indices: simulate 4 indices with correlated but distinct price movements. Include YTD returns and volume data.
+- [ ] **E17-S04-T03** — Create `ASEANDashboard` component: side-by-side index comparison cards. Each card: country flag, index name, price, change%, YTD return, 30-day sparkline.
+- [ ] **E17-S04-T04** — Create `RegionalHeatmap` component: choropleth map overlay on ASEAN region showing relative performance by country. Color intensity = YTD return. Hover shows detailed metrics.
+- [ ] **E17-S04-T05** — Create `CapitalRotation` component: Sankey or flow diagram showing capital movement between ASEAN markets. Highlight net inflows/outflows per country.
+
+## Story 17.5: Global Emerging Market Comparison
+
+> Dashboard comparing MSCI EM, NIFTY 50, STI, Bovespa, SA Top 40 with growth metrics.
+
+- [ ] **E17-S05-T01** — Define TypeScript types for global EM comparison: `EmergingMarketIndex` (name, country, price, change, ytdReturn, peRatio, dividendYield, marketCap). Indices: MSCI EM, NIFTY 50, STI Singapore, Brazil Bovespa, South Africa Top 40.
+- [ ] **E17-S05-T02** — Build mock data generator for global EM indices: simulate 5 indices with macro-correlated movements. Include PE ratios, dividend yields, total market cap.
+- [ ] **E17-S05-T03** — Create `EMComparisonDashboard` component: table view with all 5 indices. Columns: index, country, price, 1D change, YTD, PE ratio, yield, market cap. Sortable by any column. Highlight best/worst performers.
+- [ ] **E17-S05-T04** — Create `EMPerformanceChart` component: multi-line chart comparing normalized YTD performance of all 5 indices (rebased to 100). Interactive legend to toggle indices on/off. Tooltip shows exact values on hover.
+- [ ] **E17-S05-T05** — Add EM globe overlay: markers on each EM country (India, Singapore, Brazil, South Africa, China) with color-coded performance rings. Click to drill into country-specific panel.
+
+---
+
+# Epic 18: Startup Ecosystem Intelligence (P2)
+
+> Venture ecosystem signals: startup density maps, funding rounds, unicorn tracking, and AI-powered opportunity discovery.
+> **Depends on:** E01 Foundation, E02 Mock Data Engine, E11 Geo View.
+> **Blocks:** E21 (AI Market Insight Engine).
+> **Target users:** Venture capital firms, hedge funds, family offices, geopolitical analysts.
+
+## Story 18.1: India Startup Ecosystem Overlay
+
+> Map startup hubs across India with density, funding, and unicorn data.
+
+- [ ] **E18-S01-T01** — Define TypeScript types for startup ecosystem: `StartupHub` (city, lat, lng, startupCount, totalFunding, unicornCount, topSectors), `Startup` (name, city, sector, stage, valuation, lastFundingRound, lastFundingAmount, founded, employees). Add to `types/startupEcosystem.ts`.
+- [ ] **E18-S01-T02** — Build mock data generator for India startup ecosystem: generate hubs for Bangalore, Hyderabad, Delhi NCR, Mumbai, Chennai. Each hub: 50-500 startups, realistic funding distributions, 2-15 unicorns. Generate top 20 startups per hub.
+- [ ] **E18-S01-T03** — Create `StartupMapOverlay` component: Cesium globe markers on Indian startup hubs. Marker size proportional to startup density. Color intensity = total funding. Click to expand hub details.
+- [ ] **E18-S01-T04** — Create `HubDetailPanel` component: shown in RightPanel on hub click. Shows: city name, total startups, total funding, unicorn count, top sectors pie chart, top 10 startups list.
+- [ ] **E18-S01-T05** — Create `UnicornList` component: table of Indian unicorns with columns: name, city, sector, valuation, last round, YoY growth. Sortable. Filter by city/sector.
+
+## Story 18.2: Singapore Startup Ecosystem
+
+> Map Singapore tech ecosystem: fintech, AI, deep tech, Web3 clusters.
+
+- [ ] **E18-S02-T01** — Build mock data generator for Singapore startup ecosystem: generate clusters for Fintech, AI/ML, Deep Tech, Web3, HealthTech. Include VC firms, accelerators (YC SEA, Antler, SOSV), and government grants (EDB, MAS).
+- [ ] **E18-S02-T02** — Create `SingaporeEcosystem` component: sector-clustered view of Singapore startups. Each cluster: startup count, total funding, key companies, active VCs. Radar chart showing sector strength.
+- [ ] **E18-S02-T03** — Create `VCActivity` component: list of active VCs in Singapore with portfolio size, recent investments, sector focus. Sortable by deal count, total deployed capital.
+- [ ] **E18-S02-T04** — Create `AcceleratorTracker` component: cards for major accelerators showing: cohort size, notable alumni, acceptance rate, demo day dates.
+
+## Story 18.3: Startup Funding Signals
+
+> Overlay venture funding activity with signals for Seed through Series C+.
+
+- [ ] **E18-S03-T01** — Define TypeScript types for funding signals: `FundingRound` (startup, stage, amount, date, investors, sector, city, country), `FundingSummary` (totalDeals, totalCapital, averageDealSize, topSector, topCity). Add to `types/startupEcosystem.ts`.
+- [ ] **E18-S03-T02** — Build mock data generator for funding signals: simulate 100+ funding events per month across Seed, Series A, B, C+ stages. Realistic amount distributions ($500K-$500M). Include investor names and sectors.
+- [ ] **E18-S03-T03** — Create `FundingFeed` component: real-time feed of funding events. Each item: startup name, stage badge (color-coded: Seed=green, A=blue, B=purple, C+=gold), amount, investors, sector. Filterable by stage/sector/city.
+- [ ] **E18-S03-T04** — Create `FundingTrends` component: charts showing capital flow over time. Breakdowns: by stage (stacked bar), by sector (pie), by geography (choropleth). Period selector (1M, 3M, 6M, 1Y).
+- [ ] **E18-S03-T05** — Create `InvestorNetwork` component: graph visualization showing investor → startup connections. Node size = deal count. Edge thickness = investment amount. Filter by sector/stage.
+
+## Story 18.4: Tech Startup Opportunity Discovery
+
+> AI engine that scans datasets to identify fast-growing startups with unusual signals.
+
+- [ ] **E18-S04-T01** — Define TypeScript types for opportunity signals: `StartupSignal` (startup, signalType, confidence, timestamp, details), signal types: "hiring_spike", "revenue_growth", "developer_activity", "funding_velocity", "market_expansion".
+- [ ] **E18-S04-T02** — Build mock data generator for opportunity signals: generate 5-10 signals per day. Each signal includes: startup name, signal type, confidence score (60-98%), supporting data points, sector, city.
+- [ ] **E18-S04-T03** — Create `OpportunityFeed` component: signal cards ranked by confidence. Each card: startup name, signal type icon, confidence badge (opacity-based), key metric highlight (e.g., "Hiring +42% YoY"), sector, timestamp.
+- [ ] **E18-S04-T04** — Create `SignalDetail` component: expanded view in RightPanel. Shows: all supporting data points, historical context, comparable companies, risk factors. Action buttons: "Track", "Dismiss", "Deep Dive".
+
+## Story 18.5: Unicorn Tracker
+
+> Track startups valued above $1B with valuation growth, IPO readiness, and M&A signals.
+
+- [ ] **E18-S05-T01** — Define TypeScript types: `Unicorn` (name, country, sector, valuation, lastValuationDate, ipoReadiness, mnaTarget, yoyGrowth, totalFunding, employees, founded). Add to `types/startupEcosystem.ts`.
+- [ ] **E18-S05-T02** — Build mock data generator for unicorn tracker: generate 50+ global unicorns with realistic valuations ($1B-$100B). Include IPO readiness scores (0-100), M&A target probability, and YoY valuation growth.
+- [ ] **E18-S05-T03** — Create `UnicornDashboard` component: sortable table with columns: name, country flag, sector, valuation, YoY growth, IPO readiness meter, M&A target badge. Filter by country/sector. Search by name.
+- [ ] **E18-S05-T04** — Create `ValuationTimeline` component: line chart showing valuation progression for selected unicorn. Milestone markers for funding rounds. Compare mode: overlay 2-3 unicorns.
+- [ ] **E18-S05-T05** — Add unicorn globe overlay: markers on unicorn HQ locations. Size = valuation. Color = sector. Cluster at zoom levels. Click to show detail card.
+
+---
+
+# Epic 19: AI Market Insight Engine (P2)
+
+> Extend the AI insight engine to correlate commodity signals, shipping flows, satellite imagery, stock market data, and startup funding into actionable intelligence alerts.
+> **Depends on:** E17 (Equity Markets), E18 (Startup Ecosystem), E05 (Sentiments Engine).
+
+## Story 19.1: Cross-Signal Correlation Engine
+
+> AI engine that identifies correlations between commodity, shipping, equity, and startup signals.
+
+- [ ] **E19-S01-T01** — Define TypeScript types for AI insights: `MarketInsight` (id, title, summary, signals, confidence, timestamp, category, impact), `CorrelatedSignal` (source, type, description, strength). Categories: "commodity_equity", "shipping_supply", "funding_momentum", "geopolitical_market". Add to `types/aiInsights.ts`.
+- [ ] **E19-S01-T02** — Build mock data generator for AI insights: generate 3-5 insights per day. Each correlates 2-4 signals from different domains. Realistic confidence scores (70-95%). Include structured summary sections.
+- [ ] **E19-S01-T03** — Create `InsightCard` component: structured intelligence summary card. Sections: headline, correlated signals list (source icon + description), confidence meter, impact assessment (bullish/bearish/neutral), recommended actions.
+- [ ] **E19-S01-T04** — Create `InsightFeed` component: chronological feed of AI-generated insights. Filterable by category, confidence threshold, and time range. Mark as read/starred.
+
+## Story 19.2: Automated Alert Generation
+
+> AI generates alerts when cross-domain correlations exceed confidence thresholds.
+
+- [ ] **E19-S02-T01** — Define alert trigger types: `InsightAlert` (insightId, triggerType, severity, message). Trigger types: "correlation_spike", "divergence_detected", "momentum_shift", "anomaly_flagged".
+- [ ] **E19-S02-T02** — Build mock alert generator: simulate 1-3 alerts per hour during market hours. Each linked to an insight. Severity: info/warning/critical.
+- [ ] **E19-S02-T03** — Create `InsightAlertBanner` component: top-of-screen banner for critical alerts. Auto-dismisses after 10s. Click to expand insight detail. Queue multiple alerts.
+- [ ] **E19-S02-T04** — Create `AlertHistory` component: paginated list of past alerts. Filter by severity, category, date range. Show resolution status (open/acknowledged/dismissed).
+
+## Story 19.3: Insight Dashboard
+
+> Dedicated dashboard view summarizing AI market intelligence.
+
+- [ ] **E19-S03-T01** — Create `InsightDashboard` route at `/dashboard/insights`. Layout: top metrics (active insights, alerts today, avg confidence), main insight feed, sidebar with category filters.
+- [ ] **E19-S03-T02** — Create `InsightMetrics` component: 4 metric cards — Active Insights (count), Alerts Today (count + severity breakdown), Avg Confidence (% with trend arrow), Top Category (name + count).
+- [ ] **E19-S03-T03** — Create `CorrelationMatrix` component: heatmap showing signal correlation strength between domains (Commodities, Shipping, Equities, Startups, Sentiment). Click cell to see related insights.
+- [ ] **E19-S03-T04** — Add "Insights" nav item to Sidebar with badge count for unread insights. Wire to `/dashboard/insights` route.
+
+---
+
+# Epic 20: Emerging Markets Backend Pipelines (P2)
+
+> Backend ingestion workers for stock market APIs, venture funding datasets, and startup databases.
+> **Depends on:** E17, E18. Backend counterpart in `polymatic-mvp-backend/`.
+
+## Story 20.1: Stock Market Data Ingestion
+
+> Workers to ingest real-time and historical stock market data for India, Singapore, and ASEAN markets.
+
+- [ ] **E20-S01-T01** — Research and document available stock market APIs: Alpha Vantage, Yahoo Finance, NSE India API, SGX API, Bloomberg (if licensed). Document rate limits, data coverage, cost, and latency. Output to `polymatic-mvp-docs/data-sources/equity-apis.md`.
+- [ ] **E20-S01-T02** — Design ingestion pipeline architecture: polling vs WebSocket, refresh intervals, data normalization layer, caching strategy (Redis/SQLite), error handling and retry logic. Document in `polymatic-mvp-docs/architecture/equity-pipeline.md`.
+- [ ] **E20-S01-T03** — Implement `EquityIngestionWorker` in backend: connects to chosen stock API, normalizes data to `IndiaIndex`/`SGXCompany`/`ASEANIndex` types, writes to database, publishes updates via WebSocket to frontend.
+- [ ] **E20-S01-T04** — Implement historical data backfill: on first run, fetch 1 year of daily data for all tracked indices. Store in SQLite. Serve via REST endpoint for chart components.
+- [ ] **E20-S01-T05** — Add health checks and monitoring: track API call count, error rate, data freshness. Expose `/health/equity` endpoint.
+
+## Story 20.2: Venture Funding Data Ingestion
+
+> Workers to ingest startup and funding data from public and licensed sources.
+
+- [ ] **E20-S02-T01** — Research and document available startup/funding data sources: Crunchbase API, PitchBook (if licensed), CB Insights, public SEC filings, AngelList, Tracxn. Document coverage, cost, and API limits. Output to `polymatic-mvp-docs/data-sources/startup-apis.md`.
+- [ ] **E20-S02-T02** — Design startup data pipeline: ingestion frequency, deduplication strategy, entity resolution (matching startups across sources), data freshness tracking. Document in `polymatic-mvp-docs/architecture/startup-pipeline.md`.
+- [ ] **E20-S02-T03** — Implement `FundingIngestionWorker` in backend: connects to chosen startup API, normalizes data to `FundingRound`/`Startup`/`Unicorn` types, writes to database, publishes updates via WebSocket.
+- [ ] **E20-S02-T04** — Implement startup signal detection: backend worker that analyzes funding velocity, hiring trends, and revenue indicators to generate `StartupSignal` events. Publishes to WebSocket channel.
+- [ ] **E20-S02-T05** — Add data quality checks: validate incoming records (required fields, value ranges, date consistency). Log and quarantine invalid records. Alert on data source outages.
+
+## Story 20.3: AI Correlation Pipeline
+
+> Backend worker that correlates signals across domains and generates AI insights.
+
+- [ ] **E20-S03-T01** — Design correlation engine architecture: input sources (equity, commodity, shipping, funding, sentiment), correlation algorithms, confidence scoring, output format. Document in `polymatic-mvp-docs/architecture/correlation-engine.md`.
+- [ ] **E20-S03-T02** — Implement `CorrelationWorker` in backend: runs every 5-10 minutes, scans recent signals across all domains, identifies statistically significant correlations, generates `MarketInsight` objects.
+- [ ] **E20-S03-T03** — Implement confidence scoring: multi-factor score based on signal count, signal freshness, historical pattern match, and source reliability. Output 0-100 score.
+- [ ] **E20-S03-T04** — Implement alert generation: when correlation confidence exceeds threshold (configurable, default 80%), generate `InsightAlert` and push to frontend via WebSocket.
+
+---
+
+# Epic 21: Emerging Markets Documentation (P2)
+
+> Architecture docs, data models, and data source documentation for all new emerging market features.
+> **Depends on:** E17, E18, E19, E20.
+
+## Story 21.1: Architecture Documentation
+
+> Document the overall architecture for emerging market intelligence features.
+
+- [ ] **E21-S01-T01** — Write `polymatic-mvp-docs/architecture/emerging-markets-overview.md`: system diagram showing data flow from APIs → backend workers → database → WebSocket → frontend components. Include all new layers (31-40).
+- [ ] **E21-S01-T02** — Write `polymatic-mvp-docs/architecture/equity-pipeline.md`: detailed architecture for stock market data ingestion, normalization, caching, and delivery.
+- [ ] **E21-S01-T03** — Write `polymatic-mvp-docs/architecture/startup-pipeline.md`: detailed architecture for startup/funding data ingestion, entity resolution, and signal detection.
+- [ ] **E21-S01-T04** — Write `polymatic-mvp-docs/architecture/correlation-engine.md`: detailed architecture for the AI cross-signal correlation engine.
+
+## Story 21.2: Data Model Documentation
+
+> Document all new TypeScript types and database schemas.
+
+- [ ] **E21-S02-T01** — Write `polymatic-mvp-docs/data-models/equity-markets.md`: document all types in `types/equityMarkets.ts` with field descriptions, value ranges, and example JSON.
+- [ ] **E21-S02-T02** — Write `polymatic-mvp-docs/data-models/startup-ecosystem.md`: document all types in `types/startupEcosystem.ts` with field descriptions, value ranges, and example JSON.
+- [ ] **E21-S02-T03** — Write `polymatic-mvp-docs/data-models/ai-insights.md`: document all types in `types/aiInsights.ts` with field descriptions, correlation logic, and example JSON.
+
+## Story 21.3: Data Source Documentation
+
+> Document all external data sources, APIs, rate limits, and costs.
+
+- [ ] **E21-S03-T01** — Write `polymatic-mvp-docs/data-sources/equity-apis.md`: document all stock market APIs evaluated, selection rationale, rate limits, authentication, and cost.
+- [ ] **E21-S03-T02** — Write `polymatic-mvp-docs/data-sources/startup-apis.md`: document all startup/funding data sources evaluated, selection rationale, coverage gaps, and cost.
+- [ ] **E21-S03-T03** — Write `polymatic-mvp-docs/data-sources/data-freshness.md`: document expected data freshness for each source, SLA targets, and monitoring strategy.
+
+---
+
 ## Summary
 
 | Epic | Priority | Stories | Tasks | Status |
@@ -872,7 +1092,12 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 | E14: Whale Tracking | P1 | 1 | 3 | [ ] |
 | E15: Timeline & Replay | P1 | 1 | 4 | [ ] |
 | E16: Polish & A11y | P0/Polish | 6 | 22 | [ ] |
-| **TOTAL** | | **48** | **212** | |
+| E17: Equity Market Intelligence | P2 | 5 | 31 | [ ] |
+| E18: Startup Ecosystem Intelligence | P2 | 5 | 28 | [ ] |
+| E19: AI Market Insight Engine | P2 | 3 | 12 | [ ] |
+| E20: Emerging Markets Backend | P2 | 3 | 14 | [ ] |
+| E21: Emerging Markets Docs | P2 | 3 | 10 | [ ] |
+| **TOTAL** | | **68** | **307** | |
 
 ## Dependency Graph
 
@@ -892,6 +1117,15 @@ E01 Foundation ──┬──► E02 Mock Data Engine ──┬──► E03 Ho
                  │
                  └──► E10 Auth & Onboarding
 
+E02 + E11 ──┬──► E17 Equity Market Intelligence
+             └──► E18 Startup Ecosystem Intelligence
+
+E17 + E18 + E05 ──► E19 AI Market Insight Engine
+
+E17 + E18 ──► E20 Emerging Markets Backend Pipelines
+
+E17 + E18 + E19 + E20 ──► E21 Emerging Markets Documentation
+
 E03–E10 complete ──► E16 Polish & A11y
 ```
 
@@ -905,6 +1139,10 @@ E03–E10 complete ──► E16 Polish & A11y
 6. **E09 + E10** in parallel (Alerts, Auth & Onboarding)
 7. **E11 + E12 + E13 + E14 + E15** P1 features (if time permits)
 8. **E16** Polish pass (after all P0 features complete)
+9. **E17 + E18** in parallel (Equity Markets, Startup Ecosystem — types + mocks + frontend)
+10. **E19** AI Market Insight Engine (needs E17 + E18 + E05)
+11. **E20** Backend Pipelines (swap mock data for real APIs)
+12. **E21** Documentation (after all P2 features stabilize)
 
 ---
 

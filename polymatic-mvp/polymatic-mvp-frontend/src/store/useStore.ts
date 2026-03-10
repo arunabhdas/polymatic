@@ -69,12 +69,14 @@ interface PolyMaticState {
   events: EventAlert[];
   selectedEntity: Entity | null;
   activePoi: POI | null;
-  
+  sidebarOpen: boolean;
+
   toggleLayer: (layer: LayerKey) => void;
   updateEntities: (layer: LayerKey, data: Entity[]) => void;
   addEvent: (event: EventAlert) => void;
   selectEntity: (entity: Entity | null) => void;
   setActivePoi: (poi: POI | null) => void;
+  setSidebarOpen: (open: boolean) => void;
 }
 
 export const useStore = create<PolyMaticState>((set) => ({
@@ -144,6 +146,7 @@ export const useStore = create<PolyMaticState>((set) => ({
   events: [],
   selectedEntity: null,
   activePoi: null,
+  sidebarOpen: false,
   
   toggleLayer: (layer) =>
     set((state) => ({
@@ -169,4 +172,5 @@ export const useStore = create<PolyMaticState>((set) => ({
     
   selectEntity: (entity) => set({ selectedEntity: entity }),
   setActivePoi: (poi) => set({ activePoi: poi }),
+  setSidebarOpen: (open) => set({ sidebarOpen: open }),
 }));
