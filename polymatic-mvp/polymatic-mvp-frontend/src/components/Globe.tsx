@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { Viewer, Entity, PointGraphics, CameraFlyTo, ImageryLayer, CesiumComponentRef } from 'resium';
-import { Cartesian3, Color, Ion, UrlTemplateImageryProvider, Viewer as CesiumViewer } from 'cesium';
+import { Cartesian3, Color, Ion, UrlTemplateImageryProvider, Viewer as CesiumViewer, Cartographic, Math as CesiumMath } from 'cesium';
 
 Ion.defaultAccessToken = process.env.CESIUM_ION_TOKEN ?? '';
 import { Plus, Minus } from 'lucide-react';
@@ -35,21 +35,19 @@ export default function Globe() {
     []
   );
 
-  const handleZoomIn = () => {
+  const animateZoom = (factor: number) => {
     const camera = viewerRef.current?.cesiumElement?.camera;
-    if (camera) {
-      const height = camera.positionCartographic.height;
-      camera.zoomIn(height * 0.5);
-    }
+    if (!camera) return;
+    const carto = Cartographic.fromCartesian(camera.position);
+    const newHeight = carto.height * factor;
+    camera.flyTo({
+      destination: Cartesian3.fromRadians(carto.longitude, carto.latitude, newHeight),
+      duration: 0.5,
+    });
   };
 
-  const handleZoomOut = () => {
-    const camera = viewerRef.current?.cesiumElement?.camera;
-    if (camera) {
-      const height = camera.positionCartographic.height;
-      camera.zoomOut(height * 0.5);
-    }
-  };
+  const handleZoomIn = () => animateZoom(0.5);
+  const handleZoomOut = () => animateZoom(2.0);
 
   return (
     <div className="absolute inset-0 w-full h-full bg-black z-0">
