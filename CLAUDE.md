@@ -14,7 +14,7 @@ PolyMatic.App is an AI-powered Geospatial OSINT + Prediction Market Intelligence
 | `PROMPT.md` | Implementation brief with role definition, anti-patterns, and UX copy guidelines |
 | `PLAN.md` | Phase 1 interview questions + all resolved answers |
 | `tasks/IMPLEMENTATION-PLAN.md` | Full 16-section architecture and implementation plan |
-| `tasks/TASKS.md` | Epic/Story/Task breakdown (16 epics, 49+ stories, 217+ tasks) |
+| `tasks/TASKS.md` | Epic/Story/Task breakdown (24 epics, ~74 stories, ~328 tasks) |
 | `docs/` | Planning screenshots (plan_1.png through plan_33.png) |
 | `mocks/` | High-fidelity UI mockups (mock_1.png through mock_7.png) |
 

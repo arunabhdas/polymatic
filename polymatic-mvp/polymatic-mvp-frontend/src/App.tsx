@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useStore } from './store/useStore';
-import { Menu, Radio } from 'lucide-react';
+import { Menu, Radio, AlertTriangle } from 'lucide-react';
 import Globe from './components/Globe';
 import Sidebar from './components/Sidebar';
 import EventFeed from './components/EventFeed';
 import ConflictSidebar from './components/ConflictSidebar';
 
 export default function App() {
-  const { updateEntities, addEvent, sidebarOpen, setSidebarOpen, eventFeedOpen, setEventFeedOpen } = useStore();
+  const { updateEntities, addEvent, sidebarOpen, setSidebarOpen, eventFeedOpen, setEventFeedOpen, layers, conflictSidebarOpen, setConflictSidebarOpen } = useStore();
 
   useEffect(() => {
     // Connect to the WebSocket server
@@ -53,6 +53,17 @@ export default function App() {
           aria-label="Open sidebar"
         >
           <Menu size={20} />
+        </button>
+      )}
+
+      {/* Conflict sidebar toggle — mobile only, below hamburger */}
+      {layers.conflicts && !conflictSidebarOpen && (
+        <button
+          onClick={() => setConflictSidebarOpen(true)}
+          className="fixed top-14 left-4 z-20 md:hidden p-2 rounded-lg bg-zinc-950/80 border border-zinc-800 backdrop-blur-sm text-zinc-300 hover:text-white hover:bg-zinc-900 transition-colors"
+          aria-label="Open conflict sidebar"
+        >
+          <AlertTriangle size={20} />
         </button>
       )}
 

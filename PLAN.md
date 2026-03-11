@@ -2217,3 +2217,142 @@
  8. Search bar + dropdown still fully functional
  9. All existing views render correctly (Home, Sentiments, etc.)
 
+
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+## Story 2.4 Plan : ConflictSidebar Mobile Responsiveness
+
+ Context
+
+ The ConflictSidebar is hardcoded at absolute top-0 left-80 (320px from left), which works on desktop (sits beside the main sidebar) but is off-screen
+ on mobile. We need to apply the same slide-in/backdrop pattern already used by Sidebar.tsx and EventFeed.tsx.
+
+ Files to Modify
+
+ ┌───────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                           File                            │                          Change                          │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
+ └───────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────┘
+
+ Implementation
+
+ Step 1: useStore.ts — Add state
+
+ - Add conflictSidebarOpen: boolean to interface + initial state (false)
+ - Add setConflictSidebarOpen: (open: boolean) => void action
+
+ Step 2: ConflictSidebar.tsx — Mobile responsive layout
+
+ Desktop (md+): Keep current left-80 w-96 positioning, always visible when layers.conflicts is true.
+
+ Mobile (<md): Full-width slide-in overlay from the left, controlled by conflictSidebarOpen.
+
+ Specific changes:
+ - Read conflictSidebarOpen and setConflictSidebarOpen from store
+ - Add backdrop div before panel: fixed inset-0 bg-black/60 z-[11] md:hidden, onClick closes
+ - Panel positioning classes:
+   - left-0 w-full md:left-80 md:w-96 (full width on mobile, offset on desktop)
+   - transition-transform duration-300 ease-in-out
+   - Mobile: -translate-x-full / translate-x-0 based on conflictSidebarOpen
+   - Desktop: md:translate-x-0 (always visible when mounted)
+ - Z-index: z-[12] (above sidebar z-10 and backdrop z-[11])
+ - Add X close button in header (mobile only, md:hidden), calls setConflictSidebarOpen(false)
+ - Keep AnimatePresence wrapping the whole thing (controls mount/unmount based on layers.conflicts)
+ - Keep framer-motion entrance animation for desktop; on mobile the CSS transition handles slide-in
+
+ Auto-open/close:
+ - In the existing useEffect that watches layers.conflicts:
+   - When conflicts toggled ON → setConflictSidebarOpen(true)
+   - When conflicts toggled OFF → setConflictSidebarOpen(false)
+
+ Step 3: App.tsx — Mobile toggle button
+
+ Add a button visible when layers.conflicts && !conflictSidebarOpen:
+ - Position: fixed top-14 left-4 z-20 md:hidden (below the hamburger at top-4)
+ - Icon: AlertTriangle (matches ConflictSidebar theme)
+ - Same styling as existing toggle buttons (bg-zinc-950/80 border border-zinc-800 backdrop-blur-sm text-zinc-300)
+ - onClick: setConflictSidebarOpen(true)
+
+ Verification
+
+ 1. npm run build — zero errors
+ 2. Desktop: ConflictSidebar still appears at left-80 when conflicts layer toggled on
+ 3. Mobile: toggling conflicts layer auto-opens ConflictSidebar as full-width overlay with backdrop
+ 4. Mobile: tap backdrop or X button to dismiss
+ 5. Mobile: toggle button appears below hamburger when conflicts active and panel closed
+ 6. Toggling conflicts layer OFF auto-closes the mobile overlay
+
+
+
+
+## Story 2.4: ConflictSidebar Mobile Responsiveness
+
+ Context
+
+ The ConflictSidebar is hardcoded at absolute top-0 left-80 (320px from left), which works on desktop (sits beside the main sidebar) but is off-screen
+ on mobile. We need to apply the same slide-in/backdrop pattern already used by Sidebar.tsx and EventFeed.tsx.
+
+ Files to Modify
+
+ ┌───────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                           File                            │                          Change                          │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
+ ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
+ └───────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────┘
+
+ Implementation
+
+ Step 1: useStore.ts — Add state
+
+ - Add conflictSidebarOpen: boolean to interface + initial state (false)
+ - Add setConflictSidebarOpen: (open: boolean) => void action
+
+ Step 2: ConflictSidebar.tsx — Mobile responsive layout
+
+ Desktop (md+): Keep current left-80 w-96 positioning, always visible when layers.conflicts is true.
+
+ Mobile (<md): Full-width slide-in overlay from the left, controlled by conflictSidebarOpen.
+
+ Specific changes:
+ - Read conflictSidebarOpen and setConflictSidebarOpen from store
+ - Add backdrop div before panel: fixed inset-0 bg-black/60 z-[11] md:hidden, onClick closes
+ - Panel positioning classes:
+   - left-0 w-full md:left-80 md:w-96 (full width on mobile, offset on desktop)
+   - transition-transform duration-300 ease-in-out
+   - Mobile: -translate-x-full / translate-x-0 based on conflictSidebarOpen
+   - Desktop: md:translate-x-0 (always visible when mounted)
+ - Z-index: z-[12] (above sidebar z-10 and backdrop z-[11])
+ - Add X close button in header (mobile only, md:hidden), calls setConflictSidebarOpen(false)
+ - Keep AnimatePresence wrapping the whole thing (controls mount/unmount based on layers.conflicts)
+ - Keep framer-motion entrance animation for desktop; on mobile the CSS transition handles slide-in
+
+ Auto-open/close:
+ - In the existing useEffect that watches layers.conflicts:
+   - When conflicts toggled ON → setConflictSidebarOpen(true)
+   - When conflicts toggled OFF → setConflictSidebarOpen(false)
+
+ Step 3: App.tsx — Mobile toggle button
+
+ Add a button visible when layers.conflicts && !conflictSidebarOpen:
+ - Position: fixed top-14 left-4 z-20 md:hidden (below the hamburger at top-4)
+ - Icon: AlertTriangle (matches ConflictSidebar theme)
+ - Same styling as existing toggle buttons (bg-zinc-950/80 border border-zinc-800 backdrop-blur-sm text-zinc-300)
+ - onClick: setConflictSidebarOpen(true)
+
+ Verification
+
+ 1. npm run build — zero errors
+ 2. Desktop: ConflictSidebar still appears at left-80 when conflicts layer toggled on
+ 3. Mobile: toggling conflicts layer auto-opens ConflictSidebar as full-width overlay with backdrop
+ 4. Mobile: tap backdrop or X button to dismiss
+ 5. Mobile: toggle button appears below hamburger when conflicts active and panel closed
+ 6. Toggling conflicts layer OFF auto-closes the mobile overlay
