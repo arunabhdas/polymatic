@@ -32,7 +32,9 @@ export type LayerKey =
   | 'satelliteImagery' | 'darkShips' | 'political'
   | 'commodityPrices' | 'preciousMetals' | 'industrialMetals' | 'rareEarths'
   | 'agriculturalCommodities' | 'cropYields' | 'foodSupplyChain' | 'energyCommodities'
-  | 'mineralExports' | 'priceShocks';
+  | 'mineralExports' | 'priceShocks'
+  | 'indiaStocks' | 'indiaSectors' | 'singaporeMarkets' | 'aseanMarkets' | 'globalEM'
+  | 'indiaStartups' | 'singaporeStartups' | 'startupFunding' | 'startupOpportunity' | 'unicornTracker';
 
 interface PolyMaticState {
   layers: Record<LayerKey, boolean>;
@@ -65,7 +67,17 @@ interface PolyMaticState {
   energyCommodities: Record<string, Entity>;
   mineralExports: Record<string, Entity>;
   priceShocks: Record<string, Entity>;
-  
+  indiaStocks: Record<string, Entity>;
+  indiaSectors: Record<string, Entity>;
+  singaporeMarkets: Record<string, Entity>;
+  aseanMarkets: Record<string, Entity>;
+  globalEM: Record<string, Entity>;
+  indiaStartups: Record<string, Entity>;
+  singaporeStartups: Record<string, Entity>;
+  startupFunding: Record<string, Entity>;
+  startupOpportunity: Record<string, Entity>;
+  unicornTracker: Record<string, Entity>;
+
   events: EventAlert[];
   selectedEntity: Entity | null;
   activePoi: POI | null;
@@ -114,6 +126,16 @@ export const useStore = create<PolyMaticState>((set) => ({
     energyCommodities: false,
     mineralExports: false,
     priceShocks: false,
+    indiaStocks: false,
+    indiaSectors: false,
+    singaporeMarkets: false,
+    aseanMarkets: false,
+    globalEM: false,
+    indiaStartups: false,
+    singaporeStartups: false,
+    startupFunding: false,
+    startupOpportunity: false,
+    unicornTracker: false,
   },
   aircraft: {},
   ships: {},
@@ -144,7 +166,17 @@ export const useStore = create<PolyMaticState>((set) => ({
   energyCommodities: {},
   mineralExports: {},
   priceShocks: {},
-  
+  indiaStocks: {},
+  indiaSectors: {},
+  singaporeMarkets: {},
+  aseanMarkets: {},
+  globalEM: {},
+  indiaStartups: {},
+  singaporeStartups: {},
+  startupFunding: {},
+  startupOpportunity: {},
+  unicornTracker: {},
+
   events: [],
   selectedEntity: null,
   activePoi: null,

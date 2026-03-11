@@ -232,29 +232,37 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E02-S04-T03** — Add a mobile-only trigger button in `App.tsx` (visible when the conflicts layer is active) to toggle the ConflictSidebar overlay. Use the same styling pattern as the existing sidebar and event feed hamburger buttons.
 - [ ] **E02-S04-T04** — Ensure ConflictSidebar auto-opens on mobile when the conflicts layer is first toggled on, and auto-closes when the layer is toggled off.
 
-## Story 2.5: Mock Data Generators
+## Story 2.5: Emerging Market Intelligence Layers in Sidebar
+
+> Add Equity Market and Startup Ecosystem layer groups (layers 31–40) to the polymatic-mvp sidebar. Extend `useStore` with new `LayerKey` entries and entity records.
+
+- [ ] **E02-S05-T01** — Add 10 new `LayerKey` entries to `useStore.ts`: `indiaStocks`, `indiaSectors`, `singaporeMarkets`, `aseanMarkets`, `globalEM`, `indiaStartups`, `singaporeStartups`, `startupFunding`, `startupOpportunity`, `unicornTracker`. Add corresponding entity records (`Record<string, Entity>`) and layer defaults (`false`).
+- [ ] **E02-S05-T02** — Add two new layer groups to `Sidebar.tsx` `LAYER_GROUPS` array: "Equity Market Intelligence" (layers 31–35: India Stocks, India Sectors, Singapore Markets, ASEAN Markets, Global EM) and "Startup Ecosystem" (layers 36–40: India Startups, Singapore Startups, Funding Signals, Opportunity Discovery, Unicorn Tracker). Assign appropriate lucide-react icons and color classes.
+- [ ] **E02-S05-T03** — Update `updateEntities` in `useStore.ts` to handle the new layer keys (ensure they are not excluded by the `political`/`satelliteImagery` guard).
+
+## Story 2.6: Mock Data Generators
 
 > Dynamic generators that produce realistic, time-varying data.
 
-- [ ] **E02-S05-T01** — Create `mock-data/generators/feedGenerator.ts` — Generates `FeedItem` objects. Simulates bursty arrival: base rate 2/sec, burst rate 20/sec during breaking events (5% burst probability, 30s burst windows). Each item: random source type, random seed account, generated content text, random entity tags from seed, linked to active trends, sentiment stance if relevant to tracked question.
-- [ ] **E02-S05-T02** — Create `mock-data/generators/sentimentGenerator.ts` — Generates classified tweet batches every 5-10s. Each question has a "true sentiment" (0-100) that drifts over time via Brownian motion with mean reversion. Generated tweets have stance distribution matching true sentiment + noise. Confidence scores follow beta distribution (Claude-style calibration). Account credibility from seed data.
-- [ ] **E02-S05-T03** — Create `mock-data/generators/trendGenerator.ts` — Manages trend lifecycle curves. Velocity follows sigmoid: slow start → rapid growth → plateau → decay. Lifecycle transitions at velocity thresholds. Small chance (2%) of re-acceleration from cooling to emerging. Generates new trends periodically (1 every 5 minutes) and retires old ones.
-- [ ] **E02-S05-T04** — Create `mock-data/generators/marketGenerator.ts` — Generates price random walks for each market contract. Brownian motion with mean-reversion to true probability. Occasional jumps (±5-15%) correlated with trend spikes. Cross-platform spread: secondary platform = primary ± uniform(-3, 3)%. Generates 24h price history for sparklines.
-- [ ] **E02-S05-T05** — Create `mock-data/generators/alertGenerator.ts` — Evaluates alert configs against mock data streams. Triggers alerts when: sentiment reversal on watched question, trend velocity crosses threshold, market delta exceeds configured %, POI severity threshold crossed. Generates `Alert` objects with timestamp, message, and severity.
-- [ ] **E02-S05-T06** — Create `mock-data/generators/geoGenerator.ts` — Generates geospatial events with realistic coordinates. ADS-B: flight paths with waypoints and altitude. AIS: vessel tracks with heading. Conflict incidents: random coordinates within active conflict zones. Earthquakes: random magnitude/depth. Each event linked to seed entities and trends where relevant.
+- [ ] **E02-S06-T01** — Create `mock-data/generators/feedGenerator.ts` — Generates `FeedItem` objects. Simulates bursty arrival: base rate 2/sec, burst rate 20/sec during breaking events (5% burst probability, 30s burst windows). Each item: random source type, random seed account, generated content text, random entity tags from seed, linked to active trends, sentiment stance if relevant to tracked question.
+- [ ] **E02-S06-T02** — Create `mock-data/generators/sentimentGenerator.ts` — Generates classified tweet batches every 5-10s. Each question has a "true sentiment" (0-100) that drifts over time via Brownian motion with mean reversion. Generated tweets have stance distribution matching true sentiment + noise. Confidence scores follow beta distribution (Claude-style calibration). Account credibility from seed data.
+- [ ] **E02-S06-T03** — Create `mock-data/generators/trendGenerator.ts` — Manages trend lifecycle curves. Velocity follows sigmoid: slow start → rapid growth → plateau → decay. Lifecycle transitions at velocity thresholds. Small chance (2%) of re-acceleration from cooling to emerging. Generates new trends periodically (1 every 5 minutes) and retires old ones.
+- [ ] **E02-S06-T04** — Create `mock-data/generators/marketGenerator.ts` — Generates price random walks for each market contract. Brownian motion with mean-reversion to true probability. Occasional jumps (±5-15%) correlated with trend spikes. Cross-platform spread: secondary platform = primary ± uniform(-3, 3)%. Generates 24h price history for sparklines.
+- [ ] **E02-S06-T05** — Create `mock-data/generators/alertGenerator.ts` — Evaluates alert configs against mock data streams. Triggers alerts when: sentiment reversal on watched question, trend velocity crosses threshold, market delta exceeds configured %, POI severity threshold crossed. Generates `Alert` objects with timestamp, message, and severity.
+- [ ] **E02-S06-T06** — Create `mock-data/generators/geoGenerator.ts` — Generates geospatial events with realistic coordinates. ADS-B: flight paths with waypoints and altitude. AIS: vessel tracks with heading. Conflict incidents: random coordinates within active conflict zones. Earthquakes: random magnitude/depth. Each event linked to seed entities and trends where relevant.
 
-## Story 2.6: Query Hooks & Mock Provider
+## Story 2.7: Query Hooks & Mock Provider
 
 > TanStack Query hooks that consume the DataProvider.
 
-- [ ] **E02-S06-T01** — Create `services/mockProvider.ts` — Full `DataProvider` implementation using the generators. Each method returns realistic data with simulated latency (200-500ms). Subscribe methods use setInterval for periodic updates.
-- [ ] **E02-S06-T02** — Create `mock-data/index.ts` — Mock data orchestrator. Initializes all generators with seed data. Exposes a singleton `MockEngine` that ticks generators on an interval. Coordinates cross-domain correlations (trend spike → market jump → sentiment shift).
-- [ ] **E02-S06-T03** — Create `hooks/useFeed.ts` — TanStack Query hook for feed data. Accepts `FeedFilters`. Refetches on filter change. Supports infinite scroll pagination.
-- [ ] **E02-S06-T04** — Create `hooks/useSentiments.ts` — Hooks: `useSentimentQuestions()` (list), `useSentimentDetail(id)` (single with tweet breakdown), `useTrackQuestion()` (mutation). Refetch interval: 10s.
-- [ ] **E02-S06-T05** — Create `hooks/useTrends.ts` — Hook: `useTrends()` with refetch interval matching trend tick rate. Returns sorted trends (velocity descending).
-- [ ] **E02-S06-T06** — Create `hooks/useMarkets.ts` — Hook: `useMarkets(filters)` with refetch interval. `useMarketDetail(id)` for expanded view with price history.
-- [ ] **E02-S06-T07** — Create `hooks/useSearch.ts` — Hook: `useSearch(query)` with 200ms debounce. Only fires when query length ≥ 2. Returns `SearchResults` in fixed section order.
-- [ ] **E02-S06-T08** — Create `hooks/useAlerts.ts` — Hooks: `useAlertConfigs()`, `useActiveAlerts()`, `useCreateAlert()` (mutation), `useDismissAlert()` (mutation).
+- [ ] **E02-S07-T01** — Create `services/mockProvider.ts` — Full `DataProvider` implementation using the generators. Each method returns realistic data with simulated latency (200-500ms). Subscribe methods use setInterval for periodic updates.
+- [ ] **E02-S07-T02** — Create `mock-data/index.ts` — Mock data orchestrator. Initializes all generators with seed data. Exposes a singleton `MockEngine` that ticks generators on an interval. Coordinates cross-domain correlations (trend spike → market jump → sentiment shift).
+- [ ] **E02-S07-T03** — Create `hooks/useFeed.ts` — TanStack Query hook for feed data. Accepts `FeedFilters`. Refetches on filter change. Supports infinite scroll pagination.
+- [ ] **E02-S07-T04** — Create `hooks/useSentiments.ts` — Hooks: `useSentimentQuestions()` (list), `useSentimentDetail(id)` (single with tweet breakdown), `useTrackQuestion()` (mutation). Refetch interval: 10s.
+- [ ] **E02-S07-T05** — Create `hooks/useTrends.ts` — Hook: `useTrends()` with refetch interval matching trend tick rate. Returns sorted trends (velocity descending).
+- [ ] **E02-S07-T06** — Create `hooks/useMarkets.ts` — Hook: `useMarkets(filters)` with refetch interval. `useMarketDetail(id)` for expanded view with price history.
+- [ ] **E02-S07-T07** — Create `hooks/useSearch.ts` — Hook: `useSearch(query)` with 200ms debounce. Only fires when query length ≥ 2. Returns `SearchResults` in fixed section order.
+- [ ] **E02-S07-T08** — Create `hooks/useAlerts.ts` — Hooks: `useAlertConfigs()`, `useActiveAlerts()`, `useCreateAlert()` (mutation), `useDismissAlert()` (mutation).
 
 ---
 

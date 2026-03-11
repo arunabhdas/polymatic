@@ -1,5 +1,5 @@
 import { useStore, LayerKey } from '../store/useStore';
-import { Layers, Activity, Ship, Plane, MapPin, Map, Satellite, Flame, Activity as ActivityIcon, Mountain, Factory, Zap, Anchor, Crosshair, Shield, AlertTriangle, CloudRain, Droplets, Pickaxe, GitCommit, Globe as GlobeIcon, Ban, Image as ImageIcon, EyeOff, TrendingUp, Coins } from 'lucide-react';
+import { Layers, Activity, Ship, Plane, MapPin, Map, Satellite, Flame, Activity as ActivityIcon, Mountain, Factory, Zap, Anchor, Crosshair, Shield, AlertTriangle, CloudRain, Droplets, Pickaxe, GitCommit, Globe as GlobeIcon, Ban, Image as ImageIcon, EyeOff, TrendingUp, Coins, BarChart3, Building2, Landmark, Rocket, Search, Diamond } from 'lucide-react';
 
 const POIS = [
   { id: 'poi-world', name: 'World', lat: 20.0, lng: 0.0, alt: 20000000 },
@@ -76,6 +76,26 @@ const LAYER_GROUPS: LayerGroup[] = [
       { key: 'energyCommodities', label: 'Energy Commodities', icon: Flame, colorClass: 'orange' },
       { key: 'mineralExports', label: 'Mineral Exports', icon: Ship, colorClass: 'blue' },
       { key: 'priceShocks', label: 'Price Shocks', icon: AlertTriangle, colorClass: 'rose' },
+    ]
+  },
+  {
+    title: 'Equity Market Intelligence',
+    items: [
+      { key: 'indiaStocks', label: 'India Stock Market', icon: BarChart3, colorClass: 'orange' },
+      { key: 'indiaSectors', label: 'India Sectors', icon: Building2, colorClass: 'amber' },
+      { key: 'singaporeMarkets', label: 'Singapore Markets', icon: Landmark, colorClass: 'sky' },
+      { key: 'aseanMarkets', label: 'ASEAN Growth Tracker', icon: TrendingUp, colorClass: 'green' },
+      { key: 'globalEM', label: 'Global EM Comparison', icon: GlobeIcon, colorClass: 'indigo' },
+    ]
+  },
+  {
+    title: 'Startup Ecosystem',
+    items: [
+      { key: 'indiaStartups', label: 'India Startups', icon: Rocket, colorClass: 'orange' },
+      { key: 'singaporeStartups', label: 'Singapore Startups', icon: Building2, colorClass: 'sky' },
+      { key: 'startupFunding', label: 'Funding Signals', icon: Coins, colorClass: 'emerald' },
+      { key: 'startupOpportunity', label: 'Opportunity Discovery', icon: Search, colorClass: 'cyan' },
+      { key: 'unicornTracker', label: 'Unicorn Tracker', icon: Diamond, colorClass: 'yellow' },
     ]
   }
 ];
