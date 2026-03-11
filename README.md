@@ -1,7 +1,8 @@
 # PolyMatic — AI-native Macro Geospatial Intelligence
 
 <p align="center">
-  <img src="./screenshot_1.png" alt="PolyMatic Dashboard Mockup" width="100%" />
+  <img src="./screenshot_1.png" alt="PolyMatic Dashboard" width="100%" />
+  <img src="https://github.com/arunabhdas/polymatic/releases/download/v0.0.1-assets/PolymaticApp_2.gif" alt="PolyMatic Dashboard Mockup" width="100%" />
 </p>
 
 ## Architecture: Data Source Toggle (Mock vs Real API)

@@ -227,10 +227,10 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 > The ConflictSidebar renders at `left-80` (adjacent to the desktop sidebar) and is unusable on mobile — either off-screen or overlapping the globe. Apply the same slide-in/backdrop treatment used for the Sidebar and EventFeed.
 
-- [ ] **E02-S04-T01** — Add `conflictSidebarOpen` boolean + `setConflictSidebarOpen` action to `useStore`. Default `false`.
-- [ ] **E02-S04-T02** — Update `ConflictSidebar.tsx` for mobile: on `md:` and above, keep current `left-80` positioning. On mobile, render as a full-width slide-in overlay from the left (`-translate-x-full` → `translate-x-0`) with a semi-transparent backdrop. Tap backdrop or X button to dismiss.
-- [ ] **E02-S04-T03** — Add a mobile-only trigger button in `App.tsx` (visible when the conflicts layer is active) to toggle the ConflictSidebar overlay. Use the same styling pattern as the existing sidebar and event feed hamburger buttons.
-- [ ] **E02-S04-T04** — Ensure ConflictSidebar auto-opens on mobile when the conflicts layer is first toggled on, and auto-closes when the layer is toggled off.
+- [✅] **E02-S04-T01** — Add `conflictSidebarOpen` boolean + `setConflictSidebarOpen` action to `useStore`. Default `false`.
+- [✅] **E02-S04-T02** — Update `ConflictSidebar.tsx` for mobile: on `md:` and above, keep current `left-80` positioning. On mobile, render as a full-width slide-in overlay from the left (`-translate-x-full` → `translate-x-0`) with a semi-transparent backdrop. Tap backdrop or X button to dismiss.
+- [✅] **E02-S04-T03** — Add a mobile-only trigger button in `App.tsx` (visible when the conflicts layer is active) to toggle the ConflictSidebar overlay. Use the same styling pattern as the existing sidebar and event feed hamburger buttons.
+- [✅] **E02-S04-T04** — Ensure ConflictSidebar auto-opens on mobile when the conflicts layer is first toggled on, and auto-closes when the layer is toggled off.
 
 ## Story 2.5: Emerging Market Intelligence Layers in Sidebar
 
