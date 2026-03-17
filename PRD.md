@@ -88,6 +88,23 @@ Alert-first companion, not a full mirror:
 - Quick-glance iOS home screen widget with top trends and sentiment signals
 - Deep links into the webapp for full analysis
 
+### 2.5 Landing Page & Entry Points
+
+Two codebases have distinct entry experiences:
+
+**polymatic-mvp (MVP Globe App)**
+
+The MVP frontend at `polymatic-mvp-frontend/` uses a marketing-style landing page as its root entry point (`/`). The Cesium globe dashboard is served at `/dashboard`.
+
+- **Landing page (`/`):** Scrolling ticker bar with live intel alerts, top navigation with "Launch Dashboard" CTA, hero section with serif headline + metric pills + globe illustration, 4-cell features strip (Unified Signal Feed, Sentiments Engine, Prediction Correlation, Analyst Scoring), and a 4-step "how it works" section.
+- **Dashboard (`/dashboard`):** Lazy-loaded Cesium/Resium globe with OSINT layers, sidebar, event feed, and GDELT conflict panel.
+- **Routing:** `react-router-dom` with `createBrowserRouter`. Dashboard is lazy-loaded via dynamic `import()` to keep landing page TTI fast.
+- **Design tokens:** PolyMatic brand palette (deep green bg, green/amber/red/teal signal colors) using CSS custom properties. Typography: Playfair Display (serif headlines), DM Sans (body), JetBrains Mono (data/labels).
+
+**polymatic-frontend-webapp (Main SaaS App)**
+
+The main webapp at `polymatic-frontend-webapp/` has its own landing page with a Three.js animated globe (Epic 3, complete). Dashboard at `/dashboard`.
+
 ---
 
 ## 3. Navigation: Trend-Based Discovery

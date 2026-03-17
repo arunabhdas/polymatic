@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polymatic — Architecture Diagrams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080f09;
+  --bg2:       #0d1a0e;
+  --bg3:       #111f12;
+  --card:      #0f1a10;
+  --card2:     #142016;
+  --border:    #1e3320;
+  --border2:   #2a4a2d;
+  --green:     #4ade80;
+  --green2:    #22c55e;
+  --green-dim: #1a4a23;
+  --amber:     #f97316;
+  --amber-dim: #3d1a08;
+  --red:       #ef4444;
+  --red-dim:   #3d0f0f;
+  --teal:      #2dd4bf;
+  --teal-dim:  #0d3330;
+  --purple:    #a78bfa;
+  --purple-dim:#2d1f5e;
+  --blue:      #60a5fa;
+  --blue-dim:  #1e3a5f;
+  --text:      #e8f0e9;
+  --text2:     #8aab8d;
+  --text3:     #4a6a4d;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'DM Sans', sans-serif;
+}
+
+html, body { background: #040809; font-family: var(--sans); color: var(--text); }
+
+@keyframes pulse    { 0%,100%{opacity:1}50%{opacity:.25} }
+@keyframes flowDown { 0%{stroke-dashoffset:24}100%{stroke-dashoffset:0} }
+@keyframes flowRight{ 0%{stroke-dashoffset:24}100%{stroke-dashoffset:0} }
+@keyframes fadein   { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+
+/* ── PAGE SHELL ── */
+.page { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+.page-header { text-align:center; margin-bottom: 56px; }
+.page-header h1 {
+  font-family: var(--serif); font-size: 32px; font-weight: 900;
+  color: var(--text); margin-bottom: 8px;
+}
+.page-header h1 em { font-style: italic; color: var(--green); }
+.page-header p {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
+  color: var(--text3);
+}
+
+/* ── DIAGRAM CARD ── */
+.diag-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  animation: fadein .4s ease both;
+}
+.diag-header {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.diag-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .14em; color: var(--text3);
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 3px 9px; border-radius: 3px; flex-shrink: 0; margin-top: 2px;
+}
+.diag-titles { flex: 1; }
+.diag-title {
+  font-family: var(--serif); font-size: 20px; font-weight: 700;
+  color: var(--text); line-height: 1.2; margin-bottom: 4px;
+}
+.diag-title em { font-style: italic; color: var(--green); }
+.diag-subtitle {
+  font-size: 12px; color: var(--text2); line-height: 1.55;
+}
+.diag-body { padding: 28px 24px 24px; }
+.diag-caption {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text3); line-height: 1.6;
+  background: var(--bg2);
+}
+.diag-caption strong { color: var(--text2); font-weight: 500; }
+
+/* ── SHARED SVG ATOMS ── */
+/* these are referenced inline inside each SVG */
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>The Making of Polymatic — <em>Architecture Diagrams</em></h1>
+    <p>PART 2 · FASTAPI BACKEND · SIX DIAGRAMS FOR A LAY READER</p>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 1 — THE BIG PICTURE
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">01</span>
+      <div class="diag-titles">
+        <div class="diag-title">The <em>Big Picture</em></div>
+        <div class="diag-subtitle">Where does data come from, where does it go, and what sits in the middle?</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 420" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- SOURCES column -->
+  <text x="78" y="22" text-anchor="middle" font-size="8" letter-spacing=".14em" fill="#4a6a4d">DATA SOURCES</text>
+  <!-- source boxes -->
+  <g>
+    <rect x="12" y="32" width="132" height="34" rx="6" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+    <text x="78" y="51" text-anchor="middle" font-size="10" fill="#8aab8d">LiveUAMap</text>
+    <circle cx="22" cy="49" r="3.5" fill="#4ade80" opacity=".7"/>
+  </g>
+  <g>
+    <rect x="12" y="74" width="132" height="34" rx="6" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+    <text x="78" y="93" text-anchor="middle" font-size="10" fill="#8aab8d">Bellingcat</text>
+    <circle cx="22" cy="91" r="3.5" fill="#4ade80" opacity=".7"/>
+  </g>
+  <g>
+    <rect x="12" y="116" width="132" height="34" rx="6" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+    <text x="78" y="135" text-anchor="middle" font-size="10" fill="#8aab8d">Twitter / X</text>
+    <circle cx="22" cy="133" r="3.5" fill="#2dd4bf" opacity=".7"/>
+  </g>
+  <g>
+    <rect x="12" y="158" width="132" height="34" rx="6" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+    <text x="78" y="177" text-anchor="middle" font-size="10" fill="#8aab8d">Polymarket</text>
+    <circle cx="22" cy="175" r="3.5" fill="#f97316" opacity=".7"/>
+  </g>
+  <g>
+    <rect x="12" y="200" width="132" height="34" rx="6" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+    <text x="78" y="219" text-anchor="middle" font-size="10" fill="#8aab8d">Kalshi</text>
+    <circle cx="22" cy="217" r="3.5" fill="#f97316" opacity=".7"/>
+  </g>
+
+  <!-- arrows sources → ingestion -->
+  <line x1="145" y1="49" x2="186" y2="100" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="145" y1="91" x2="186" y2="103" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="145" y1="133" x2="186" y2="116" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="145" y1="175" x2="186" y2="130" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="145" y1="217" x2="186" y2="140" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr1)"/>
+
+  <!-- FASTAPI PROCESS box — the big container -->
+  <rect x="190" y="32" width="390" height="356" rx="12" fill="#0a1509" stroke="#2a4a2d" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="385" y="52" text-anchor="middle" font-size="8" letter-spacing=".18em" fill="#4a6a4d">SINGLE uvicorn PROCESS</text>
+
+  <!-- APScheduler pill -->
+  <rect x="210" y="60" width="160" height="52" rx="8" fill="#142016" stroke="#22c55e" stroke-width=".8"/>
+  <text x="290" y="78" text-anchor="middle" font-size="10" font-weight="500" fill="#4ade80">APScheduler</text>
+  <text x="290" y="93" text-anchor="middle" font-size="9" fill="#8aab8d">ingestion jobs</text>
+  <!-- ticks -->
+  <circle cx="218" cy="86" r="3" fill="#22c55e" opacity=".5"/>
+  <circle cx="226" cy="86" r="3" fill="#22c55e" opacity=".3"/>
+
+  <!-- arrow scheduler → DB -->
+  <line x1="290" y1="113" x2="290" y2="150" stroke="#22c55e" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr1)"/>
+  <text x="296" y="135" font-size="8" fill="#4a6a4d">writes</text>
+
+  <!-- PostgreSQL pill -->
+  <rect x="210" y="152" width="160" height="52" rx="8" fill="#142016" stroke="#2a4a2d" stroke-width=".8"/>
+  <text x="290" y="170" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">PostgreSQL</text>
+  <text x="290" y="185" text-anchor="middle" font-size="9" fill="#8aab8d">via asyncpg + SQLAlchemy</text>
+
+  <!-- arrow DB → pipeline -->
+  <line x1="290" y1="205" x2="290" y2="242" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr1)"/>
+  <text x="296" y="228" font-size="8" fill="#4a6a4d">feeds</text>
+
+  <!-- Processing pipeline pill -->
+  <rect x="210" y="244" width="160" height="52" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <text x="290" y="262" text-anchor="middle" font-size="10" font-weight="500" fill="#2dd4bf">Pipeline</text>
+  <text x="290" y="277" text-anchor="middle" font-size="9" fill="#8aab8d">classify · score · detect</text>
+
+  <!-- arrow pipeline → WS manager -->
+  <line x1="290" y1="297" x2="290" y2="334" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr1)"/>
+  <text x="296" y="320" font-size="8" fill="#4a6a4d">broadcasts</text>
+
+  <!-- WS manager pill -->
+  <rect x="210" y="336" width="160" height="42" rx="8" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".8"/>
+  <text x="290" y="354" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">ConnectionManager</text>
+  <text x="290" y="369" text-anchor="middle" font-size="9" fill="#8aab8d">WebSocket push</text>
+
+  <!-- REST API pill — right column inside process -->
+  <rect x="400" y="60" width="160" height="318" rx="8" fill="#0d1a0e" stroke="#1e3320" stroke-width=".5"/>
+  <text x="480" y="80" text-anchor="middle" font-size="8" letter-spacing=".12em" fill="#4a6a4d">REST API LAYER</text>
+  <!-- routes stacked -->
+  <rect x="412" y="90" width="136" height="28" rx="5" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="480" y="108" text-anchor="middle" font-size="9" fill="#8aab8d">GET /api/v1/feeds</text>
+  <rect x="412" y="126" width="136" height="28" rx="5" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="480" y="144" text-anchor="middle" font-size="9" fill="#8aab8d">GET /api/v1/events</text>
+  <rect x="412" y="162" width="136" height="28" rx="5" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="480" y="180" text-anchor="middle" font-size="9" fill="#8aab8d">GET /api/v1/sentiments</text>
+  <rect x="412" y="198" width="136" height="28" rx="5" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="480" y="216" text-anchor="middle" font-size="9" fill="#8aab8d">GET /api/v1/markets</text>
+  <rect x="412" y="234" width="136" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="480" y="252" text-anchor="middle" font-size="9" fill="#a78bfa">WS /ws/feed</text>
+  <rect x="412" y="270" width="136" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="480" y="288" text-anchor="middle" font-size="9" fill="#a78bfa">WS /ws/sentiments/{id}</text>
+  <rect x="412" y="306" width="136" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="480" y="324" text-anchor="middle" font-size="9" fill="#a78bfa">WS /ws/trends</text>
+
+  <!-- Pydantic connector label -->
+  <line x1="370" y1="178" x2="410" y2="178" stroke="#1e3320" stroke-width=".5" stroke-dasharray="3 2"/>
+  <text x="388" y="173" text-anchor="middle" font-size="7" fill="#4a6a4d">Pydantic</text>
+
+  <!-- arrows process → frontend -->
+  <line x1="561" y1="108" x2="610" y2="178" stroke="#4a6a4d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="561" y1="180" x2="610" y2="196" stroke="#4a6a4d" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="561" y1="252" x2="610" y2="250" stroke="#a78bfa" stroke-width="1" marker-end="url(#arr1)"/>
+  <line x1="561" y1="288" x2="610" y2="270" stroke="#a78bfa" stroke-width="1" marker-end="url(#arr1)"/>
+
+  <!-- FRONTEND column -->
+  <text x="706" y="22" text-anchor="middle" font-size="8" letter-spacing=".14em" fill="#4a6a4d">REACT FRONTEND</text>
+  <rect x="608" y="32" width="196" height="356" rx="10" fill="#0a1509" stroke="#2a4a2d" stroke-width=".8" stroke-dasharray="4 3"/>
+  <text x="706" y="52" text-anchor="middle" font-size="8" letter-spacing=".14em" fill="#4a6a4d">browser</text>
+
+  <!-- frontend layers -->
+  <rect x="622" y="60" width="168" height="38" rx="7" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="706" y="76" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">TanStack Query</text>
+  <text x="706" y="90" text-anchor="middle" font-size="8" fill="#8aab8d">HTTP cache + fetch</text>
+
+  <rect x="622" y="110" width="168" height="38" rx="7" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="706" y="126" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">DataProvider</text>
+  <text x="706" y="141" text-anchor="middle" font-size="8" fill="#8aab8d">contract fulfilled ← toggle</text>
+
+  <rect x="622" y="160" width="168" height="38" rx="7" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="706" y="176" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Zustand store</text>
+  <text x="706" y="191" text-anchor="middle" font-size="8" fill="#8aab8d">client state</text>
+
+  <rect x="622" y="210" width="168" height="38" rx="7" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="706" y="226" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">WebSocket client</text>
+  <text x="706" y="241" text-anchor="middle" font-size="8" fill="#8aab8d">live feed + sentiments</text>
+
+  <rect x="622" y="260" width="168" height="38" rx="7" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="706" y="280" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">UI Components</text>
+  <text x="706" y="295" text-anchor="middle" font-size="8" fill="#8aab8d">HomeFeed · SentimentsPanel</text>
+
+  <rect x="622" y="310" width="168" height="38" rx="7" fill="#0d3330" stroke="#2dd4bf" stroke-width=".5"/>
+  <text x="706" y="330" text-anchor="middle" font-size="10" font-weight="500" fill="#2dd4bf">Three.js Globe</text>
+  <text x="706" y="345" text-anchor="middle" font-size="8" fill="#8aab8d">geospatial render layer</text>
+
+  <!-- legend -->
+  <rect x="12" y="268" width="155" height="112" rx="6" fill="#0a1509" stroke="#1e3320" stroke-width=".5"/>
+  <text x="22" y="284" font-size="8" letter-spacing=".12em" fill="#4a6a4d">LEGEND</text>
+  <line x1="22" y1="298" x2="42" y2="298" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="48" y="302" font-size="8" fill="#8aab8d">OSINT / news source</text>
+  <line x1="22" y1="316" x2="42" y2="316" stroke="#f97316" stroke-width="1.5"/>
+  <text x="48" y="320" font-size="8" fill="#8aab8d">prediction market</text>
+  <line x1="22" y1="334" x2="42" y2="334" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="48" y="338" font-size="8" fill="#8aab8d">social / crowd signal</text>
+  <line x1="22" y1="352" x2="42" y2="352" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="48" y="356" font-size="8" fill="#8aab8d">WebSocket (real-time)</text>
+  <line x1="22" y1="370" x2="42" y2="370" stroke="#2a4a2d" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="48" y="374" font-size="8" fill="#8aab8d">HTTP (request / response)</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>Summary:</strong> Data enters from five external sources on the left, gets processed inside one Python server process in the middle, and arrives at the analyst's browser on the right. The dashed box is the entire backend — one process, one machine. Purple lines are live WebSocket pushes; grey dashed lines are regular HTTP requests.
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 2 — THE SINGLE PROCESS
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">02</span>
+      <div class="diag-titles">
+        <div class="diag-title">One Process, <em>Three Workloads</em></div>
+        <div class="diag-subtitle">Everything runs inside a single uvicorn server — no separate worker machines, no message broker.</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 310" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- outer process boundary -->
+  <rect x="12" y="12" width="788" height="286" rx="14" fill="#060d07" stroke="#2a4a2d" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="406" y="30" text-anchor="middle" font-size="8" letter-spacing=".2em" fill="#4a6a4d">uvicorn PROCESS — PID 1 — ONE EVENT LOOP</text>
+
+  <!-- WORKLOAD 1: HTTP API -->
+  <rect x="30" y="44" width="228" height="232" rx="10" fill="#0d1a0e" stroke="#22c55e" stroke-width=".8"/>
+  <text x="144" y="62" text-anchor="middle" font-size="9" letter-spacing=".14em" fill="#22c55e">WORKLOAD 1 · HTTP API</text>
+  <rect x="46" y="72" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="144" y="88" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">FastAPI Routers</text>
+  <text x="144" y="103" text-anchor="middle" font-size="8" fill="#8aab8d">feeds · events · sentiments · markets</text>
+  <rect x="46" y="118" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="144" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Service Layer</text>
+  <text x="144" y="149" text-anchor="middle" font-size="8" fill="#8aab8d">FeedService · SentimentsService</text>
+  <rect x="46" y="164" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="144" y="180" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Pydantic Schemas</text>
+  <text x="144" y="195" text-anchor="middle" font-size="8" fill="#8aab8d">validate · serialize · document</text>
+  <rect x="46" y="210" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="144" y="226" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Depends(get_db)</text>
+  <text x="144" y="241" text-anchor="middle" font-size="8" fill="#8aab8d">session per request · auto commit</text>
+
+  <!-- WORKLOAD 2: WEBSOCKET -->
+  <rect x="292" y="44" width="228" height="232" rx="10" fill="#0d1a0e" stroke="#a78bfa" stroke-width=".8"/>
+  <text x="406" y="62" text-anchor="middle" font-size="9" letter-spacing=".14em" fill="#a78bfa">WORKLOAD 2 · WEBSOCKET</text>
+  <rect x="308" y="72" width="196" height="38" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="406" y="88" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">WebSocket Routes</text>
+  <text x="406" y="103" text-anchor="middle" font-size="8" fill="#8aab8d">/ws/feed · /ws/sentiments/{id}</text>
+  <rect x="308" y="118" width="196" height="38" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="406" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">ConnectionManager</text>
+  <text x="406" y="149" text-anchor="middle" font-size="8" fill="#8aab8d">set of active WebSocket objects</text>
+  <rect x="308" y="164" width="196" height="38" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="406" y="180" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">broadcast_feed_item()</text>
+  <text x="406" y="195" text-anchor="middle" font-size="8" fill="#8aab8d">push to all connected clients</text>
+  <rect x="308" y="210" width="196" height="38" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="406" y="226" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">Dead socket sweep</text>
+  <text x="406" y="241" text-anchor="middle" font-size="8" fill="#8aab8d">remove stale connections silently</text>
+
+  <!-- WORKLOAD 3: INGESTION -->
+  <rect x="554" y="44" width="228" height="232" rx="10" fill="#0d1a0e" stroke="#f97316" stroke-width=".8"/>
+  <text x="668" y="62" text-anchor="middle" font-size="9" letter-spacing=".14em" fill="#f97316">WORKLOAD 3 · INGESTION</text>
+  <rect x="570" y="72" width="196" height="38" rx="6" fill="#3d1a08" stroke="#f97316" stroke-width=".5"/>
+  <text x="668" y="88" text-anchor="middle" font-size="10" font-weight="500" fill="#f97316">APScheduler</text>
+  <text x="668" y="103" text-anchor="middle" font-size="8" fill="#8aab8d">AsyncIOScheduler — 5 jobs</text>
+  <rect x="570" y="118" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="668" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Ingestion Coroutines</text>
+  <text x="668" y="149" text-anchor="middle" font-size="8" fill="#8aab8d">fetch → deduplicate → write</text>
+  <rect x="570" y="164" width="196" height="38" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="668" y="180" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Scoring Coroutine</text>
+  <text x="668" y="195" text-anchor="middle" font-size="8" fill="#8aab8d">classify · aggregate · detect div.</text>
+  <rect x="570" y="210" width="196" height="38" rx="6" fill="#3d1a08" stroke="#f97316" stroke-width=".5"/>
+  <text x="668" y="226" text-anchor="middle" font-size="10" font-weight="500" fill="#f97316">lifespan startup/shutdown</text>
+  <text x="668" y="241" text-anchor="middle" font-size="8" fill="#8aab8d">scheduler.start() / .shutdown()</text>
+
+  <!-- connector arrows between workloads -->
+  <!-- 1 ↔ 2 -->
+  <line x1="259" y1="178" x2="291" y2="178" stroke="#1e3320" stroke-width=".8" stroke-dasharray="3 2"/>
+  <!-- 2 ↔ 3 -->
+  <line x1="521" y1="178" x2="553" y2="178" stroke="#1e3320" stroke-width=".8" stroke-dasharray="3 2"/>
+
+  <!-- shared DB label at bottom -->
+  <rect x="290" y="286" width="232" height="0" rx="0"/> <!-- spacer -->
+  <text x="406" y="302" text-anchor="middle" font-size="8" letter-spacing=".12em" fill="#4a6a4d">ALL THREE WORKLOADS SHARE ONE POSTGRESQL CONNECTION POOL</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>Summary:</strong> Most backend systems use separate machines for web serving, background jobs, and real-time messaging. Polymatic runs all three inside one Python process on one server. This is simpler to deploy and operate — but it requires every component to be written in a way that doesn't block the others. That's what "async-native" means in practice.
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 3 — REQUEST LIFECYCLE
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">03</span>
+      <div class="diag-titles">
+        <div class="diag-title">The <em>Request Lifecycle</em></div>
+        <div class="diag-subtitle">What actually happens between "the browser asks for feed items" and "the browser receives them."</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 248" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- STEP BOXES — horizontal flow -->
+  <!-- Step 1 -->
+  <rect x="12"  y="80" width="116" height="88" rx="8" fill="#0d1a0e" stroke="#2a4a2d" stroke-width=".8"/>
+  <text x="70" y="104" text-anchor="middle" font-size="26" fill="#4a6a4d" opacity=".5">01</text>
+  <text x="70" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Browser</text>
+  <text x="70" y="150" text-anchor="middle" font-size="8" fill="#8aab8d">GET /api/v1/feeds</text>
+  <text x="70" y="163" text-anchor="middle" font-size="8" fill="#8aab8d">?hours=24&amp;limit=50</text>
+
+  <!-- arrow 1→2 -->
+  <line x1="129" y1="124" x2="163" y2="124" stroke="#22c55e" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <text x="146" y="117" text-anchor="middle" font-size="7" fill="#4a6a4d">HTTP</text>
+
+  <!-- Step 2 -->
+  <rect x="165" y="80" width="116" height="88" rx="8" fill="#142016" stroke="#22c55e" stroke-width=".8"/>
+  <text x="223" y="104" text-anchor="middle" font-size="26" fill="#22c55e" opacity=".35">02</text>
+  <text x="223" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">FastAPI Router</text>
+  <text x="223" y="150" text-anchor="middle" font-size="8" fill="#8aab8d">parse query params</text>
+  <text x="223" y="163" text-anchor="middle" font-size="8" fill="#8aab8d">inject Depends(get_db)</text>
+
+  <!-- arrow 2→3 -->
+  <line x1="282" y1="124" x2="316" y2="124" stroke="#22c55e" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <text x="299" y="117" text-anchor="middle" font-size="7" fill="#4a6a4d">calls</text>
+
+  <!-- Step 3 -->
+  <rect x="318" y="80" width="116" height="88" rx="8" fill="#142016" stroke="#22c55e" stroke-width=".8"/>
+  <text x="376" y="104" text-anchor="middle" font-size="26" fill="#22c55e" opacity=".35">03</text>
+  <text x="376" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">FeedService</text>
+  <text x="376" y="150" text-anchor="middle" font-size="8" fill="#8aab8d">build SELECT query</text>
+  <text x="376" y="163" text-anchor="middle" font-size="8" fill="#8aab8d">selectinload(source)</text>
+
+  <!-- arrow 3→4 -->
+  <line x1="435" y1="124" x2="469" y2="124" stroke="#2dd4bf" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <text x="452" y="117" text-anchor="middle" font-size="7" fill="#4a6a4d">await</text>
+
+  <!-- Step 4 -->
+  <rect x="471" y="80" width="116" height="88" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <text x="529" y="104" text-anchor="middle" font-size="26" fill="#2dd4bf" opacity=".35">04</text>
+  <text x="529" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">PostgreSQL</text>
+  <text x="529" y="150" text-anchor="middle" font-size="8" fill="#8aab8d">executes query</text>
+  <text x="529" y="163" text-anchor="middle" font-size="8" fill="#8aab8d">returns rows via asyncpg</text>
+
+  <!-- arrow 4→5 -->
+  <line x1="588" y1="124" x2="622" y2="124" stroke="#22c55e" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <text x="605" y="117" text-anchor="middle" font-size="7" fill="#4a6a4d">rows</text>
+
+  <!-- Step 5 -->
+  <rect x="624" y="80" width="116" height="88" rx="8" fill="#142016" stroke="#22c55e" stroke-width=".8"/>
+  <text x="682" y="104" text-anchor="middle" font-size="26" fill="#22c55e" opacity=".35">05</text>
+  <text x="682" y="134" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">Pydantic Schema</text>
+  <text x="682" y="150" text-anchor="middle" font-size="8" fill="#8aab8d">model_validate(row)</text>
+  <text x="682" y="163" text-anchor="middle" font-size="8" fill="#8aab8d">exclude raw_payload</text>
+
+  <!-- return arrow 5→1 curved below -->
+  <path d="M740 172 Q740 210 406 210 Q72 210 70 172" fill="none" stroke="#4a6a4d" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr3)"/>
+  <text x="406" y="228" text-anchor="middle" font-size="8" fill="#4a6a4d">JSON response → browser</text>
+
+  <!-- key insight callout -->
+  <rect x="12" y="12" width="788" height="58" rx="7" fill="#0a1509" stroke="#1e3320" stroke-width=".5"/>
+  <text x="406" y="30" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#4a6a4d">KEY INSIGHT</text>
+  <text x="406" y="48" text-anchor="middle" font-size="10" fill="#8aab8d">Steps 3 and 4 both use </text>
+  <text x="525" y="48" font-size="10" fill="#2dd4bf">await</text>
+  <text x="548" y="48" font-size="10" fill="#8aab8d"> — the server is free to handle other requests while waiting for the database.</text>
+  <text x="406" y="62" text-anchor="middle" font-size="9" fill="#4a6a4d">This is what "async" buys you: one server thread handling thousands of simultaneous requests.</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>Plain English:</strong> The browser sends a question. The router figures out what's being asked. The service builds the database query. PostgreSQL looks up the rows. Pydantic shapes the data into clean JSON (hiding internal fields like <strong>raw_payload</strong>). The JSON goes back to the browser. Five steps, typically under 20 milliseconds.
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 4 — WEBSOCKET DATA FLOW
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">04</span>
+      <div class="diag-titles">
+        <div class="diag-title">The <em>WebSocket Flow</em></div>
+        <div class="diag-subtitle">How a ship going dark in the Persian Gulf reaches an analyst's screen in under a second.</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 370" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <!-- animated dash for WS streams -->
+    <style>
+      .ws-flow { stroke-dasharray: 8 4; animation: flowRight 1.2s linear infinite; }
+      .ws-down  { stroke-dasharray: 8 4; animation: flowDown  1s  linear infinite; }
+    </style>
+  </defs>
+
+  <!-- Timeline header -->
+  <text x="406" y="18" text-anchor="middle" font-size="8" letter-spacing=".18em" fill="#4a6a4d">DATA FLOW TIMELINE — LEFT TO RIGHT = ORDER OF EVENTS</text>
+
+  <!-- PHASE A: APScheduler fires -->
+  <rect x="12" y="30" width="175" height="80" rx="8" fill="#3d1a08" stroke="#f97316" stroke-width=".8"/>
+  <text x="99" y="52" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#f97316">EVERY 60 SECONDS</text>
+  <text x="99" y="72" text-anchor="middle" font-size="11" font-weight="500" fill="#e8f0e9">APScheduler</text>
+  <text x="99" y="88" text-anchor="middle" font-size="9" fill="#8aab8d">fires ingest_liveuamap()</text>
+  <text x="99" y="102" text-anchor="middle" font-size="8" fill="#4a6a4d">coroutine wakes up</text>
+
+  <line x1="188" y1="70" x2="218" y2="70" stroke="#f97316" stroke-width="1.2" marker-end="url(#arr4)"/>
+
+  <!-- PHASE B: Fetch external API -->
+  <rect x="220" y="30" width="155" height="80" rx="8" fill="#0d1a0e" stroke="#2a4a2d" stroke-width=".8"/>
+  <text x="297" y="52" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#4a6a4d">EXTERNAL CALL</text>
+  <text x="297" y="72" text-anchor="middle" font-size="11" font-weight="500" fill="#e8f0e9">LiveUAMap API</text>
+  <text x="297" y="88" text-anchor="middle" font-size="9" fill="#8aab8d">await adapter.fetch_recent()</text>
+  <text x="297" y="102" text-anchor="middle" font-size="8" fill="#4a6a4d">raw JSON returned</text>
+
+  <line x1="376" y1="70" x2="406" y2="70" stroke="#2a4a2d" stroke-width="1.2" marker-end="url(#arr4)"/>
+
+  <!-- PHASE C: Deduplicate & write -->
+  <rect x="408" y="30" width="165" height="80" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <text x="490" y="52" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#2dd4bf">DEDUPLICATE + WRITE</text>
+  <text x="490" y="68" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">IntegrityError check</text>
+  <text x="490" y="84" text-anchor="middle" font-size="9" fill="#8aab8d">skip if external_id exists</text>
+  <text x="490" y="99" text-anchor="middle" font-size="8" fill="#4a6a4d">await db.flush() → commit()</text>
+
+  <line x1="574" y1="70" x2="604" y2="70" stroke="#2dd4bf" stroke-width="1.2" marker-end="url(#arr4)"/>
+
+  <!-- PHASE D: Broadcast -->
+  <rect x="606" y="30" width="190" height="80" rx="8" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".8"/>
+  <text x="701" y="52" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#a78bfa">BROADCAST</text>
+  <text x="701" y="68" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">manager.broadcast_feed_item()</text>
+  <text x="701" y="84" text-anchor="middle" font-size="9" fill="#8aab8d">iterates connected WebSockets</text>
+  <text x="701" y="99" text-anchor="middle" font-size="8" fill="#4a6a4d">await ws.send_json(payload)</text>
+
+  <!-- Vertical flow down from broadcast to clients -->
+  <line x1="701" y1="111" x2="701" y2="148" class="ws-down" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- CLIENT connections box -->
+  <rect x="530" y="150" width="270" height="78" rx="8" fill="#0d1a0e" stroke="#a78bfa" stroke-width=".8"/>
+  <text x="665" y="170" text-anchor="middle" font-size="9" letter-spacing=".1em" fill="#a78bfa">CONNECTED ANALYST BROWSERS</text>
+  <!-- 3 client icons -->
+  <rect x="546" y="182" width="68" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="580" y="200" text-anchor="middle" font-size="8" fill="#a78bfa">Analyst 1</text>
+  <rect x="631" y="182" width="68" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="665" y="200" text-anchor="middle" font-size="8" fill="#a78bfa">Analyst 2</text>
+  <rect x="716" y="182" width="68" height="28" rx="5" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="750" y="200" text-anchor="middle" font-size="8" fill="#a78bfa">Analyst 3</text>
+
+  <!-- SNAPSHOT PATH — separate lane below -->
+  <rect x="12" y="256" width="788" height="100" rx="10" fill="#0a1509" stroke="#1e3320" stroke-width=".5" stroke-dasharray="4 3"/>
+  <text x="406" y="274" text-anchor="middle" font-size="8" letter-spacing=".16em" fill="#4a6a4d">ON FIRST CONNECT — SNAPSHOT PATH</text>
+
+  <rect x="30" y="284" width="140" height="50" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="100" y="304" text-anchor="middle" font-size="9" fill="#e8f0e9">New analyst opens</text>
+  <text x="100" y="319" text-anchor="middle" font-size="8" fill="#8aab8d">connects to /ws/feed</text>
+  <text x="100" y="332" text-anchor="middle" font-size="8" fill="#4a6a4d">WebSocket handshake</text>
+
+  <line x1="171" y1="309" x2="206" y2="309" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr4)"/>
+
+  <rect x="208" y="284" width="155" height="50" rx="6" fill="#142016" stroke="#2a4a2d" stroke-width=".5"/>
+  <text x="285" y="304" text-anchor="middle" font-size="9" fill="#e8f0e9">Server queries DB</text>
+  <text x="285" y="319" text-anchor="middle" font-size="8" fill="#8aab8d">last 50 FeedItems</text>
+  <text x="285" y="332" text-anchor="middle" font-size="8" fill="#4a6a4d">selectinload(source)</text>
+
+  <line x1="364" y1="309" x2="399" y2="309" stroke="#2a4a2d" stroke-width="1" marker-end="url(#arr4)"/>
+
+  <rect x="401" y="284" width="155" height="50" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="478" y="304" text-anchor="middle" font-size="9" fill="#a78bfa">feed.snapshot sent</text>
+  <text x="478" y="319" text-anchor="middle" font-size="8" fill="#8aab8d">{type, items: [50]}</text>
+  <text x="478" y="332" text-anchor="middle" font-size="8" fill="#4a6a4d">browser populated</text>
+
+  <line x1="557" y1="309" x2="592" y2="309" stroke="#a78bfa" stroke-width="1" marker-end="url(#arr4)"/>
+
+  <rect x="594" y="284" width="188" height="50" rx="6" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".5"/>
+  <text x="688" y="304" text-anchor="middle" font-size="9" fill="#a78bfa">Now in live push mode</text>
+  <text x="688" y="319" text-anchor="middle" font-size="8" fill="#8aab8d">new items arrive via broadcast</text>
+  <text x="688" y="332" text-anchor="middle" font-size="8" fill="#4a6a4d">no polling needed</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>Two paths to the analyst's screen:</strong> The <strong>top row</strong> shows what happens every 60 seconds when the scheduler wakes up — fetch, deduplicate, write to database, then push to every connected analyst simultaneously. The <strong>bottom row</strong> shows what happens the moment a new analyst opens the dashboard — they immediately receive the last 50 items as a snapshot, then switch into live-push mode for all subsequent updates.
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 5 — DATABASE SCHEMA
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">05</span>
+      <div class="diag-titles">
+        <div class="diag-title">The <em>Database Schema</em></div>
+        <div class="diag-subtitle">Six tables, what each one stores, and how they relate — without the SQL.</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 440" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="crow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M2 2 L10 6 L2 10 M2 2 L2 10" fill="none" stroke="context-stroke" stroke-width="1.2" stroke-linecap="round"/>
+    </marker>
+  </defs>
+
+  <!-- TABLE: feed_sources -->
+  <rect x="12" y="12" width="170" height="140" rx="8" fill="#0d1a0e" stroke="#22c55e" stroke-width=".8"/>
+  <rect x="12" y="12" width="170" height="30" rx="8" fill="#1a4a23" stroke="#22c55e" stroke-width=".8"/>
+  <rect x="12" y="38" width="170" height="4" fill="#1a4a23"/>
+  <text x="97" y="32" text-anchor="middle" font-size="10" font-weight="500" fill="#4ade80">feed_sources</text>
+  <text x="22" y="60"  font-size="9" fill="#8aab8d">id</text>        <text x="110" y="60"  font-size="8" fill="#4a6a4d">PK · integer</text>
+  <text x="22" y="76"  font-size="9" fill="#8aab8d">name</text>      <text x="110" y="76"  font-size="8" fill="#4a6a4d">unique text</text>
+  <text x="22" y="92"  font-size="9" fill="#8aab8d">source_type</text><text x="110" y="92"  font-size="8" fill="#4a6a4d">osint·social·market</text>
+  <text x="22" y="108" font-size="9" fill="#8aab8d">credibility</text><text x="110" y="108" font-size="8" fill="#4a6a4d">0.5–3.0 multiplier</text>
+  <text x="22" y="124" font-size="9" fill="#8aab8d">config</text>    <text x="110" y="124" font-size="8" fill="#4a6a4d">JSONB · API params</text>
+  <text x="22" y="140" font-size="9" fill="#8aab8d">is_active</text> <text x="110" y="140" font-size="8" fill="#4a6a4d">bool · enable/disable</text>
+
+  <!-- TABLE: feed_items -->
+  <rect x="12" y="180" width="170" height="188" rx="8" fill="#0d1a0e" stroke="#22c55e" stroke-width=".8"/>
+  <rect x="12" y="180" width="170" height="30" rx="8" fill="#1a4a23" stroke="#22c55e" stroke-width=".8"/>
+  <rect x="12" y="206" width="170" height="4" fill="#1a4a23"/>
+  <text x="97" y="200" text-anchor="middle" font-size="10" font-weight="500" fill="#4ade80">feed_items</text>
+  <text x="22" y="222" font-size="9" fill="#8aab8d">id</text>            <text x="110" y="222" font-size="8" fill="#4a6a4d">PK</text>
+  <text x="22" y="238" font-size="9" fill="#e8f0e9">source_id</text>     <text x="110" y="238" font-size="8" fill="#22c55e">FK → feed_sources</text>
+  <text x="22" y="254" font-size="9" fill="#8aab8d">external_id</text>  <text x="110" y="254" font-size="8" fill="#4a6a4d">UNIQUE · no dupes</text>
+  <text x="22" y="270" font-size="9" fill="#8aab8d">title</text>         <text x="110" y="270" font-size="8" fill="#4a6a4d">text</text>
+  <text x="22" y="286" font-size="9" fill="#8aab8d">severity</text>      <text x="110" y="286" font-size="8" fill="#4a6a4d">critical·high·med·low</text>
+  <text x="22" y="302" font-size="9" fill="#8aab8d">occurred_at</text>   <text x="110" y="302" font-size="8" fill="#4a6a4d">timestamptz · indexed</text>
+  <text x="22" y="318" font-size="9" fill="#8aab8d">tags</text>           <text x="110" y="318" font-size="8" fill="#4a6a4d">JSONB array</text>
+  <text x="22" y="334" font-size="9" fill="#f97316">raw_payload</text>   <text x="110" y="334" font-size="8" fill="#4a6a4d">JSONB · never sent</text>
+  <text x="22" y="350" font-size="9" fill="#8aab8d">location_point</text><text x="110" y="350" font-size="8" fill="#4a6a4d">JSONB {lat, lon}</text>
+
+  <!-- TABLE: geopolitical_events -->
+  <rect x="320" y="12" width="172" height="148" rx="8" fill="#0d1a0e" stroke="#2dd4bf" stroke-width=".8"/>
+  <rect x="320" y="12" width="172" height="30" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <rect x="320" y="38" width="172" height="4" fill="#0d3330"/>
+  <text x="406" y="32" text-anchor="middle" font-size="10" font-weight="500" fill="#2dd4bf">geopolitical_events</text>
+  <text x="330" y="60"  font-size="9" fill="#8aab8d">id</text>          <text x="418" y="60"  font-size="8" fill="#4a6a4d">PK</text>
+  <text x="330" y="76"  font-size="9" fill="#8aab8d">title</text>       <text x="418" y="76"  font-size="8" fill="#4a6a4d">text</text>
+  <text x="330" y="92"  font-size="9" fill="#8aab8d">region</text>      <text x="418" y="92"  font-size="8" fill="#4a6a4d">Persian Gulf etc.</text>
+  <text x="330" y="108" font-size="9" fill="#8aab8d">started_at</text>  <text x="418" y="108" font-size="8" fill="#4a6a4d">timestamptz</text>
+  <text x="330" y="124" font-size="9" fill="#8aab8d">is_active</text>   <text x="418" y="124" font-size="8" fill="#4a6a4d">bool</text>
+  <text x="330" y="140" font-size="9" fill="#8aab8d">resolved_at</text> <text x="418" y="140" font-size="8" fill="#4a6a4d">nullable</text>
+
+  <!-- TABLE: sentiment_questions -->
+  <rect x="320" y="188" width="172" height="156" rx="8" fill="#0d1a0e" stroke="#2dd4bf" stroke-width=".8"/>
+  <rect x="320" y="188" width="172" height="30" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <rect x="320" y="214" width="172" height="4" fill="#0d3330"/>
+  <text x="406" y="208" text-anchor="middle" font-size="10" font-weight="500" fill="#2dd4bf">sentiment_questions</text>
+  <text x="330" y="230" font-size="9" fill="#8aab8d">id</text>                   <text x="418" y="230" font-size="8" fill="#4a6a4d">PK</text>
+  <text x="330" y="246" font-size="9" fill="#e8f0e9">event_id</text>            <text x="418" y="246" font-size="8" fill="#2dd4bf">FK → events</text>
+  <text x="330" y="262" font-size="9" fill="#8aab8d">text</text>                <text x="418" y="262" font-size="8" fill="#4a6a4d">"Will Hormuz…?"</text>
+  <text x="330" y="278" font-size="9" fill="#8aab8d">resolves_at</text>         <text x="418" y="278" font-size="8" fill="#4a6a4d">timestamptz</text>
+  <text x="330" y="294" font-size="9" fill="#8aab8d">resolved</text>            <text x="418" y="294" font-size="8" fill="#4a6a4d">bool</text>
+  <text x="330" y="310" font-size="9" fill="#4ade80">outcome</text>             <text x="418" y="310" font-size="8" fill="#4a6a4d">true/false/null</text>
+  <text x="330" y="326" font-size="9" fill="#8aab8d">resolution_criteria</text> <text x="418" y="326" font-size="8" fill="#4a6a4d">text</text>
+
+  <!-- TABLE: tweet_classifications -->
+  <rect x="628" y="12" width="172" height="204" rx="8" fill="#0d1a0e" stroke="#a78bfa" stroke-width=".8"/>
+  <rect x="628" y="12" width="172" height="30" rx="8" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".8"/>
+  <rect x="628" y="38" width="172" height="4" fill="#2d1f5e"/>
+  <text x="714" y="32" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">tweet_classifications</text>
+  <text x="638" y="60"  font-size="9" fill="#8aab8d">id</text>               <text x="730" y="60"  font-size="8" fill="#4a6a4d">PK</text>
+  <text x="638" y="76"  font-size="9" fill="#e8f0e9">question_id</text>     <text x="730" y="76"  font-size="8" fill="#a78bfa">FK → questions</text>
+  <text x="638" y="92"  font-size="9" fill="#8aab8d">stance</text>          <text x="730" y="92"  font-size="8" fill="#4a6a4d">yes·no·neutral</text>
+  <text x="638" y="108" font-size="9" fill="#8aab8d">confidence</text>      <text x="730" y="108" font-size="8" fill="#4a6a4d">calibrated 0–1</text>
+  <text x="638" y="124" font-size="9" fill="#8aab8d">raw_confidence</text>  <text x="730" y="124" font-size="8" fill="#4a6a4d">LLM-reported</text>
+  <text x="638" y="140" font-size="9" fill="#8aab8d">weight</text>          <text x="730" y="140" font-size="8" fill="#4a6a4d">credibility × conf</text>
+  <text x="638" y="156" font-size="9" fill="#8aab8d">is_contrarian</text>   <text x="730" y="156" font-size="8" fill="#4a6a4d">bool · flag</text>
+  <text x="638" y="172" font-size="9" fill="#8aab8d">linguistic_flags</text><text x="730" y="172" font-size="8" fill="#4a6a4d">JSONB array</text>
+  <text x="638" y="188" font-size="9" fill="#8aab8d">batch_id</text>        <text x="730" y="188" font-size="8" fill="#4a6a4d">UUID · groups batch</text>
+  <text x="638" y="204" font-size="9" fill="#8aab8d">reasoning</text>       <text x="730" y="204" font-size="8" fill="#4a6a4d">LLM audit trail</text>
+
+  <!-- TABLE: sentiment_aggregates -->
+  <rect x="628" y="244" width="172" height="156" rx="8" fill="#0d1a0e" stroke="#a78bfa" stroke-width=".8"/>
+  <rect x="628" y="244" width="172" height="30" rx="8" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".8"/>
+  <rect x="628" y="270" width="172" height="4" fill="#2d1f5e"/>
+  <text x="714" y="264" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">sentiment_aggregates</text>
+  <text x="638" y="286" font-size="9" fill="#8aab8d">id</text>            <text x="730" y="286" font-size="8" fill="#4a6a4d">PK</text>
+  <text x="638" y="302" font-size="9" fill="#e8f0e9">question_id</text>  <text x="730" y="302" font-size="8" fill="#a78bfa">FK → questions</text>
+  <text x="638" y="318" font-size="9" fill="#8aab8d">window</text>       <text x="730" y="318" font-size="8" fill="#4a6a4d">live·trend·baseline</text>
+  <text x="638" y="334" font-size="9" fill="#2dd4bf">score</text>        <text x="730" y="334" font-size="8" fill="#4a6a4d">crowd YES ratio</text>
+  <text x="638" y="350" font-size="9" fill="#f97316">market_price</text> <text x="730" y="350" font-size="8" fill="#4a6a4d">Kalshi/Polymarket</text>
+  <text x="638" y="366" font-size="9" fill="#ef4444">divergence</text>   <text x="730" y="366" font-size="8" fill="#4a6a4d">|score−market|</text>
+
+  <!-- ASSOCIATION: event_feed_items junction -->
+  <rect x="158" y="80" width="148" height="36" rx="6" fill="#0a1509" stroke="#1e3320" stroke-width=".5" stroke-dasharray="3 2"/>
+  <text x="232" y="96" text-anchor="middle" font-size="8" fill="#4a6a4d">event_feed_items</text>
+  <text x="232" y="110" text-anchor="middle" font-size="8" fill="#2a4a2d">junction table · M:N</text>
+
+  <!-- RELATIONSHIP LINES -->
+  <!-- feed_sources → feed_items (1:many) -->
+  <line x1="97" y1="152" x2="97" y2="178" stroke="#22c55e" stroke-width=".8" marker-end="url(#arr5)"/>
+  <text x="102" y="168" font-size="7" fill="#4a6a4d">1</text>
+  <text x="102" y="185" font-size="7" fill="#4a6a4d">many</text>
+
+  <!-- feed_items → junction -->
+  <line x1="183" y1="264" x2="232" y2="116" stroke="#1e3320" stroke-width=".7" stroke-dasharray="3 2" marker-end="url(#arr5)"/>
+
+  <!-- events → junction -->
+  <line x1="320" y1="86" x2="306" y2="98" stroke="#1e3320" stroke-width=".7" stroke-dasharray="3 2" marker-end="url(#arr5)"/>
+
+  <!-- events → questions (1:many) -->
+  <line x1="406" y1="162" x2="406" y2="186" stroke="#2dd4bf" stroke-width=".8" marker-end="url(#arr5)"/>
+  <text x="411" y="178" font-size="7" fill="#4a6a4d">1:many</text>
+
+  <!-- questions → classifications (1:many) -->
+  <line x1="493" y1="270" x2="626" y2="110" stroke="#a78bfa" stroke-width=".8" marker-end="url(#arr5)"/>
+  <text x="575" y="175" font-size="7" fill="#4a6a4d">1:many</text>
+
+  <!-- questions → aggregates (1:3 windows) -->
+  <line x1="493" y1="310" x2="626" y2="320" stroke="#a78bfa" stroke-width=".8" marker-end="url(#arr5)"/>
+  <text x="575" y="308" font-size="7" fill="#4a6a4d">1:3 windows</text>
+
+  <!-- bottom legend -->
+  <rect x="12" y="400" width="788" height="32" rx="6" fill="#0a1509" stroke="#1e3320" stroke-width=".5"/>
+  <text x="30" y="418" font-size="8" fill="#4a6a4d">FK</text>
+  <text x="48" y="418" font-size="8" fill="#8aab8d">= foreign key (links two tables)</text>
+  <text x="240" y="418" font-size="8" fill="#4a6a4d">PK</text>
+  <text x="258" y="418" font-size="8" fill="#8aab8d">= primary key (unique row ID)</text>
+  <text x="460" y="418" font-size="8" fill="#4a6a4d">JSONB</text>
+  <text x="498" y="418" font-size="8" fill="#8aab8d">= flexible document column (PostgreSQL binary JSON)</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>Reading this diagram:</strong> Each coloured box is a database table. Lines between boxes mean "this table references that one." <strong>feed_sources → feed_items</strong> means one source (e.g. Bellingcat) can have many feed items. <strong>sentiment_questions → sentiment_aggregates</strong> has exactly 3 rows per question — one for each time window (live / trend / baseline). The <strong>raw_payload</strong> column in feed_items (shown in orange) stores the original API response but is never sent to the browser.
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════
+       DIAGRAM 6 — THE ASYNC EVENT LOOP
+  ════════════════════════════════════════════════ -->
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-num">06</span>
+      <div class="diag-titles">
+        <div class="diag-title">The <em>Async Event Loop</em></div>
+        <div class="diag-subtitle">How one Python process handles hundreds of simultaneous requests without blocking — the core idea behind "async-native."</div>
+      </div>
+    </div>
+    <div class="diag-body">
+<svg width="100%" viewBox="0 0 812 400" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace">
+  <defs>
+    <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- THE LOOP CIRCLE -->
+  <circle cx="406" cy="200" r="108" fill="none" stroke="#2a4a2d" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <circle cx="406" cy="200" r="62"  fill="#0a1509" stroke="#1e3320" stroke-width="1"/>
+  <text x="406" y="192" text-anchor="middle" font-size="11" font-weight="500" fill="#e8f0e9">Event</text>
+  <text x="406" y="208" text-anchor="middle" font-size="11" font-weight="500" fill="#e8f0e9">Loop</text>
+  <text x="406" y="222" text-anchor="middle" font-size="8" fill="#4a6a4d">single thread</text>
+
+  <!-- rotating arrow around the loop — simulated with 4 arcs -->
+  <path d="M406 94 A106 106 0 0 1 506 148" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arr6)" opacity=".6"/>
+
+  <!-- TASK NODES around the circle -->
+
+  <!-- TOP: HTTP Request arrives -->
+  <rect x="308" y="28" width="196" height="52" rx="8" fill="#142016" stroke="#22c55e" stroke-width=".8"/>
+  <text x="406" y="50" text-anchor="middle" font-size="10" font-weight="500" fill="#e8f0e9">HTTP Request arrives</text>
+  <text x="406" y="66" text-anchor="middle" font-size="9" fill="#8aab8d">Browser: GET /api/v1/feeds</text>
+  <!-- connector to loop top -->
+  <line x1="406" y1="81" x2="406" y2="92" stroke="#22c55e" stroke-width="1" marker-end="url(#arr6)"/>
+
+  <!-- RIGHT: DB await suspends task -->
+  <rect x="534" y="160" width="196" height="60" rx="8" fill="#0d3330" stroke="#2dd4bf" stroke-width=".8"/>
+  <text x="632" y="182" text-anchor="middle" font-size="10" font-weight="500" fill="#2dd4bf">await db.execute()</text>
+  <text x="632" y="198" text-anchor="middle" font-size="9" fill="#8aab8d">task suspends — loop</text>
+  <text x="632" y="212" text-anchor="middle" font-size="9" fill="#8aab8d">picks up another task</text>
+  <!-- connector loop → right -->
+  <line x1="514" y1="200" x2="532" y2="200" stroke="#2dd4bf" stroke-width="1" marker-end="url(#arr6)"/>
+
+  <!-- BOTTOM: Ingestion job fires -->
+  <rect x="296" y="312" width="220" height="52" rx="8" fill="#3d1a08" stroke="#f97316" stroke-width=".8"/>
+  <text x="406" y="334" text-anchor="middle" font-size="10" font-weight="500" fill="#f97316">APScheduler job fires</text>
+  <text x="406" y="350" text-anchor="middle" font-size="9" fill="#8aab8d">ingest_liveuamap() runs</text>
+  <!-- connector loop → bottom -->
+  <line x1="406" y1="308" x2="406" y2="296" stroke="#f97316" stroke-width="1" marker-end="url(#arr6)"/>
+
+  <!-- LEFT: WS push -->
+  <rect x="82" y="160" width="196" height="60" rx="8" fill="#2d1f5e" stroke="#a78bfa" stroke-width=".8"/>
+  <text x="180" y="182" text-anchor="middle" font-size="10" font-weight="500" fill="#a78bfa">WS push executes</text>
+  <text x="180" y="198" text-anchor="middle" font-size="9" fill="#8aab8d">ws.send_json(payload)</text>
+  <text x="180" y="212" text-anchor="middle" font-size="9" fill="#8aab8d">non-blocking I/O</text>
+  <!-- connector loop → left -->
+  <line x1="298" y1="200" x2="280" y2="200" stroke="#a78bfa" stroke-width="1" marker-end="url(#arr6)"/>
+
+  <!-- KEY INSIGHT CALLOUT — right side -->
+  <rect x="650" y="28" width="150" height="130" rx="8" fill="#0a1509" stroke="#1e3320" stroke-width=".5"/>
+  <text x="725" y="48" text-anchor="middle" font-size="8" letter-spacing=".12em" fill="#4a6a4d">KEY CONCEPT</text>
+  <text x="660" y="66"  font-size="8" fill="#8aab8d">When any task hits</text>
+  <text x="660" y="80"  font-size="9" fill="#2dd4bf" font-weight="500">await</text>
+  <text x="660" y="96"  font-size="8" fill="#8aab8d">it pauses and the loop</text>
+  <text x="660" y="110" font-size="8" fill="#8aab8d">immediately runs the</text>
+  <text x="660" y="124" font-size="8" fill="#8aab8d">next ready task.</text>
+  <text x="660" y="140" font-size="8" fill="#8aab8d">No waiting. No blocking.</text>
+  <text x="660" y="154" font-size="8" fill="#4a6a4d">1 thread = ∞ tasks.</text>
+
+  <!-- SYNC vs ASYNC comparison at bottom -->
+  <rect x="12" y="368" width="375" height="28" rx="5" fill="#3d0f0f" stroke="#ef4444" stroke-width=".5"/>
+  <text x="199" y="380" text-anchor="middle" font-size="8" letter-spacing=".08em" fill="#ef4444">SYNC (BLOCKING): thread waits idle while DB query runs</text>
+  <text x="199" y="392" text-anchor="middle" font-size="8" fill="#4a6a4d">one thread = one request at a time</text>
+
+  <rect x="425" y="368" width="375" height="28" rx="5" fill="#1a4a23" stroke="#22c55e" stroke-width=".5"/>
+  <text x="612" y="380" text-anchor="middle" font-size="8" letter-spacing=".08em" fill="#22c55e">ASYNC (NON-BLOCKING): thread handles other tasks while waiting</text>
+  <text x="612" y="392" text-anchor="middle" font-size="8" fill="#4a6a4d">one thread = hundreds of requests in parallel</text>
+</svg>
+    </div>
+    <div class="diag-caption">
+      <strong>The core idea in one sentence:</strong> Instead of one request monopolising the server until it finishes, every operation that involves waiting (database query, external API call, file write) uses <strong>await</strong> — which means "pause me here and go do something else until the result arrives." The event loop keeps cycling, picking up whichever task has a result ready. One Python thread ends up handling hundreds of simultaneous requests, ingestion jobs, and WebSocket connections without any of them blocking the others.
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>

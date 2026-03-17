@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polymatic — Why FastAPI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080f09;
+  --bg2:       #0d1a0e;
+  --bg3:       #111f12;
+  --card:      #0f1a10;
+  --card2:     #142016;
+  --border:    #1e3320;
+  --border2:   #2a4a2d;
+  --green:     #4ade80;
+  --green2:    #22c55e;
+  --green-dim: #1a4a23;
+  --amber:     #f97316;
+  --amber-dim: #3d1a08;
+  --red:       #ef4444;
+  --red-dim:   #3d0f0f;
+  --teal:      #2dd4bf;
+  --teal-dim:  #0d3330;
+  --purple:    #a78bfa;
+  --purple-dim:#2d1f5e;
+  --blue:      #60a5fa;
+  --blue-dim:  #1e3a5f;
+  --text:      #e8f0e9;
+  --text2:     #8aab8d;
+  --text3:     #4a6a4d;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'DM Sans', sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  font-family: var(--sans);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+@keyframes fadein { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+@keyframes pulse  { 0%,100%{opacity:1}50%{opacity:.25} }
+@keyframes flow   { 0%{stroke-dashoffset:16}100%{stroke-dashoffset:0} }
+
+/* ── SLIDE SHELL ── */
+.slide {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 40px 56px;
+  animation: fadein .45s ease both;
+}
+
+/* ── HEADER ── */
+.slide-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px; gap: 24px;
+}
+.slide-eyebrow {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+}
+.slide-eyebrow-line { width: 32px; height: 1px; background: var(--border2); }
+.slide-eyebrow-text {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .2em; color: var(--text3);
+}
+.slide-title {
+  font-family: var(--serif); font-size: 36px;
+  font-weight: 900; line-height: 1.1; color: var(--text);
+}
+.slide-title em { font-style: italic; color: var(--green); }
+
+.header-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.hbadge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+  background: var(--card); border: 1px solid var(--border);
+  padding: 5px 12px; border-radius: 4px;
+  display: flex; align-items: center; gap: 7px; color: var(--text3);
+}
+.hbadge-dot { width: 6px; height: 6px; border-radius: 50%; }
+.hbadge-dot.g { background: var(--green2); animation: pulse 2s infinite; }
+.hbadge-dot.t { background: var(--teal); }
+.hbadge-dot.p { background: var(--purple); }
+
+/* ── PROBLEM CONTEXT BANNER ── */
+.problem-banner {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.problem-label-col {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding-top: 2px;
+}
+.problem-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .16em;
+  color: var(--text3); white-space: nowrap;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+.problem-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--green-dim); border: 1px solid var(--green2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.problem-content {}
+.problem-intro {
+  font-size: 12px; color: var(--text3); font-family: var(--mono);
+  letter-spacing: .1em; margin-bottom: 10px;
+}
+.workloads {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.workload-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; flex: 1; min-width: 200px;
+}
+.workload-chip-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.workload-chip-body {}
+.workload-chip-name {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  color: var(--text); margin-bottom: 2px;
+}
+.workload-chip-desc {
+  font-size: 11px; color: var(--text2); line-height: 1.4;
+}
+.problem-bottom {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text2); line-height: 1.55;
+}
+.problem-bottom strong {
+  color: var(--text); font-weight: 500;
+}
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border2); }
+.divider-text {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .18em; color: var(--text3); white-space: nowrap;
+}
+
+/* ── REASON CARDS GRID ── */
+.reasons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.reason-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s, transform .15s;
+  position: relative;
+  animation: fadein .4s ease both;
+}
+.reason-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+}
+
+/* coloured left-top corner accent */
+.reason-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 12px 0 0 12px;
+}
+.reason-card.async::before    { background: var(--green2); }
+.reason-card.pydantic::before { background: var(--teal); }
+.reason-card.ws::before       { background: var(--purple); }
+.reason-card.db::before       { background: var(--blue); }
+
+.reason-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.reason-icon-wrap {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.reason-icon-wrap.async    { background: var(--green-dim);  border: 1px solid var(--green2); }
+.reason-icon-wrap.pydantic { background: var(--teal-dim);   border: 1px solid #0d9488; }
+.reason-icon-wrap.ws       { background: var(--purple-dim); border: 1px solid #7c3aed; }
+.reason-icon-wrap.db       { background: var(--blue-dim);   border: 1px solid #2563eb; }
+
+.reason-heading { flex: 1; }
+.reason-title {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  line-height: 1.3; margin-bottom: 3px;
+}
+.reason-card.async    .reason-title { color: var(--green); }
+.reason-card.pydantic .reason-title { color: var(--teal); }
+.reason-card.ws       .reason-title { color: var(--purple); }
+.reason-card.db       .reason-title { color: var(--blue); }
+
+.reason-subtitle {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .08em; color: var(--text3);
+}
+.reason-tag {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+  padding: 3px 8px; border-radius: 3px; flex-shrink: 0;
+}
+.reason-tag.perf   { background: var(--green-dim);  color: var(--green2); border: 1px solid var(--border2); }
+.reason-tag.safety { background: var(--teal-dim);   color: var(--teal);   border: 1px solid #134e4a; }
+.reason-tag.dx     { background: var(--purple-dim); color: var(--purple); border: 1px solid #4c1d95; }
+.reason-tag.infra  { background: var(--blue-dim);   color: var(--blue);   border: 1px solid #1e40af; }
+
+.reason-body { padding: 14px 18px 16px 20px; }
+.reason-text {
+  font-size: 12px; color: var(--text2);
+  line-height: 1.65; margin-bottom: 12px;
+}
+.reason-text strong { color: var(--text); font-weight: 500; }
+.reason-text code {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--teal); background: var(--teal-dim);
+  padding: 1px 5px; border-radius: 3px;
+}
+
+/* contrast row — "what you DON'T have to deal with" */
+.contrast-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.contrast-chip {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 9px;
+  padding: 4px 9px; border-radius: 4px;
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text3);
+}
+.contrast-chip.gone {
+  text-decoration: line-through;
+  opacity: .55;
+}
+.contrast-chip.good {
+  background: var(--green-dim); border-color: var(--border2);
+  color: var(--green2);
+}
+.contrast-chip-icon { font-size: 10px; }
+
+/* mini stat strip inside card */
+.stat-strip {
+  display: flex; gap: 6px; margin-top: 10px;
+}
+.mini-stat {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 7px 10px; text-align: center;
+}
+.mini-stat-val {
+  font-family: var(--mono); font-size: 14px; font-weight: 600;
+  color: var(--text); display: block;
+}
+.mini-stat-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: .1em;
+  color: var(--text3); margin-top: 2px; display: block;
+}
+
+/* flow diagram inside async card */
+.mini-flow {
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: nowrap; margin-top: 10px; overflow: hidden;
+}
+.flow-node {
+  font-family: var(--mono); font-size: 9px;
+  padding: 5px 9px; border-radius: 5px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.flow-node.src  { background: var(--amber-dim); color: var(--amber); border: 1px solid #7c2d12; }
+.flow-node.proc { background: var(--green-dim); color: var(--green2); border: 1px solid var(--border2); }
+.flow-node.ws   { background: var(--purple-dim); color: var(--purple); border: 1px solid #4c1d95; }
+.flow-arrow {
+  color: var(--text3); font-size: 11px; flex-shrink: 0;
+  font-family: var(--mono);
+}
+.flow-label {
+  font-family: var(--mono); font-size: 8px;
+  color: var(--green2); background: var(--green-dim);
+  padding: 1px 5px; border-radius: 3px; flex-shrink: 0;
+}
+
+/* pydantic contract visualiser */
+.contract-row {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 8px; margin-top: 10px;
+}
+.contract-side {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 10px;
+}
+.contract-side-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+  color: var(--text3); margin-bottom: 4px;
+}
+.contract-side-name {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+}
+.contract-side-name.ts  { color: var(--blue); }
+.contract-side-name.py  { color: var(--teal); }
+.contract-bridge {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  flex-shrink: 0;
+}
+.contract-bridge-icon { font-size: 14px; }
+.contract-bridge-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: .08em;
+  color: var(--text3); text-align: center;
+}
+
+/* ws connections visualiser */
+.ws-connections {
+  display: flex; align-items: center; gap: 8px; margin-top: 10px;
+}
+.ws-server {
+  background: var(--purple-dim); border: 1px solid var(--purple);
+  border-radius: 7px; padding: 8px 12px;
+  font-family: var(--mono); font-size: 9px;
+  color: var(--purple); text-align: center; flex-shrink: 0;
+}
+.ws-lines { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.ws-line {
+  display: flex; align-items: center; gap: 6px;
+}
+.ws-line-track {
+  flex: 1; height: 1px; background: var(--purple);
+  opacity: .4; position: relative;
+}
+.ws-line-track::after {
+  content: '';
+  position: absolute; right: 0; top: -3px;
+  width: 0; height: 0;
+  border-left: 5px solid var(--purple);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  opacity: .6;
+}
+.ws-client {
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 5px; padding: 4px 8px;
+  font-family: var(--mono); font-size: 8px; color: var(--text2);
+  white-space: nowrap;
+}
+
+/* ── TRADEOFF CALLOUT ── */
+.tradeoff {
+  background: var(--amber-dim);
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+  padding: 18px 22px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+.tradeoff-icon-col {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.tradeoff-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: #5a2008; border: 1px solid var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.tradeoff-flag {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+  color: var(--amber); writing-mode: vertical-lr;
+  transform: rotate(180deg); white-space: nowrap;
+}
+.tradeoff-body {}
+.tradeoff-headline {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .12em; color: var(--amber); margin-bottom: 8px;
+}
+.tradeoff-text {
+  font-size: 12px; color: #c26030; line-height: 1.65;
+}
+.tradeoff-text strong { color: var(--text2); font-weight: 500; }
+.tradeoff-text code {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--amber); background: #5a2008;
+  padding: 1px 5px; border-radius: 3px;
+}
+.tradeoff-right {
+  display: flex; flex-direction: column; gap: 7px; flex-shrink: 0;
+}
+.tradeoff-item {
+  display: flex; align-items: flex-start; gap: 7px;
+  background: #2a1004; border: 1px solid #5a2008;
+  border-radius: 6px; padding: 8px 10px; min-width: 180px;
+}
+.tradeoff-item-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  margin-top: 4px; flex-shrink: 0;
+}
+.tradeoff-item-dot.red { background: var(--red); }
+.tradeoff-item-dot.ok  { background: var(--green2); }
+.tradeoff-item-text {
+  font-family: var(--mono); font-size: 9px;
+  color: #c26030; line-height: 1.45;
+}
+.tradeoff-item-text strong { color: var(--amber); }
+
+/* ── FOOTER ── */
+.slide-footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.footer-logo { display: flex; align-items: center; gap: 8px; }
+.footer-icon {
+  width: 24px; height: 24px; background: var(--green-dim);
+  border: 1px solid var(--green2); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.footer-wordmark {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  letter-spacing: .18em; color: var(--text2);
+}
+.footer-note {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .1em; color: var(--text3);
+}
+.footer-note strong { color: var(--text2); font-weight: 500; }
+.footer-note code {
+  font-family: var(--mono); font-size: 9px; color: var(--teal);
+  background: var(--teal-dim); padding: 1px 4px; border-radius: 2px;
+}
+
+/* stagger */
+.reason-card:nth-child(1) { animation-delay: .06s; }
+.reason-card:nth-child(2) { animation-delay: .12s; }
+.reason-card:nth-child(3) { animation-delay: .18s; }
+.reason-card:nth-child(4) { animation-delay: .24s; }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- ── HEADER ── -->
+  <div class="slide-header">
+    <div>
+      <div class="slide-eyebrow">
+        <div class="slide-eyebrow-line"></div>
+        <span class="slide-eyebrow-text">THE MAKING OF POLYMATIC · PART 2 · BACKEND</span>
+        <div class="slide-eyebrow-line"></div>
+      </div>
+      <div class="slide-title">Why <em>FastAPI</em> —<br>Architectural Decision Record.</div>
+    </div>
+    <div class="header-badges">
+      <div class="hbadge"><span class="hbadge-dot g"></span>ASYNC-NATIVE THROUGHOUT</div>
+      <div class="hbadge"><span class="hbadge-dot t"></span>SINGLE uvicorn PROCESS</div>
+      <div class="hbadge"><span class="hbadge-dot p"></span>ONE EVENT LOOP · ZERO BROKERS</div>
+    </div>
+  </div>
+
+  <!-- ── PROBLEM CONTEXT BANNER ── -->
+  <div class="problem-banner">
+    <div class="problem-label-col">
+      <div class="problem-icon">🔧</div>
+      <div class="problem-label">THE PROBLEM</div>
+    </div>
+    <div class="problem-content">
+      <div class="problem-intro">THREE WORKLOADS — ALL ASYNC — ALL NEED TO COMPOSE IN ONE PROCESS</div>
+      <div class="workloads">
+        <div class="workload-chip">
+          <div class="workload-chip-dot" style="background:var(--green2)"></div>
+          <div class="workload-chip-body">
+            <div class="workload-chip-name">REST API</div>
+            <div class="workload-chip-desc">Serves the frontend's <code style="font-family:var(--mono);font-size:10px;color:var(--teal);background:var(--teal-dim);padding:1px 4px;border-radius:3px">DataProvider</code> interface — feed items, events, sentiments, markets</div>
+          </div>
+        </div>
+        <div class="workload-chip">
+          <div class="workload-chip-dot" style="background:var(--purple)"></div>
+          <div class="workload-chip-body">
+            <div class="workload-chip-name">WebSocket Layer</div>
+            <div class="workload-chip-desc">Pushes real-time feed items and sentiment updates to every connected analyst browser</div>
+          </div>
+        </div>
+        <div class="workload-chip">
+          <div class="workload-chip-dot" style="background:var(--amber)"></div>
+          <div class="workload-chip-body">
+            <div class="workload-chip-name">Ingestion Pipeline</div>
+            <div class="workload-chip-desc">Polls LiveUAMap, Bellingcat, Polymarket, Kalshi on per-source schedules — no idle waiting</div>
+          </div>
+        </div>
+      </div>
+      <div class="problem-bottom">
+        All three are <strong>async by nature</strong>. All three need to <strong>compose cleanly in a single process</strong> — no message broker overhead, no separate worker fleet to operate.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOUR REASONS ── -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">4 REASONS FASTAPI IS THE RIGHT FIT</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="reasons-grid">
+
+    <!-- REASON 1: ASYNC NATIVE -->
+    <div class="reason-card async">
+      <div class="reason-header">
+        <div class="reason-icon-wrap async">⚡</div>
+        <div class="reason-heading">
+          <div class="reason-title">Async-native from the ground up</div>
+          <div class="reason-subtitle">Starlette · uvicorn · asyncio · one event loop</div>
+        </div>
+        <span class="reason-tag perf">PERFORMANCE</span>
+      </div>
+      <div class="reason-body">
+        <div class="reason-text">
+          Every route handler, WebSocket endpoint, and background task runs in <strong>the same event loop</strong>. No synchronous ORM wrapped in thread pool executors. No <code>async_to_sync</code> bridge. No friction between HTTP and real-time layers.
+        </div>
+        <div class="mini-flow">
+          <div class="flow-node src">Ingestion job</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node proc">await db.write()</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-label">same context</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node ws">await ws.push()</div>
+        </div>
+        <div class="contrast-row" style="margin-top:10px">
+          <div class="contrast-chip gone">thread pool executors</div>
+          <div class="contrast-chip gone">async_to_sync bridge</div>
+          <div class="contrast-chip good">✓ one event loop</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 2: PYDANTIC -->
+    <div class="reason-card pydantic">
+      <div class="reason-header">
+        <div class="reason-icon-wrap pydantic">📐</div>
+        <div class="reason-heading">
+          <div class="reason-title">Pydantic = the contract made executable</div>
+          <div class="reason-subtitle">TypeScript interface → Python schema · one source of truth</div>
+        </div>
+        <span class="reason-tag safety">TYPE SAFETY</span>
+      </div>
+      <div class="reason-body">
+        <div class="reason-text">
+          The frontend's <code>DataProvider</code> is defined in TypeScript. Pydantic is the Python equivalent — it defines the <strong>exact shape, types, and validation rules</strong> for every object the API produces, generates the JSON response, validates incoming data, and auto-generates the OpenAPI spec.
+        </div>
+        <div class="contract-row">
+          <div class="contract-side">
+            <div class="contract-side-label">FRONTEND</div>
+            <div class="contract-side-name ts">TypeScript<br><span style="font-size:9px;color:var(--text3)">interface FeedItem {…}</span></div>
+          </div>
+          <div class="contract-bridge">
+            <div class="contract-bridge-icon">⟷</div>
+            <div class="contract-bridge-label">SAME<br>CONTRACT</div>
+          </div>
+          <div class="contract-side">
+            <div class="contract-side-label">BACKEND</div>
+            <div class="contract-side-name py">Pydantic<br><span style="font-size:9px;color:var(--text3)">class FeedItemSchema(…)</span></div>
+          </div>
+        </div>
+        <div class="contrast-row" style="margin-top:10px">
+          <div class="contrast-chip good">✓ JSON validation</div>
+          <div class="contrast-chip good">✓ OpenAPI auto-docs</div>
+          <div class="contrast-chip good">✓ one schema → TS types</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 3: WEBSOCKETS -->
+    <div class="reason-card ws">
+      <div class="reason-header">
+        <div class="reason-icon-wrap ws">🔌</div>
+        <div class="reason-heading">
+          <div class="reason-title">WebSockets are first-class, not a bolt-on</div>
+          <div class="reason-subtitle">Same decorator syntax as HTTP · no channel layer · no Redis</div>
+        </div>
+        <span class="reason-tag dx">SIMPLICITY</span>
+      </div>
+      <div class="reason-body">
+        <div class="reason-text">
+          FastAPI handles WebSocket connections with <strong>the same <code>@router.websocket()</code> decorator</strong> as HTTP routes. No separate channel layer, no Redis pub/sub required for a single-server deployment. The <code>ConnectionManager</code> is 20 lines of code.
+        </div>
+        <div class="ws-connections">
+          <div class="ws-server">Connection<br>Manager</div>
+          <div class="ws-lines">
+            <div class="ws-line">
+              <div class="ws-line-track"></div>
+              <div class="ws-client">Analyst 1</div>
+            </div>
+            <div class="ws-line">
+              <div class="ws-line-track"></div>
+              <div class="ws-client">Analyst 2</div>
+            </div>
+            <div class="ws-line">
+              <div class="ws-line-track"></div>
+              <div class="ws-client">Analyst 3</div>
+            </div>
+          </div>
+        </div>
+        <div class="contrast-row" style="margin-top:10px">
+          <div class="contrast-chip gone">Redis pub/sub</div>
+          <div class="contrast-chip gone">separate channel layer</div>
+          <div class="contrast-chip good">✓ 20-line ConnectionManager</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 4: DB / asyncpg -->
+    <div class="reason-card db">
+      <div class="reason-header">
+        <div class="reason-icon-wrap db">🗄️</div>
+        <div class="reason-heading">
+          <div class="reason-title">asyncpg + SQLAlchemy — real async I/O</div>
+          <div class="reason-subtitle">No thread pool · genuine coroutines · ORM ergonomics</div>
+        </div>
+        <span class="reason-tag infra">DATABASE</span>
+      </div>
+      <div class="reason-body">
+        <div class="reason-text">
+          SQLAlchemy 2.0's async session API backed by <code>asyncpg</code> means database queries are <strong>actual coroutines</strong> that yield control to the event loop while waiting. No thread pool. No blocking. Under a burst event generating 50,000 tweets in four minutes — this matters.
+        </div>
+        <div class="stat-strip">
+          <div class="mini-stat">
+            <span class="mini-stat-val" style="color:var(--amber)">50K</span>
+            <span class="mini-stat-label">TWEETS / 4 MIN</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat-val" style="color:var(--blue)">asyncpg</span>
+            <span class="mini-stat-label">POSTGRES DRIVER</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat-val" style="color:var(--green2)">0</span>
+            <span class="mini-stat-label">BLOCKED THREADS</span>
+          </div>
+        </div>
+        <div class="contrast-row" style="margin-top:10px">
+          <div class="contrast-chip gone">thread pool executors</div>
+          <div class="contrast-chip gone">blocking ORM calls</div>
+          <div class="contrast-chip good">✓ await db.execute()</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /reasons-grid -->
+
+  <!-- ── TRADEOFF ── -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">THE TRADEOFF I'M ACCEPTING</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="tradeoff">
+    <div class="tradeoff-icon-col">
+      <div class="tradeoff-icon">⚠</div>
+      <div class="tradeoff-flag">TRADEOFF</div>
+    </div>
+    <div class="tradeoff-body">
+      <div class="tradeoff-headline">NO BUILT-IN ADMIN PANEL</div>
+      <div class="tradeoff-text">
+        FastAPI ships with no Django-style admin. Every data management operation — <strong>configuring feed sources, editing credibility scores, auditing classification results</strong> — needs either a separate admin UI or direct database access during the early phases.
+        <br><br>
+        For now, <code>psql</code> and a seeded database gets us to launch. I'll address this in <strong>Part 4</strong> with a minimal internal tooling layer. It's a real cost — and it's the right tradeoff for a team of one shipping a real-time intelligence platform that needs to stay operationally simple.
+      </div>
+    </div>
+    <div class="tradeoff-right">
+      <div class="tradeoff-item">
+        <div class="tradeoff-item-dot red"></div>
+        <div class="tradeoff-item-text"><strong>No admin panel</strong><br>configure via psql / seed scripts</div>
+      </div>
+      <div class="tradeoff-item">
+        <div class="tradeoff-item-dot red"></div>
+        <div class="tradeoff-item-text"><strong>No built-in auth UI</strong><br>JWT handled manually</div>
+      </div>
+      <div class="tradeoff-item">
+        <div class="tradeoff-item-dot ok"></div>
+        <div class="tradeoff-item-text"><strong>Fix in Part 4</strong><br>minimal internal tooling layer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="slide-footer">
+    <div class="footer-logo">
+      <div class="footer-icon">🌐</div>
+      <span class="footer-wordmark">POLYMATIC</span>
+    </div>
+    <div class="footer-note">
+      · FastAPI Backend · <strong></strong>
+    </div>
+    <div class="footer-note">
+      Stack: <code>FastAPI</code> · <code>SQLAlchemy 2.0</code> · <code>asyncpg</code> · <code>APScheduler</code> · <code>Pydantic v2</code>
+    </div>
+  </div>
+
+</div><!-- /slide -->
+</body>
+</html>

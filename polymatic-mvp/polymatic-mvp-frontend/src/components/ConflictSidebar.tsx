@@ -267,7 +267,7 @@ export default function ConflictSidebar() {
               'md:left-80 md:w-96 md:translate-x-0 md:z-10',
               // Mobile: full width, slide-in controlled by state
               'left-0 w-full z-[12] transition-transform duration-300 ease-in-out',
-              conflictSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+              conflictSidebarOpen ? 'translate-x-0' : 'max-md:-translate-x-full',
             ].join(' ')}
           >
             <div className="flex items-center justify-between mb-6 shrink-0 border-b border-zinc-800 pb-4">

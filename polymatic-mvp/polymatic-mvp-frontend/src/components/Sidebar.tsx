@@ -113,7 +113,7 @@ export default function Sidebar() {
         />
       )}
 
-    <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950/90 border-r border-zinc-800 text-zinc-300 p-4 z-10 flex flex-col font-mono text-sm backdrop-blur-sm overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+    <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950/90 border-r border-zinc-800 text-zinc-300 p-4 z-10 flex flex-col font-mono text-sm backdrop-blur-sm overflow-y-auto transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : 'max-md:-translate-x-full'}`}>
       <div className="flex items-center gap-2 mb-8 shrink-0">
         <Activity className="text-cyan-500" />
         <h1 className="text-xl font-bold tracking-widest text-white uppercase">PolyMatic</h1>

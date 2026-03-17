@@ -14,7 +14,7 @@ export default function EventFeed() {
         />
       )}
 
-      <div className={`absolute bottom-0 right-0 w-96 max-w-full max-h-96 overflow-y-auto bg-zinc-950/90 border-l border-t border-zinc-800 text-zinc-300 p-4 z-10 font-mono text-xs backdrop-blur-sm transition-transform duration-300 ease-in-out md:translate-y-0 ${eventFeedOpen ? 'translate-y-0' : 'translate-y-full md:translate-y-0'}`}>
+      <div className={`absolute bottom-0 right-0 w-96 max-w-full max-h-96 overflow-y-auto bg-zinc-950/90 border-l border-t border-zinc-800 text-zinc-300 p-4 z-10 font-mono text-xs backdrop-blur-sm transition-transform duration-300 ease-in-out ${eventFeedOpen ? 'translate-y-0' : 'max-md:translate-y-full'}`}>
         {/* Close button — mobile only */}
         <button
           onClick={() => setEventFeedOpen(false)}

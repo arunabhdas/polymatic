@@ -264,6 +264,16 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 - [ ] **E02-S07-T07** — Create `hooks/useSearch.ts` — Hook: `useSearch(query)` with 200ms debounce. Only fires when query length ≥ 2. Returns `SearchResults` in fixed section order.
 - [ ] **E02-S07-T08** — Create `hooks/useAlerts.ts` — Hooks: `useAlertConfigs()`, `useActiveAlerts()`, `useCreateAlert()` (mutation), `useDismissAlert()` (mutation).
 
+## Story 2.8: MVP Landing Page & Routing — ✅ COMPLETE
+
+> Marketing-style landing page for the polymatic-mvp frontend (`polymatic-mvp-frontend/`), replicating the design from `mocks/web_1.html` Screen 1. Adds react-router-dom for route splitting: `/` → LandingPage, `/dashboard` → Cesium globe app (lazy-loaded).
+
+- [✅] **E02-S08-T01** — Install `react-router-dom` dependency.
+- [✅] **E02-S08-T02** — Create `LandingPage.tsx` — Full marketing landing page with: scrolling ticker bar (live intel alerts), top nav (logo, nav links, Sign In, Launch Dashboard CTA), hero section (serif headline, metric pills grid, globe mock SVG illustration), features strip (4 cards: Unified Signal Feed, Sentiments Engine, Prediction Correlation, Analyst Scoring), and steps section (4-step "how it works"). Uses PolyMatic brand tokens (green/amber/red/teal color system) defined in `index.css`.
+- [✅] **E02-S08-T03** — Update `index.css` — Add Playfair Display + DM Sans font imports, define `--color-pm-*` brand tokens in `@theme` block, add `@keyframes ticker` and `@keyframes pulse-dot` animations.
+- [✅] **E02-S08-T04** — Update `main.tsx` — Replace direct `<App />` render with `createBrowserRouter` + `RouterProvider`. Routes: `/` → LandingPage (eager), `/dashboard` → App (lazy via dynamic import).
+- [✅] **E02-S08-T05** — CTA routing — "Launch Dashboard" primary buttons in both top nav and hero section link to `/dashboard` via react-router-dom `<Link>`.
+
 ---
 
 # Epic 3: Landing Page with Three.js Globe (P0) — ✅ COMPLETE

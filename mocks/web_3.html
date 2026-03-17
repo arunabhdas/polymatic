@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polymatic — Tech Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080f09;
+  --bg2:       #0d1a0e;
+  --bg3:       #111f12;
+  --card:      #0f1a10;
+  --card2:     #142016;
+  --border:    #1e3320;
+  --border2:   #2a4a2d;
+  --green:     #4ade80;
+  --green2:    #22c55e;
+  --green-dim: #1a4a23;
+  --amber:     #f97316;
+  --amber-dim: #3d1a08;
+  --teal:      #2dd4bf;
+  --teal-dim:  #0d3330;
+  --purple:    #a78bfa;
+  --purple-dim:#2d1f5e;
+  --blue:      #60a5fa;
+  --blue-dim:  #1e3a5f;
+  --coral:     #fb7185;
+  --coral-dim: #4c0519;
+  --text:      #e8f0e9;
+  --text2:     #8aab8d;
+  --text3:     #4a6a4d;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'DM Sans', sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  font-family: var(--sans);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+@keyframes fadein  { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+@keyframes pulse   { 0%,100%{opacity:1}50%{opacity:.3} }
+@keyframes shimmer { 0%{background-position:200% center}100%{background-position:-200% center} }
+
+/* ── SLIDE SHELL ── */
+.slide {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 40px 56px;
+  position: relative;
+  animation: fadein .5s ease both;
+}
+
+/* ── HEADER ── */
+.slide-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  gap: 24px;
+}
+.slide-header-left {}
+.slide-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px;
+}
+.slide-eyebrow-line { width: 32px; height: 1px; background: var(--border2); }
+.slide-eyebrow-text {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .2em; color: var(--text3);
+}
+.slide-title {
+  font-family: var(--serif); font-size: 36px;
+  font-weight: 900; line-height: 1.1; color: var(--text);
+}
+.slide-title em { font-style: italic; color: var(--green); }
+
+.slide-header-right {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  flex-shrink: 0;
+}
+.slide-stat {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .1em; color: var(--text3);
+  background: var(--card); border: 1px solid var(--border);
+  padding: 5px 12px; border-radius: 4px;
+  display: flex; align-items: center; gap: 7px;
+}
+.stat-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.stat-dot.g { background: var(--green2); animation: pulse 2s infinite; }
+.stat-dot.a { background: var(--amber); }
+
+/* ── LAYER COLUMNS LABEL ROW ── */
+.col-headers {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr;
+  gap: 0;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 10px;
+}
+.col-hdr {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: .18em; color: var(--text3);
+  padding: 0 16px;
+}
+.col-hdr:first-child { padding-left: 20px; }
+
+/* ── STACK ROWS ── */
+.stack-rows { display: flex; flex-direction: column; gap: 8px; }
+
+.stack-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr;
+  gap: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .2s, transform .15s;
+  cursor: default;
+  position: relative;
+}
+.stack-row:hover {
+  border-color: var(--border2);
+  transform: translateX(2px);
+}
+.stack-row::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 10px 0 0 10px;
+}
+
+/* layer accent colours */
+.stack-row.framework::before { background: var(--green2); }
+.stack-row.build::before     { background: var(--amber); }
+.stack-row.state::before     { background: var(--teal); }
+.stack-row.styling::before   { background: var(--purple); }
+.stack-row.animation::before { background: var(--coral); }
+.stack-row.virtual::before   { background: var(--blue); }
+.stack-row.geo::before       { background: var(--green); }
+.stack-row.routing::before   { background: var(--amber); }
+.stack-row.validation::before{ background: var(--teal); }
+
+/* CELL: layer label */
+.cell-layer {
+  padding: 16px 16px 16px 22px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--border);
+  background: var(--bg2);
+}
+.layer-badge {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: .14em; font-weight: 600;
+  padding: 3px 8px; border-radius: 3px;
+  display: inline-block; width: fit-content;
+  margin-bottom: 4px;
+}
+.layer-badge.framework { background: var(--green-dim);  color: var(--green2); border: 1px solid var(--border2); }
+.layer-badge.build     { background: var(--amber-dim);  color: var(--amber);  border: 1px solid #7c2d12; }
+.layer-badge.state     { background: var(--teal-dim);   color: var(--teal);   border: 1px solid #134e4a; }
+.layer-badge.styling   { background: var(--purple-dim); color: var(--purple); border: 1px solid #4c1d95; }
+.layer-badge.animation { background: var(--coral-dim);  color: var(--coral);  border: 1px solid #9f1239; }
+.layer-badge.virtual   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid #1e40af; }
+.layer-badge.geo       { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--border2); }
+.layer-badge.routing   { background: var(--amber-dim);  color: var(--amber);  border: 1px solid #7c2d12; }
+.layer-badge.validation{ background: var(--teal-dim);   color: var(--teal);   border: 1px solid #134e4a; }
+
+/* CELL: choice */
+.cell-choice {
+  padding: 14px 18px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.choice-main {
+  font-family: var(--mono); font-size: 13px;
+  font-weight: 600; color: var(--text);
+  line-height: 1.3;
+}
+.choice-version {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text3); letter-spacing: .06em;
+}
+/* choice colour tints per layer */
+.stack-row.framework .choice-main { color: var(--green); }
+.stack-row.build     .choice-main { color: var(--amber); }
+.stack-row.state     .choice-main { color: var(--teal); }
+.stack-row.styling   .choice-main { color: var(--purple); }
+.stack-row.animation .choice-main { color: var(--coral); }
+.stack-row.virtual   .choice-main { color: var(--blue); }
+.stack-row.geo       .choice-main { color: var(--green2); }
+.stack-row.routing   .choice-main { color: var(--amber); }
+.stack-row.validation.choice-main { color: var(--teal); }
+
+.choice-pills {
+  display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px;
+}
+.choice-pill {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: .08em;
+  padding: 2px 7px; border-radius: 3px;
+  border: 1px solid var(--border2);
+  color: var(--text3); background: var(--bg3);
+}
+
+/* CELL: why */
+.cell-why {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.why-text {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+.why-highlight {
+  display: inline;
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 500;
+  color: var(--text);
+}
+.why-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 9px;
+  padding: 1px 7px; border-radius: 3px;
+  white-space: nowrap; width: fit-content;
+}
+.why-badge.perf  { background: var(--green-dim);  color: var(--green2); border: 1px solid var(--border2); }
+.why-badge.dx    { background: var(--blue-dim);   color: var(--blue);   border: 1px solid #1e40af; }
+.why-badge.ux    { background: var(--purple-dim); color: var(--purple); border: 1px solid #4c1d95; }
+.why-badge.safety{ background: var(--teal-dim);   color: var(--teal);   border: 1px solid #134e4a; }
+
+/* ── FOOTER ── */
+.slide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 8px;
+}
+.footer-icon {
+  width: 24px; height: 24px;
+  background: var(--green-dim); border: 1px solid var(--green2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+}
+.footer-wordmark {
+  font-family: var(--mono); font-size: 11px;
+  font-weight: 600; letter-spacing: .18em; color: var(--text2);
+}
+.footer-note {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .1em; color: var(--text3);
+}
+.footer-note strong { color: var(--text2); font-weight: 500; }
+
+/* ── STAGGER ANIMATIONS ── */
+.stack-row:nth-child(1) { animation: fadein .4s .05s ease both; }
+.stack-row:nth-child(2) { animation: fadein .4s .10s ease both; }
+.stack-row:nth-child(3) { animation: fadein .4s .15s ease both; }
+.stack-row:nth-child(4) { animation: fadein .4s .20s ease both; }
+.stack-row:nth-child(5) { animation: fadein .4s .25s ease both; }
+.stack-row:nth-child(6) { animation: fadein .4s .30s ease both; }
+.stack-row:nth-child(7) { animation: fadein .4s .35s ease both; }
+.stack-row:nth-child(8) { animation: fadein .4s .40s ease both; }
+.stack-row:nth-child(9) { animation: fadein .4s .45s ease both; }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-eyebrow">
+        <div class="slide-eyebrow-line"></div>
+        <span class="slide-eyebrow-text">THE MAKING OF POLYMATIC · PART 1 · FRONTEND</span>
+        <div class="slide-eyebrow-line"></div>
+      </div>
+      <div class="slide-title">The Tech Stack —<br><em>and why each choice.</em></div>
+    </div>
+    <div class="slide-header-right">
+      <div class="slide-stat">
+        <span class="stat-dot g"></span>
+        9 LAYERS · ZERO COMPROMISES
+      </div>
+      <div class="slide-stat">
+        <span class="stat-dot a"></span>
+        STRICT TYPESCRIPT THROUGHOUT
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUMN HEADERS -->
+  <div class="col-headers">
+    <div class="col-hdr">LAYER</div>
+    <div class="col-hdr">CHOICE</div>
+    <div class="col-hdr">WHY THIS, NOT SOMETHING ELSE</div>
+  </div>
+
+  <!-- ROWS -->
+  <div class="stack-rows">
+
+    <!-- FRAMEWORK -->
+    <div class="stack-row framework">
+      <div class="cell-layer">
+        <span class="layer-badge framework">FRAMEWORK</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">React 18</div>
+        <div class="choice-version">+ TypeScript (strict mode)</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Concurrent Mode</span>
+          <span class="choice-pill">Suspense</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text">Ecosystem depth wins at this domain complexity.</div>
+        <div class="why-text"><span class="why-highlight">Strict TS eliminates entire categories of bugs</span> — null pointer errors, wrong prop shapes, missing API fields — before a single line runs in the browser.</div>
+        <div class="why-badge safety">TYPE SAFETY</div>
+      </div>
+    </div>
+
+    <!-- BUILD -->
+    <div class="stack-row build">
+      <div class="cell-layer">
+        <span class="layer-badge build">BUILD</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">Vite 7</div>
+        <div class="choice-version">ESM-native bundler</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Hot Module Reload</span>
+          <span class="choice-pill">ESM</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text"><span class="why-highlight">Near-instant HMR</span> — changes reflect in the browser in under 50ms. ESM-native means no Webpack config debt to maintain, no CRA baggage to fight. Start in milliseconds, not seconds.</div>
+        <div class="why-badge dx">DEV EXPERIENCE</div>
+      </div>
+    </div>
+
+    <!-- STATE -->
+    <div class="stack-row state">
+      <div class="cell-layer">
+        <span class="layer-badge state">STATE</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">Zustand</div>
+        <div class="choice-version">+ TanStack Query v5</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Client state</span>
+          <span class="choice-pill">Server state</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text"><span class="why-highlight">Two different problems, two purpose-built tools.</span> Zustand for client state (no boilerplate, no reducers, no provider hell). TanStack Query for server state — handles caching, background refetch, stale-while-revalidate, and deduplication automatically.</div>
+        <div class="why-badge dx">NO BOILERPLATE</div>
+      </div>
+    </div>
+
+    <!-- STYLING -->
+    <div class="stack-row styling">
+      <div class="cell-layer">
+        <span class="layer-badge styling">STYLING</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">Tailwind CSS v4</div>
+        <div class="choice-version">+ shadcn/ui</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Utility-first</span>
+          <span class="choice-pill">Headless</span>
+          <span class="choice-pill">Owned code</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text">Utility-first CSS means style lives next to markup — no context switching, no naming things. <span class="why-highlight">shadcn/ui gives you headless primitives you own</span> — copy into your repo, customise freely, no version-lock to a component library's design decisions.</div>
+        <div class="why-badge ux">FULL CONTROL</div>
+      </div>
+    </div>
+
+    <!-- ANIMATION -->
+    <div class="stack-row animation">
+      <div class="cell-layer">
+        <span class="layer-badge animation">ANIMATION</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">framer-motion</div>
+        <div class="choice-version">layout + gesture + spring</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Layout animation</span>
+          <span class="choice-pill">Exit transitions</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text">CSS animations handle simple transitions. framer-motion handles the hard cases: <span class="why-highlight">shared layout transitions, exit animations, drag gestures, spring physics.</span> The difference between an interface that "works" and one that genuinely <em style="color:var(--coral)">feels good</em>.</div>
+        <div class="why-badge ux">PERCEIVED QUALITY</div>
+      </div>
+    </div>
+
+    <!-- VIRTUALIZATION -->
+    <div class="stack-row virtual">
+      <div class="cell-layer">
+        <span class="layer-badge virtual">VIRTUALIZATION</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">react-virtuoso</div>
+        <div class="choice-version">dynamic list virtualization</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Variable row heights</span>
+          <span class="choice-pill">DOM recycling</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text"><span class="why-highlight">Only render what's visible — recycle DOM nodes as the analyst scrolls.</span> Without this, a feed of 5,000 items renders 5,000 React components. With it, the DOM stays at ~15 nodes regardless of list length. Non-negotiable for a real-time intelligence feed.</div>
+        <div class="why-badge perf">PERFORMANCE</div>
+      </div>
+    </div>
+
+    <!-- GEO -->
+    <div class="stack-row geo">
+      <div class="cell-layer">
+        <span class="layer-badge geo">GEO</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">Three.js</div>
+        <div class="choice-version">+ react-three-fiber</div>
+        <div class="choice-pills">
+          <span class="choice-pill">WebGL</span>
+          <span class="choice-pill">GPU-instanced</span>
+          <span class="choice-pill">R3F</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text"><span class="why-highlight">GPU-instanced markers render 10,000+ simultaneous data points</span> at 60fps where SVG or Canvas 2D would collapse under 200. react-three-fiber wraps Three.js in React's component model — declarative scene graphs, reactive updates, no imperative lifecycle management.</div>
+        <div class="why-badge perf">10K+ MARKERS @ 60FPS</div>
+      </div>
+    </div>
+
+    <!-- ROUTING -->
+    <div class="stack-row routing">
+      <div class="cell-layer">
+        <span class="layer-badge routing">ROUTING</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">react-router-dom</div>
+        <div class="choice-version">v7 · data router</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Code splitting</span>
+          <span class="choice-pill">Lazy loading</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text">Routes are lazy-loaded and code-split by default. <span class="why-highlight">The analyst's browser only downloads the JavaScript for the route they're on</span> — not the entire application bundle upfront. Faster initial load, faster subsequent navigation.</div>
+        <div class="why-badge perf">BUNDLE SPLITTING</div>
+      </div>
+    </div>
+
+    <!-- VALIDATION -->
+    <div class="stack-row validation">
+      <div class="cell-layer">
+        <span class="layer-badge validation">VALIDATION</span>
+      </div>
+      <div class="cell-choice">
+        <div class="choice-main">Zod</div>
+        <div class="choice-version">runtime schema validation</div>
+        <div class="choice-pills">
+          <span class="choice-pill">Parse, don't trust</span>
+          <span class="choice-pill">Inferred types</span>
+        </div>
+      </div>
+      <div class="cell-why">
+        <div class="why-text"><span class="why-highlight">TypeScript types exist only at compile time — they vanish at runtime.</span> When data arrives from an external API at 03:41 Zulu, Zod validates its shape against the schema and throws a precise error if anything is wrong. Type inference means one schema definition produces both the runtime validator and the TypeScript type.</div>
+        <div class="why-badge safety">RUNTIME SAFETY</div>
+      </div>
+    </div>
+
+  </div><!-- /stack-rows -->
+
+  <!-- FOOTER -->
+  <div class="slide-footer">
+    <div class="footer-logo">
+      <div class="footer-icon">🌐</div>
+      <span class="footer-wordmark">POLYMATIC</span>
+    </div>
+    <div class="footer-note">
+      Part 1 of the build log — <strong>github.com/arunabhdas/polymatic</strong>
+    </div>
+    <div class="footer-note">
+      <strong>9 layers</strong> · No <code style="font-family:var(--mono);font-size:9px;color:var(--teal)">any</code> types · Zero unexplained assertions
+    </div>
+  </div>
+
+</div><!-- /slide -->
+</body>
+</html>
