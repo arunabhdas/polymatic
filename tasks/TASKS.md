@@ -276,6 +276,23 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ---
 
+## Story 2.9: Landing Page & Demo Page Mobile Responsiveness — ✅ COMPLETE
+
+> Make the marketing landing page (`/`), demo page (`/demo`), and all shared
+> sections (TickerBar, TopNav, FeaturesStrip, StepsSection) fully responsive
+> on mobile viewports (<768px).
+
+- [✅] **E02-S09-T01** — Add `useIsMobile` hook to LandingPage.tsx (exported for DemoPage/DemoGlobe reuse).
+- [✅] **E02-S09-T02** — Make TickerBar and TopNav responsive (collapsible nav, reduced padding, hide nav links/SIGN IN/LIVE INTEL on mobile).
+- [✅] **E02-S09-T03** — Make Hero section responsive (single-column grid, 36px H1, stacked CTAs, 2-col metric pills).
+- [✅] **E02-S09-T04** — Make GlobeMock responsive (260px diameter on mobile, no left border).
+- [✅] **E02-S09-T05** — Make FeaturesStrip responsive (single-column stack, borderBottom between cards).
+- [✅] **E02-S09-T06** — Make StepsSection responsive (single-column stack, reduced padding/fonts, column header layout).
+- [✅] **E02-S09-T07** — Make DemoPage hero overlays responsive (repositioned badge, headline, hidden metrics on mobile, full-width CTA).
+- [✅] **E02-S09-T08** — Make DemoGlobe container height responsive (520→320px on mobile).
+
+---
+
 # Epic 3: Landing Page with Three.js Globe (P0) — ✅ COMPLETE
 
 > Cinematic landing page at `/` with animated Three.js globe showing maritime, air, and military traffic.

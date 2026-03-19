@@ -18,7 +18,7 @@ interface ShipEntity {
   };
 }
 
-export default function DemoGlobe() {
+export default function DemoGlobe({ mobile = false }: { mobile?: boolean }) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer>>(null);
   const [ships, setShips] = useState<Record<string, ShipEntity>>({});
 
@@ -72,7 +72,7 @@ export default function DemoGlobe() {
   const shipEntities = Object.values(ships);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: 520, background: '#000' }}>
+    <div style={{ position: 'relative', width: '100%', height: mobile ? 320 : 520, background: '#000' }}>
       {/* Zoom controls */}
       <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 20, display: 'flex', flexDirection: 'column', gap: 4, background: 'rgba(9,15,10,0.9)', padding: 6, borderRadius: 6, border: '1px solid #1e3320' }}>
         <button

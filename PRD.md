@@ -100,6 +100,7 @@ The MVP frontend at `polymatic-mvp-frontend/` uses a marketing-style landing pag
 - **Dashboard (`/dashboard`):** Lazy-loaded Cesium/Resium globe with OSINT layers, sidebar, event feed, and GDELT conflict panel.
 - **Routing:** `react-router-dom` with `createBrowserRouter`. Dashboard is lazy-loaded via dynamic `import()` to keep landing page TTI fast.
 - **Design tokens:** PolyMatic brand palette (deep green bg, green/amber/red/teal signal colors) using CSS custom properties. Typography: Playfair Display (serif headlines), DM Sans (body), JetBrains Mono (data/labels).
+- **Mobile responsive:** All marketing pages (landing, demo) are fully responsive for mobile viewports (<768px) with single-column layouts, reduced typography, and collapsible navigation. Uses a `useIsMobile()` hook with conditional inline styles to maintain consistency with the inline-style approach.
 
 **polymatic-frontend-webapp (Main SaaS App)**
 

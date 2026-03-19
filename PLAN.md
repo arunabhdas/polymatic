@@ -2445,3 +2445,166 @@
  4. /demo globe — Ships render as orange dots, globe is interactive (pan/zoom)
  5. /dashboard — Unchanged, sidebar still visible
  6. "Launch Dashboard" buttons on /demo nav still link to /dashboard
+
+
+
+## Landing Page & Demo Page — Mobile Responsiveness
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+ Landing Page & Demo Page — Mobile Responsiveness
+
+ Context
+
+ The PolyMatic MVP landing page (/), demo page (/demo), and their shared components (TickerBar, TopNav, FeaturesStrip, StepsSection) are 100%
+ desktop-only. All layouts use hardcoded inline styles with fixed pixel widths, multi-column grids, and large paddings that break on mobile viewports
+ (<768px). This plan makes them fully responsive.
+
+ Key constraint: These pages use inline style={{}} objects (not Tailwind classes) to avoid Tailwind v4 @theme conflicts with the dashboard CSS. So
+ responsiveness must be achieved via a useIsMobile() hook that detects viewport width, with conditional style objects.
+
+ Files to Modify
+
+ ┌────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │              File              │                                                     Change                                                      │
+ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ src/components/LandingPage.tsx │ Add useIsMobile hook. Make TickerBar, TopNav, Hero, GlobeMock, FeaturesStrip, StepsSection responsive via       │
+ │                                │ conditional inline styles.                                                                                      │
+ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ src/components/DemoPage.tsx    │ Responsive hero overlay positioning, metric ribbon stacking, headline sizing.                                   │
+ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ src/components/DemoGlobe.tsx   │ Responsive globe height (520px desktop → 320px mobile).                                                         │
+ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ tasks/TASKS.md                 │ Add Story 2.9 with task breakdown.                                                                              │
+ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ PRD.md                         │ Add mobile responsiveness note to Section 2.5.                                                                  │
+ └────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ All paths relative to polymatic-mvp/polymatic-mvp-frontend/.
+
+ Implementation
+
+ Step 1: Add useIsMobile hook inside LandingPage.tsx
+
+ Simple hook using window.matchMedia('(max-width: 768px)') with resize listener. Defined inside LandingPage.tsx (not a separate file) since it's only
+ used by landing/demo pages. Exported for DemoPage/DemoGlobe to import.
+
+ export function useIsMobile(breakpoint = 768) {
+   const [mobile, setMobile] = useState(false);
+   useEffect(() => {
+     const mql = window.matchMedia(`(max-width: ${breakpoint}px)`);
+     setMobile(mql.matches);
+     const handler = (e: MediaQueryListEvent) => setMobile(e.matches);
+     mql.addEventListener('change', handler);
+     return () => mql.removeEventListener('change', handler);
+   }, [breakpoint]);
+   return mobile;
+ }
+
+ Step 2: Make TickerBar responsive
+
+ - Reduce item padding: 0 28px → 0 12px on mobile
+ - Font size stays 10px (already small enough)
+ - Height stays 32px
+
+ Step 3: Make TopNav responsive
+
+ Desktop (current): Logo + 5 nav links + LIVE INTEL badge + SIGN IN + LAUNCH DASHBOARD — all in one row.
+
+ Mobile: Logo + hamburger icon. Nav links hidden (or collapsed). Keep only LAUNCH DASHBOARD CTA visible alongside logo. Hide SIGN IN, nav links, LIVE
+ INTEL badge.
+
+ - Padding: 0 32px → 0 16px
+ - Hide nav links array on mobile
+ - Hide SIGN IN button on mobile
+ - Keep logo + LAUNCH DASHBOARD
+
+ Step 4: Make Hero section responsive
+
+ Desktop (current): 2-column grid (1fr 1fr) — text left, globe right. H1 at 72px. Padding 80px.
+
+ Mobile:
+ - Grid: 1fr single column — text stacks above globe
+ - H1: 72px → 36px
+ - Padding: 80px 60px 80px 80px → 40px 20px
+ - Eyebrow text: keep as-is (already small)
+ - CTA buttons: stack vertically (flexDirection: 'column')
+ - Metric pills: repeat(5, 1fr) → repeat(2, 1fr) with last pill spanning full width or repeat(3, 1fr) first row + repeat(2, 1fr) second row. Simplest:
+ switch to repeat(2, 1fr) and let last one auto-flow.
+
+ Step 5: Make GlobeMock responsive
+
+ - Width/height: 360px → 260px on mobile
+ - Remove borderLeft on mobile
+ - Center within the single-column layout
+
+ Step 6: Make FeaturesStrip responsive
+
+ - Grid: repeat(4, 1fr) → repeat(1, 1fr) on mobile (stack cards)
+ - Remove inter-card borderRight on mobile
+ - Add borderBottom between cards on mobile instead
+ - Padding: 36px 32px → 24px 20px
+
+ Step 7: Make StepsSection responsive
+
+ - Container padding: 64px 80px → 32px 20px
+ - H2: 44px → 28px
+ - Grid: repeat(4, 1fr) → repeat(1, 1fr) on mobile
+ - Description paragraph: remove textAlign: 'right', stack below heading
+ - Flex direction of header: column on mobile instead of row
+
+ Step 8: Make DemoPage responsive
+
+ - Headline overlay: fontSize: 48 → 32px, left: 40 → left: 20, bottom: 60 → bottom: 40
+ - Metric ribbon: position: absolute, top: 16, right: 60 → stack vertically below badge or hide on mobile
+ - Live badge: keep as-is, reduce padding slightly
+ - CTA button: full width on mobile
+
+ Step 9: Make DemoGlobe responsive
+
+ - Container height: 520px → 320px on mobile
+ - Zoom controls: same positioning, slightly smaller padding
+
+ Step 10: Update TASKS.md
+
+ Add Story 2.9 after Story 2.8 with tasks:
+
+ ## Story 2.9: Landing Page & Demo Page Mobile Responsiveness
+
+ > Make the marketing landing page (/), demo page (/demo), and all shared
+ > sections (TickerBar, TopNav, FeaturesStrip, StepsSection) fully responsive
+ > on mobile viewports (<768px).
+
+ - [ ] **E02-S09-T01** — Add `useIsMobile` hook to LandingPage.tsx
+ - [ ] **E02-S09-T02** — Make TickerBar and TopNav responsive (collapsible nav, reduced padding)
+ - [ ] **E02-S09-T03** — Make Hero section responsive (single-column grid, reduced font sizes, stacked CTAs, 2-col metric pills)
+ - [ ] **E02-S09-T04** — Make GlobeMock responsive (smaller diameter, no left border)
+ - [ ] **E02-S09-T05** — Make FeaturesStrip responsive (single-column stack, border adjustments)
+ - [ ] **E02-S09-T06** — Make StepsSection responsive (single-column stack, reduced padding/fonts)
+ - [ ] **E02-S09-T07** — Make DemoPage hero overlays responsive (repositioned badge, headline, metrics)
+ - [ ] **E02-S09-T08** — Make DemoGlobe container height responsive (520→320px on mobile)
+
+ Step 11: Update PRD.md
+
+ Add a bullet to Section 2.5 noting mobile responsiveness:
+ - Mobile responsive: All marketing pages (landing, demo) are fully responsive for mobile viewports (<768px) with single-column layouts, reduced
+ typography, and collapsible navigation.
+
+ Key Design Decisions
+
+ - useIsMobile hook + conditional inline styles — Since the landing pages use inline styles (not Tailwind), we can't use responsive utility classes. A
+ hook-based approach keeps the pattern consistent.
+ - 768px breakpoint — Matches Tailwind's md: breakpoint used in the dashboard, keeping the project consistent.
+ - Hide nav links on mobile — Rather than building a full hamburger menu with slide-out drawer, we simply hide the secondary nav links and keep the
+ primary CTA. This is appropriate for an MVP.
+ - Single-column stacking — All multi-column grids (hero, features, steps) collapse to single column on mobile for readability.
+
+ Verification
+
+ 1. npm run build — zero errors
+ 2. Chrome DevTools responsive mode at 375px (iPhone), 768px (tablet), 1440px (desktop)
+ 3. / at 375px — Single-column hero, stacked features/steps, nav collapsed, readable typography
+ 4. /demo at 375px — Globe renders at 320px height, overlays positioned correctly, no overflow
+ 5. /dashboard — Unchanged (uses Tailwind responsive classes, not affected)
+ 6. Test landscape orientation on mobile — no horizontal scroll
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌

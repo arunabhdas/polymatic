@@ -1,4 +1,19 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+/* ─── Responsive Hook ─── */
+
+export function useIsMobile(breakpoint = 768) {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    setMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, [breakpoint]);
+  return mobile;
+}
 
 /* ─── Brand Tokens ─── */
 
@@ -134,15 +149,16 @@ export function Dot({ color, pulse }: { color: string; pulse?: boolean }) {
 }
 
 export function TickerBar() {
+  const mobile = useIsMobile();
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div style={{ background: C.bg2, borderBottom: `1px solid ${C.border}`, overflow: 'hidden', height: 32, display: 'flex', alignItems: 'center' }}>
       <div style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'pm-ticker 40s linear infinite' }}>
         {items.map((item, i) => (
-          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '0 28px', fontFamily: FONT.mono, fontSize: 10, color: C.text2, letterSpacing: '.04em', flexShrink: 0 }}>
+          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: mobile ? '0 12px' : '0 28px', fontFamily: FONT.mono, fontSize: 10, color: C.text2, letterSpacing: '.04em', flexShrink: 0 }}>
             <Dot color={item.color} pulse />
             {item.text}
-            {i < items.length - 1 && <span style={{ color: C.text3, marginLeft: 28 }}>|</span>}
+            {i < items.length - 1 && <span style={{ color: C.text3, marginLeft: mobile ? 12 : 28 }}>|</span>}
           </span>
         ))}
       </div>
@@ -151,39 +167,46 @@ export function TickerBar() {
 }
 
 export function TopNav() {
+  const mobile = useIsMobile();
   const navLinks = ['PLATFORM', 'FEATURES', 'PRICING', 'ABOUT', 'BLOG'];
   return (
-    <nav style={{ display: 'flex', alignItems: 'center', padding: '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: 40 }}>
+    <nav style={{ display: 'flex', alignItems: 'center', padding: mobile ? '0 16px' : '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: mobile ? 0 : 40, flex: mobile ? 1 : undefined }}>
         <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
           {'\uD83C\uDF10'}
         </div>
         <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-        {navLinks.map((link, i) => (
-          <span
-            key={link}
-            style={{
-              fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer',
-              border: i === 0 ? `1px solid ${C.border2}` : '1px solid transparent',
-              color: i === 0 ? C.green : C.text3,
-              background: i === 0 ? C.greenDim : 'transparent',
-            }}
-          >
-            {link}
-          </span>
-        ))}
-      </div>
+      {!mobile && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+          {navLinks.map((link, i) => (
+            <span
+              key={link}
+              style={{
+                fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer',
+                border: i === 0 ? `1px solid ${C.border2}` : '1px solid transparent',
+                color: i === 0 ? C.green : C.text3,
+                background: i === 0 ? C.greenDim : 'transparent',
+              }}
+            >
+              {link}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div style={{ fontFamily: FONT.mono, fontSize: 9, letterSpacing: '.1em', color: C.green, background: C.greenDim, border: `1px solid ${C.green2}`, padding: '3px 10px', borderRadius: 20 }}>
-          LIVE INTEL
-        </div>
-        <span style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.12em', color: C.text2, border: `1px solid ${C.border2}`, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}>
-          SIGN IN
-        </span>
+        {!mobile && (
+          <div style={{ fontFamily: FONT.mono, fontSize: 9, letterSpacing: '.1em', color: C.green, background: C.greenDim, border: `1px solid ${C.green2}`, padding: '3px 10px', borderRadius: 20 }}>
+            LIVE INTEL
+          </div>
+        )}
+        {!mobile && (
+          <span style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.12em', color: C.text2, border: `1px solid ${C.border2}`, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}>
+            SIGN IN
+          </span>
+        )}
         <Link
           to="/dashboard"
           style={{ fontFamily: FONT.mono, fontSize: 10, fontWeight: 600, letterSpacing: '.12em', color: '#050f06', background: C.green2, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}
@@ -195,10 +218,11 @@ export function TopNav() {
   );
 }
 
-function GlobeMock() {
+function GlobeMock({ mobile }: { mobile: boolean }) {
+  const size = mobile ? 260 : 360;
   return (
-    <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse 70% 70% at 50% 50%, ${C.bg3} 0%, ${C.bg} 100%)`, borderLeft: `1px solid ${C.border}` }}>
-      <div style={{ width: 360, height: 360, borderRadius: '50%', background: `conic-gradient(from 180deg at 50% 50%, ${C.bg3} 0deg, ${C.bg2} 60deg, ${C.bg3} 120deg, ${C.bg2} 180deg, ${C.bg3} 240deg, ${C.bg2} 300deg, ${C.bg3} 360deg)`, border: `1px solid ${C.border2}`, position: 'relative', boxShadow: '0 0 80px rgba(34,197,94,.07)' }}>
+    <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse 70% 70% at 50% 50%, ${C.bg3} 0%, ${C.bg} 100%)`, borderLeft: mobile ? 'none' : `1px solid ${C.border}`, padding: mobile ? '20px 0' : undefined }}>
+      <div style={{ width: size, height: size, borderRadius: '50%', background: `conic-gradient(from 180deg at 50% 50%, ${C.bg3} 0deg, ${C.bg2} 60deg, ${C.bg3} 120deg, ${C.bg2} 180deg, ${C.bg3} 240deg, ${C.bg2} 300deg, ${C.bg3} 360deg)`, border: `1px solid ${C.border2}`, position: 'relative', boxShadow: '0 0 80px rgba(34,197,94,.07)' }}>
         <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'radial-gradient(ellipse 60% 60% at 35% 35%, rgba(34,197,94,.04) 0%, transparent 60%)' }} />
         <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }} viewBox="0 0 360 360" fill="none">
           <circle cx="180" cy="180" r="179" stroke="#2a4a2d" strokeWidth="0.5" />
@@ -229,10 +253,11 @@ function GlobeMock() {
 }
 
 export function FeaturesStrip() {
+  const mobile = useIsMobile();
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: `1px solid ${C.border}` }}>
+    <div style={{ display: 'grid', gridTemplateColumns: mobile ? '1fr' : 'repeat(4, 1fr)', borderTop: `1px solid ${C.border}` }}>
       {FEATURES.map((feat, i) => (
-        <div key={feat.name} style={{ padding: '36px 32px', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', cursor: 'pointer' }}>
+        <div key={feat.name} style={{ padding: mobile ? '24px 20px' : '36px 32px', borderRight: !mobile && i < 3 ? `1px solid ${C.border}` : 'none', borderBottom: mobile && i < FEATURES.length - 1 ? `1px solid ${C.border}` : 'none', cursor: 'pointer' }}>
           <div style={{ width: 38, height: 38, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, marginBottom: 14, background: feat.iconBg, border: `1px solid ${feat.iconBorder}` }}>
             {feat.icon}
           </div>
@@ -248,22 +273,23 @@ export function FeaturesStrip() {
 }
 
 export function StepsSection() {
+  const mobile = useIsMobile();
   return (
-    <div style={{ padding: '64px 80px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 36 }}>
-        <h2 style={{ fontFamily: FONT.serif, fontSize: 44, fontWeight: 900, lineHeight: 1.1 }}>
+    <div style={{ padding: mobile ? '32px 20px' : '64px 80px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', alignItems: mobile ? 'flex-start' : 'flex-end', justifyContent: 'space-between', gap: mobile ? 16 : 0, marginBottom: mobile ? 24 : 36 }}>
+        <h2 style={{ fontFamily: FONT.serif, fontSize: mobile ? 28 : 44, fontWeight: 900, lineHeight: 1.1 }}>
           Four steps to<br /><em style={{ fontStyle: 'italic', color: C.green }}>see the world.</em>
         </h2>
-        <p style={{ fontSize: 13, color: C.text2, maxWidth: 320, lineHeight: 1.6, textAlign: 'right' }}>
+        <p style={{ fontSize: 13, color: C.text2, maxWidth: 320, lineHeight: 1.6, textAlign: mobile ? 'left' : 'right' }}>
           The analyst shouldn't be manually correlating fifteen tabs. The correlation should
           surface automatically — with a confidence score attached.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: mobile ? '1fr' : 'repeat(4, 1fr)', gap: 16 }}>
         {STEPS.map((step) => (
           <div key={step.num} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: '24px 20px' }}>
-            <div style={{ fontFamily: FONT.mono, fontSize: 36, fontWeight: 600, color: C.text3, lineHeight: 1, marginBottom: 12 }}>{step.num}</div>
+            <div style={{ fontFamily: FONT.mono, fontSize: mobile ? 28 : 36, fontWeight: 600, color: C.text3, lineHeight: 1, marginBottom: 12 }}>{step.num}</div>
             <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 7 }}>{step.title}</div>
             <div style={{ fontFamily: FONT.mono, fontSize: 10, color: C.text2, lineHeight: 1.65 }}>{step.desc}</div>
           </div>
@@ -276,6 +302,7 @@ export function StepsSection() {
 /* ─── Main Component ─── */
 
 export default function LandingPage() {
+  const mobile = useIsMobile();
   return (
     <>
       <style>{landingCSS}</style>
@@ -284,33 +311,33 @@ export default function LandingPage() {
         <TopNav />
 
         {/* Hero */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 580, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: mobile ? '1fr' : '1fr 1fr', minHeight: mobile ? undefined : 580, position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 80% at 30% 50%, rgba(34,197,94,.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-          <div style={{ padding: '80px 60px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
+          <div style={{ padding: mobile ? '40px 20px' : '80px 60px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
             {/* Eyebrow */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
-              <div style={{ width: 36, height: 1, background: C.border2 }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: mobile ? 8 : 14, marginBottom: mobile ? 20 : 28 }}>
+              <div style={{ width: mobile ? 20 : 36, height: 1, background: C.border2 }} />
               <span style={{ fontFamily: FONT.mono, fontSize: 9, letterSpacing: '.22em', color: C.text3 }}>
                 REAL-TIME · GEOSPATIAL · MACRO INTELLIGENCE
               </span>
-              <div style={{ width: 36, height: 1, background: C.border2 }} />
+              {!mobile && <div style={{ width: 36, height: 1, background: C.border2 }} />}
             </div>
 
-            <h1 style={{ fontFamily: FONT.serif, fontSize: 72, lineHeight: 1.0, fontWeight: 900, color: C.text, marginBottom: 8 }}>
+            <h1 style={{ fontFamily: FONT.serif, fontSize: mobile ? 36 : 72, lineHeight: 1.0, fontWeight: 900, color: C.text, marginBottom: 8 }}>
               Polymatic<br /><em style={{ fontStyle: 'italic', color: C.green }}>Intelligence.</em>
             </h1>
 
-            <p style={{ fontSize: 14, color: C.amber, fontWeight: 500, letterSpacing: '.02em', marginBottom: 6 }}>
+            <p style={{ fontSize: mobile ? 13 : 14, color: C.amber, fontWeight: 500, letterSpacing: '.02em', marginBottom: 6 }}>
               One pane of glass — or <em style={{ fontStyle: 'italic', color: C.text2 }}>fifteen disconnected tabs.</em>
             </p>
 
-            <p style={{ fontSize: 14, color: C.text2, lineHeight: 1.7, maxWidth: 440, marginBottom: 36 }}>
+            <p style={{ fontSize: mobile ? 13 : 14, color: C.text2, lineHeight: 1.7, maxWidth: 440, marginBottom: mobile ? 24 : 36 }}>
               Fuse OSINT feeds, social sentiment, and prediction markets into a single severity-ranked
               stream. Surface the crowd/market divergence before the market prices it in.
             </p>
 
-            <div style={{ display: 'flex', gap: 12, marginBottom: 40 }}>
+            <div style={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 12, marginBottom: mobile ? 24 : 40 }}>
               <Link
                 to="/dashboard"
                 style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: C.green2, color: '#050f06', fontFamily: FONT.mono, fontSize: 11, fontWeight: 600, letterSpacing: '.12em', padding: '14px 28px', borderRadius: 7, border: 'none', cursor: 'pointer', textDecoration: 'none', whiteSpace: 'nowrap' }}
@@ -326,7 +353,7 @@ export default function LandingPage() {
             </div>
 
             {/* Metric pills */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 8 }}>
               {METRICS.map((m) => (
                 <div key={m.label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 7, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -339,7 +366,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <GlobeMock />
+          <GlobeMock mobile={mobile} />
         </div>
 
         <FeaturesStrip />
