@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 /* ─── Brand Tokens ─── */
 
-const C = {
+export const C = {
   bg: '#080f09',
   bg2: '#0d1a0e',
   bg3: '#111f12',
@@ -23,7 +23,7 @@ const C = {
   text3: '#4a6a4d',
 } as const;
 
-const FONT = {
+export const FONT = {
   mono: "'JetBrains Mono', monospace",
   serif: "'Playfair Display', serif",
   sans: "'DM Sans', sans-serif",
@@ -88,7 +88,7 @@ const STEPS = [
   { num: '01', title: 'Connect Your Feeds', desc: 'Link OSINT, social, and prediction market sources. Set regions of interest and alert thresholds. One toggle from mock to live.' },
   { num: '02', title: 'Watch the Divergence', desc: 'Real-time crowd vs. market splits surface automatically. 90-second classification windows, no manual monitoring required.' },
   { num: '03', title: 'Call Your Signal', desc: 'Log your prediction, set confidence, track against outcomes. Every call builds your analyst accuracy profile across six dimensions.' },
-  { num: '04', title: 'Lead or Earn Facepalms', desc: 'Hit the prediction threshold as a top analyst \u2014 or watch someone else surface it first and collect the badge you missed.' },
+  { num: '04', title: 'Get Actionable Insights', desc: 'Receive prioritized intelligence briefs with confidence scores attached. Act on divergence signals before the market corrects.' },
 ];
 
 const GLOBE_PINS = [
@@ -105,7 +105,7 @@ const GLOBE_LABELS = [
 
 /* ─── Scoped Styles ─── */
 
-const landingCSS = `
+export const landingCSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 @keyframes pm-ticker {
@@ -119,9 +119,9 @@ const landingCSS = `
 }
 `;
 
-/* ─── Sub-components ─── */
+/* ─── Sub-components (exported for reuse by DemoPage) ─── */
 
-function Dot({ color, pulse }: { color: string; pulse?: boolean }) {
+export function Dot({ color, pulse }: { color: string; pulse?: boolean }) {
   return (
     <span
       style={{
@@ -133,7 +133,7 @@ function Dot({ color, pulse }: { color: string; pulse?: boolean }) {
   );
 }
 
-function TickerBar() {
+export function TickerBar() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div style={{ background: C.bg2, borderBottom: `1px solid ${C.border}`, overflow: 'hidden', height: 32, display: 'flex', alignItems: 'center' }}>
@@ -150,7 +150,7 @@ function TickerBar() {
   );
 }
 
-function TopNav() {
+export function TopNav() {
   const navLinks = ['PLATFORM', 'FEATURES', 'PRICING', 'ABOUT', 'BLOG'];
   return (
     <nav style={{ display: 'flex', alignItems: 'center', padding: '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
@@ -228,6 +228,51 @@ function GlobeMock() {
   );
 }
 
+export function FeaturesStrip() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: `1px solid ${C.border}` }}>
+      {FEATURES.map((feat, i) => (
+        <div key={feat.name} style={{ padding: '36px 32px', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', cursor: 'pointer' }}>
+          <div style={{ width: 38, height: 38, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, marginBottom: 14, background: feat.iconBg, border: `1px solid ${feat.iconBorder}` }}>
+            {feat.icon}
+          </div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 7 }}>{feat.name}</div>
+          <div style={{ fontFamily: FONT.mono, fontSize: 10, color: C.text2, lineHeight: 1.65, marginBottom: 12 }}>{feat.desc}</div>
+          <span style={{ fontFamily: FONT.mono, fontSize: 8, letterSpacing: '.12em', color: C.text3, border: `1px solid ${C.border2}`, padding: '3px 9px', borderRadius: 3, display: 'inline-block' }}>
+            {feat.tag}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function StepsSection() {
+  return (
+    <div style={{ padding: '64px 80px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 36 }}>
+        <h2 style={{ fontFamily: FONT.serif, fontSize: 44, fontWeight: 900, lineHeight: 1.1 }}>
+          Four steps to<br /><em style={{ fontStyle: 'italic', color: C.green }}>see the world.</em>
+        </h2>
+        <p style={{ fontSize: 13, color: C.text2, maxWidth: 320, lineHeight: 1.6, textAlign: 'right' }}>
+          The analyst shouldn't be manually correlating fifteen tabs. The correlation should
+          surface automatically — with a confidence score attached.
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        {STEPS.map((step) => (
+          <div key={step.num} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: '24px 20px' }}>
+            <div style={{ fontFamily: FONT.mono, fontSize: 36, fontWeight: 600, color: C.text3, lineHeight: 1, marginBottom: 12 }}>{step.num}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 7 }}>{step.title}</div>
+            <div style={{ fontFamily: FONT.mono, fontSize: 10, color: C.text2, lineHeight: 1.65 }}>{step.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main Component ─── */
 
 export default function LandingPage() {
@@ -272,9 +317,12 @@ export default function LandingPage() {
               >
                 LAUNCH DASHBOARD
               </Link>
-              <button style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'transparent', color: C.text2, fontFamily: FONT.mono, fontSize: 11, fontWeight: 500, letterSpacing: '.12em', padding: '12px 24px', borderRadius: 7, border: `1px solid ${C.border2}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+              <Link
+                to="/demo"
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'transparent', color: C.text2, fontFamily: FONT.mono, fontSize: 11, fontWeight: 500, letterSpacing: '.12em', padding: '12px 24px', borderRadius: 7, border: `1px solid ${C.border2}`, cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none' }}
+              >
                 WATCH DEMO &#9655;
-              </button>
+              </Link>
             </div>
 
             {/* Metric pills */}
@@ -294,44 +342,8 @@ export default function LandingPage() {
           <GlobeMock />
         </div>
 
-        {/* Features Strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: `1px solid ${C.border}` }}>
-          {FEATURES.map((feat, i) => (
-            <div key={feat.name} style={{ padding: '36px 32px', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', cursor: 'pointer' }}>
-              <div style={{ width: 38, height: 38, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, marginBottom: 14, background: feat.iconBg, border: `1px solid ${feat.iconBorder}` }}>
-                {feat.icon}
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 7 }}>{feat.name}</div>
-              <div style={{ fontFamily: FONT.mono, fontSize: 10, color: C.text2, lineHeight: 1.65, marginBottom: 12 }}>{feat.desc}</div>
-              <span style={{ fontFamily: FONT.mono, fontSize: 8, letterSpacing: '.12em', color: C.text3, border: `1px solid ${C.border2}`, padding: '3px 9px', borderRadius: 3, display: 'inline-block' }}>
-                {feat.tag}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Steps Section */}
-        <div style={{ padding: '64px 80px', borderTop: `1px solid ${C.border}` }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 36 }}>
-            <h2 style={{ fontFamily: FONT.serif, fontSize: 44, fontWeight: 900, lineHeight: 1.1 }}>
-              Four steps to<br /><em style={{ fontStyle: 'italic', color: C.green }}>see the world.</em>
-            </h2>
-            <p style={{ fontSize: 13, color: C.text2, maxWidth: 320, lineHeight: 1.6, textAlign: 'right' }}>
-              The analyst shouldn't be manually correlating fifteen tabs. The correlation should
-              surface automatically — with a confidence score attached.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-            {STEPS.map((step) => (
-              <div key={step.num} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: '24px 20px' }}>
-                <div style={{ fontFamily: FONT.mono, fontSize: 36, fontWeight: 600, color: C.text3, lineHeight: 1, marginBottom: 12 }}>{step.num}</div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: C.text, marginBottom: 7 }}>{step.title}</div>
-                <div style={{ fontFamily: FONT.mono, fontSize: 10, color: C.text2, lineHeight: 1.65 }}>{step.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <FeaturesStrip />
+        <StepsSection />
       </div>
     </>
   );

@@ -2356,3 +2356,92 @@
  4. Mobile: tap backdrop or X button to dismiss
  5. Mobile: toggle button appears below hamburger when conflicts active and panel closed
  6. Toggling conflicts layer OFF auto-closes the mobile overlay
+
+
+
+## /demo Route — Live AIS Globe Demo Page
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ /demo Route — Live AIS Globe Demo Page
+
+ Context
+
+ The landing page (/) has a "Watch Demo" button and a static SVG globe mock in the hero section. The user wants /demo to show the same landing page
+ layout (ticker, nav, features strip, steps section) but with the hero replaced by a large, real Cesium globe displaying live open-source AIS maritime
+ shipping data. This gives visitors a taste of the platform without entering the full dashboard.
+
+ Files to Modify
+
+ ┌───────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────┐
+ │                         File                          │                                          Change                                          │
+ ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/LandingPage.tsx │ Extract shared sections (TickerBar, TopNav, FeaturesStrip, StepsSection) into reusable   │
+ │                                                       │ exports. Update "Watch Demo" button to <Link to="/demo">.                                │
+ ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/components/DemoPage.tsx    │ New file. Composes shared sections around a hero-sized Cesium globe showing AIS ship     │
+ │                                                       │ data.                                                                                    │
+ ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
+ │                                                       │ New file. Standalone Cesium <Viewer> focused on maritime AIS — ships layer only, dark    │
+ │ polymatic-mvp-frontend/src/components/DemoGlobe.tsx   │ basemap, no sidebar/controls chrome. Connects to the existing WebSocket /stream for live │
+ │                                                       │  ship entity updates.                                                                    │
+ ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
+ │ polymatic-mvp-frontend/src/main.tsx                   │ Add /demo route → <DemoPage />.                                                          │
+ └───────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────┘
+
+ Implementation
+
+ Step 1: Extract shared landing sections from LandingPage.tsx
+
+ Move these existing sub-components/sections into named exports so both LandingPage and DemoPage can use them:
+ - TickerBar — scrolling intel ticker
+ - TopNav — logo + nav links + CTAs (already links to /dashboard)
+ - Features strip JSX (the 4-cell grid below the hero)
+ - Steps section JSX (the "Four steps to see the world" section)
+
+ Also update the "Watch Demo" button: change from <button> to <Link to="/demo">.
+
+ Step 2: Create DemoGlobe.tsx — Standalone AIS Cesium Globe
+
+ A self-contained Cesium globe component purpose-built for the demo:
+ - Uses Resium <Viewer> with CartoDB dark basemap (same as Globe.tsx)
+ - Ships layer only — renders vessel entities as orange PointGraphics
+ - Connects to the same WebSocket at /stream to receive ENTITY_UPDATE messages for the ships layer
+ - Manages its own local state for ship entities (doesn't need the full Zustand store)
+ - No sidebar, no layer toggles, no event feed — just the globe with ships
+ - Subtle zoom controls (+/−) in corner
+ - Initial camera position: global maritime view (centered on ~20°N, 40°E, alt 15M meters — showing Hormuz/Med shipping)
+ - Container: width: 100%, height: 500px (hero-sized, not full-screen)
+
+ Step 3: Create DemoPage.tsx — Assembled demo page
+
+ Layout:
+ 1. <TickerBar /> (from LandingPage exports)
+ 2. <TopNav /> (from LandingPage exports)
+ 3. Demo hero section — replaces the landing page's hero:
+   - Full-width Cesium globe (~500px tall) with a gradient overlay at the bottom edge
+   - Overlaid headline text: "Live Maritime Intelligence" + brief description
+   - Semi-transparent overlay label: "LIVE AIS · GLOBAL SHIPPING" badge
+ 4. Features strip (from LandingPage exports)
+ 5. Steps section (from LandingPage exports)
+
+ Step 4: Add /demo route in main.tsx
+
+ Add to the createBrowserRouter array:
+ { path: '/demo', element: <DemoPage /> }
+
+ Key Design Decisions
+
+ - Own WebSocket connection: DemoGlobe manages its own WS connection rather than importing the full Zustand store. This keeps the demo lightweight and
+ decoupled from the dashboard's 40-layer architecture.
+ - Ships only: Only render the ships layer to keep the demo focused on "open source AIS data of maritime shipping" as requested.
+ - Inline styles maintained: DemoPage follows the same inline-style pattern as LandingPage to avoid Tailwind v4 @theme conflicts with the dashboard.
+ - Reuse via exports: Rather than duplicating the ticker/nav/features/steps, we export them from LandingPage and import in DemoPage.
+
+ Verification
+
+ 1. npm run build — zero errors
+ 2. / — Landing page unchanged, "Watch Demo" button now links to /demo
+ 3. /demo — Shows ticker, nav, live Cesium globe with ships, features strip, steps section
+ 4. /demo globe — Ships render as orange dots, globe is interactive (pan/zoom)
+ 5. /dashboard — Unchanged, sidebar still visible
+ 6. "Launch Dashboard" buttons on /demo nav still link to /dashboard
