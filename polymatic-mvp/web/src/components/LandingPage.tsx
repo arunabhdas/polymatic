@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 /* ─── Responsive Hook ─── */
@@ -169,59 +169,140 @@ export function TickerBar() {
 export function TopNav() {
   const mobile = useIsMobile();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
   const navLinks = ['PLATFORM', 'FEATURES', 'PRICING', 'ABOUT', 'BLOG'];
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (mobile) {
+      e.preventDefault();
+      setMenuOpen(true);
+    }
+  };
+
   return (
-    <nav style={{ display: 'flex', alignItems: 'center', padding: mobile ? '0 16px' : '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: mobile ? 0 : 40, flex: mobile ? 1 : undefined }}>
-        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
-            {'\uD83C\uDF10'}
-          </div>
-          <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
-        </Link>
-      </div>
-
-      {!mobile && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-          {navLinks.map((link) => {
-            const isActive = location.pathname === `/${link.toLowerCase()}`;
-            return (
-              <Link
-                key={link}
-                to={`/${link.toLowerCase()}`}
-                style={{
-                  fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer', textDecoration: 'none',
-                  border: isActive ? `1px solid ${C.border2}` : '1px solid transparent',
-                  color: isActive ? C.green : C.text3,
-                  background: isActive ? C.greenDim : 'transparent',
-                }}
-              >
-                {link}
-              </Link>
-            )
-          })}
-        </div>
-      )}
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        {!mobile && (
-          <div style={{ fontFamily: FONT.mono, fontSize: 9, letterSpacing: '.1em', color: C.green, background: C.greenDim, border: `1px solid ${C.green2}`, padding: '3px 10px', borderRadius: 20 }}>
-            LIVE INTEL
-          </div>
-        )}
-        {!mobile && (
-          <span style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.12em', color: C.text2, border: `1px solid ${C.border2}`, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}>
-            SIGN IN
-          </span>
-        )}
-        <Link
-          to="/dashboard"
-          style={{ fontFamily: FONT.mono, fontSize: 10, fontWeight: 600, letterSpacing: '.12em', color: '#050f06', background: C.green2, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}
+    <>
+      <div 
+        style={{
+          position: 'fixed', inset: 0, zIndex: 100,
+          pointerEvents: menuOpen ? 'auto' : 'none',
+        }}
+      >
+        <div 
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: 'absolute', inset: 0, 
+            background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
+            opacity: menuOpen ? 1 : 0, transition: 'opacity 0.3s ease',
+          }}
+        />
+        <div 
+          style={{
+            position: 'absolute', top: 0, bottom: 0, left: 0, width: 280,
+            background: C.bg2, borderRight: `1px solid ${C.border}`,
+            transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
+            transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: 24, zIndex: 2
+          }}
         >
-          LAUNCH DASHBOARD
-        </Link>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Link to="/" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
+                {'\uD83C\uDF10'}
+              </div>
+              <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
+            </Link>
+            <button 
+              onClick={() => setMenuOpen(false)}
+              style={{ background: 'transparent', border: 'none', color: C.text3, fontSize: 24, cursor: 'pointer', padding: 4 }}
+            >
+              &times;
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {navLinks.map((link) => {
+              const isActive = location.pathname === `/${link.toLowerCase()}`;
+              return (
+                <Link
+                  key={link}
+                  to={`/${link.toLowerCase()}`}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: FONT.mono, fontSize: 13, letterSpacing: '.1em', padding: '14px 16px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none',
+                    border: isActive ? `1px solid ${C.border2}` : '1px solid transparent',
+                    color: isActive ? C.green : C.text,
+                    background: isActive ? C.greenDim : 'transparent',
+                  }}
+                >
+                  {link}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+             <Link
+               to="/dashboard"
+               style={{ fontFamily: FONT.mono, fontSize: 11, fontWeight: 600, letterSpacing: '.12em', color: '#050f06', background: C.green2, padding: '14px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none', textAlign: 'center' }}
+             >
+               LAUNCH DASHBOARD
+             </Link>
+          </div>
+        </div>
       </div>
-    </nav>
+
+      <nav style={{ display: 'flex', alignItems: 'center', padding: mobile ? '0 16px' : '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: mobile ? 0 : 40, flex: mobile ? 1 : undefined }}>
+          <Link to="/" onClick={handleLogoClick} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
+              {'\uD83C\uDF10'}
+            </div>
+            <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
+          </Link>
+        </div>
+
+        {!mobile && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+            {navLinks.map((link) => {
+              const isActive = location.pathname === `/${link.toLowerCase()}`;
+              return (
+                <Link
+                  key={link}
+                  to={`/${link.toLowerCase()}`}
+                  style={{
+                    fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer', textDecoration: 'none',
+                    border: isActive ? `1px solid ${C.border2}` : '1px solid transparent',
+                    color: isActive ? C.green : C.text3,
+                    background: isActive ? C.greenDim : 'transparent',
+                  }}
+                >
+                  {link}
+                </Link>
+              )
+            })}
+          </div>
+        )}
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {!mobile && (
+            <div style={{ fontFamily: FONT.mono, fontSize: 9, letterSpacing: '.1em', color: C.green, background: C.greenDim, border: `1px solid ${C.green2}`, padding: '3px 10px', borderRadius: 20 }}>
+              LIVE INTEL
+            </div>
+          )}
+          {!mobile && (
+            <span style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.12em', color: C.text2, border: `1px solid ${C.border2}`, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}>
+              SIGN IN
+            </span>
+          )}
+          <Link
+            to="/dashboard"
+            style={{ fontFamily: FONT.mono, fontSize: 10, fontWeight: 600, letterSpacing: '.12em', color: '#050f06', background: C.green2, padding: '8px 18px', borderRadius: 7, cursor: 'pointer', textDecoration: 'none' }}
+          >
+            LAUNCH DASHBOARD
+          </Link>
+        </div>
+      </nav>
+    </>
   );
 }
 
