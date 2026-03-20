@@ -576,7 +576,7 @@ FRONTEND TASKS
 
 Add visualization layers inside:
 
-polymatic-mvp-frontend
+web
 
 Use CesiumJS entity layers.
 
@@ -1146,7 +1146,7 @@ FRONTEND IMPLEMENTATION
 
 Add new layers to:
 
-polymatic-mvp-frontend
+web
 
 Each layer must support:
 
@@ -1162,7 +1162,7 @@ BACKEND IMPLEMENTATION
 
 Add ingestion pipelines in:
 
-polymatic-mvp-backend
+api
 
 Workers must ingest:
 

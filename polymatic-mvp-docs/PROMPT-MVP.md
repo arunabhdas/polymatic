@@ -24,7 +24,7 @@ You are responsible for creating and maintaining this structure.
 
 root/
 
-    polymatic-mvp-frontend/
+    web/
         All frontend source code
         React application
         UI components
@@ -33,7 +33,7 @@ root/
         visualization layers
         WebSocket client
 
-    polymatic-mvp-backend/
+    api/
         All backend services
         ingestion pipelines
         API gateway
@@ -52,9 +52,9 @@ NO CODE may appear outside these directories.
 
 All documentation must go inside polymatic-mvp-docs.
 
-All frontend code must go inside polymatic-mvp-frontend.
+All frontend code must go inside web.
 
-All backend code must go inside polymatic-mvp-backend.
+All backend code must go inside api.
 
 
 ---------------------------------------------------------------------
@@ -160,7 +160,7 @@ PART 1 — FRONTEND INTELLIGENCE CONSOLE
 =====================================================================
 
 Location:
-polymatic-mvp-frontend
+web
 
 Purpose:
 Visualize all intelligence signals on a 3D globe.
@@ -221,7 +221,7 @@ PART 2 — REALTIME OSINT BACKEND
 =====================================================================
 
 Location:
-polymatic-mvp-backend
+api
 
 Purpose:
 aggregate global telemetry feeds and broadcast them to the frontend.
@@ -398,12 +398,12 @@ polymatic-mvp-docs
     API specs
     deployment docs
 
-polymatic-mvp-backend
+api
     ingestion services
     streaming server
     API
 
-polymatic-mvp-frontend
+web
     globe renderer
     UI components
     real-time visualization
@@ -776,7 +776,7 @@ FRONTEND TASKS
 
 Add visualization layers inside:
 
-polymatic-mvp-frontend
+web
 
 Use CesiumJS entity layers.
 
@@ -1338,7 +1338,7 @@ FRONTEND IMPLEMENTATION
 
 Add new layers to:
 
-polymatic-mvp-frontend
+web
 
 Each layer must support:
 
@@ -1354,7 +1354,7 @@ BACKEND IMPLEMENTATION
 
 Add ingestion pipelines in:
 
-polymatic-mvp-backend
+api
 
 Workers must ingest:
 

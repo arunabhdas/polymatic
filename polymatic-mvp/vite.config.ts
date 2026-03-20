@@ -7,7 +7,7 @@ import cesium from 'vite-plugin-cesium';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    root: 'polymatic-mvp-frontend',
+    root: 'web',
     plugins: [react(), tailwindcss(), cesium()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
@@ -15,7 +15,7 @@ export default defineConfig(({mode}) => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './polymatic-mvp-frontend/src'),
+        '@': path.resolve(__dirname, './web/src'),
       },
     },
     server: {

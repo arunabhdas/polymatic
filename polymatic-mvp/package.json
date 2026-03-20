@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx polymatic-mvp-backend/server.ts",
+    "dev": "tsx api/server.ts",
     "build": "vite build",
-    "start": "node polymatic-mvp-backend/server.ts",
+    "start": "node api/server.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",

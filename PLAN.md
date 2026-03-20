@@ -2232,11 +2232,11 @@
  ┌───────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────┐
  │                           File                            │                          Change                          │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
+ │ web/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
+ │ web/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
+ │ web/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
  └───────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────┘
 
  Implementation
@@ -2302,11 +2302,11 @@
  ┌───────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────┐
  │                           File                            │                          Change                          │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
+ │ web/src/store/useStore.ts              │ Add conflictSidebarOpen state + setter                   │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
+ │ web/src/components/ConflictSidebar.tsx │ Mobile slide-in overlay + backdrop + close button        │
  ├───────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
+ │ web/src/components/App.tsx             │ Mobile-only toggle button when conflicts layer is active │
  └───────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────┘
 
  Implementation
@@ -2375,17 +2375,17 @@
  ┌───────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────┐
  │                         File                          │                                          Change                                          │
  ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/LandingPage.tsx │ Extract shared sections (TickerBar, TopNav, FeaturesStrip, StepsSection) into reusable   │
+ │ web/src/components/LandingPage.tsx │ Extract shared sections (TickerBar, TopNav, FeaturesStrip, StepsSection) into reusable   │
  │                                                       │ exports. Update "Watch Demo" button to <Link to="/demo">.                                │
  ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/components/DemoPage.tsx    │ New file. Composes shared sections around a hero-sized Cesium globe showing AIS ship     │
+ │ web/src/components/DemoPage.tsx    │ New file. Composes shared sections around a hero-sized Cesium globe showing AIS ship     │
  │                                                       │ data.                                                                                    │
  ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
  │                                                       │ New file. Standalone Cesium <Viewer> focused on maritime AIS — ships layer only, dark    │
- │ polymatic-mvp-frontend/src/components/DemoGlobe.tsx   │ basemap, no sidebar/controls chrome. Connects to the existing WebSocket /stream for live │
+ │ web/src/components/DemoGlobe.tsx   │ basemap, no sidebar/controls chrome. Connects to the existing WebSocket /stream for live │
  │                                                       │  ship entity updates.                                                                    │
  ├───────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
- │ polymatic-mvp-frontend/src/main.tsx                   │ Add /demo route → <DemoPage />.                                                          │
+ │ web/src/main.tsx                   │ Add /demo route → <DemoPage />.                                                          │
  └───────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────┘
 
  Implementation
@@ -2480,7 +2480,7 @@
  │ PRD.md                         │ Add mobile responsiveness note to Section 2.5.                                                                  │
  └────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
- All paths relative to polymatic-mvp/polymatic-mvp-frontend/.
+ All paths relative to polymatic-mvp/web/.
 
  Implementation
 

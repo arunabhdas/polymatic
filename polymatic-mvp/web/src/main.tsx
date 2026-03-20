@@ -5,6 +5,11 @@ import './index.css'
 import LandingPage from './components/LandingPage'
 import DemoPage from './components/DemoPage'
 import App from './App'
+import PlatformPage from './components/PlatformPage'
+import FeaturesPage from './components/FeaturesPage'
+import PricingPage from './components/PricingPage'
+import AboutPage from './components/AboutPage'
+import BlogPage from './components/BlogPage'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +23,26 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <App />,
+  },
+  {
+    path: '/platform',
+    element: <PlatformPage />,
+  },
+  {
+    path: '/features',
+    element: <FeaturesPage />,
+  },
+  {
+    path: '/pricing',
+    element: <PricingPage />,
+  },
+  {
+    path: '/about',
+    element: <AboutPage />,
+  },
+  {
+    path: '/blog',
+    element: <BlogPage />,
   },
 ])
 

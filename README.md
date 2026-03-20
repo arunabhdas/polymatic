@@ -31,9 +31,9 @@ The core switching mechanism happens inside `services/dataProvider.ts`, acting a
 ### 4. UI Layer Agnosticism
 Because both providers conform to the exact same `DataProvider` TypeScript interface, the entire UI layer is completely blind to this switch. React components simply consume TanStack Query hooks (e.g., `useFeed()`, `useTrends()`) which ask the Factory for the current provider and call methods on it identically, making the transition seamless.
 
-## Deployment of /polymatic-mvp/polymatic-mvp-frontend
+## Deployment of /polymatic-mvp/web
 
-The MVP frontend is a Vite + React app. Build tooling lives in `polymatic-mvp/` (the parent directory), with `vite.config.ts` setting `root: 'polymatic-mvp-frontend'` and outputting to `dist/`.
+The MVP frontend is a Vite + React app. Build tooling lives in `polymatic-mvp/` (the parent directory), with `vite.config.ts` setting `root: 'web'` and outputting to `dist/`.
 
 ### Prerequisites
 

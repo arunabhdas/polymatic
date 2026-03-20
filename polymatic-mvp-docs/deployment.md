@@ -13,4 +13,4 @@
 ## Production Build
 1. Build the frontend: `npm run build`
 2. Start the production server: `npm start`
-   - The Express server will serve the static files from `polymatic-mvp-frontend/dist` and handle WebSocket connections.
+   - The Express server will serve the static files from `web/dist` and handle WebSocket connections.

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 /* ─── Responsive Hook ─── */
 
@@ -168,31 +168,38 @@ export function TickerBar() {
 
 export function TopNav() {
   const mobile = useIsMobile();
+  const location = useLocation();
   const navLinks = ['PLATFORM', 'FEATURES', 'PRICING', 'ABOUT', 'BLOG'];
   return (
     <nav style={{ display: 'flex', alignItems: 'center', padding: mobile ? '0 16px' : '0 32px', height: 56, background: C.bg, borderBottom: `1px solid ${C.border}`, position: 'relative', zIndex: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: mobile ? 0 : 40, flex: mobile ? 1 : undefined }}>
-        <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
-          {'\uD83C\uDF10'}
-        </div>
-        <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
+        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 30, height: 30, background: C.greenDim, border: `1px solid ${C.green2}`, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
+            {'\uD83C\uDF10'}
+          </div>
+          <span style={{ fontFamily: FONT.mono, fontSize: 13, fontWeight: 600, letterSpacing: '.18em', color: C.text }}>POLYMATIC</span>
+        </Link>
       </div>
 
       {!mobile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-          {navLinks.map((link, i) => (
-            <span
-              key={link}
-              style={{
-                fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer',
-                border: i === 0 ? `1px solid ${C.border2}` : '1px solid transparent',
-                color: i === 0 ? C.green : C.text3,
-                background: i === 0 ? C.greenDim : 'transparent',
-              }}
-            >
-              {link}
-            </span>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = location.pathname === `/${link.toLowerCase()}`;
+            return (
+              <Link
+                key={link}
+                to={`/${link.toLowerCase()}`}
+                style={{
+                  fontFamily: FONT.mono, fontSize: 10, letterSpacing: '.1em', padding: '6px 14px', borderRadius: 5, cursor: 'pointer', textDecoration: 'none',
+                  border: isActive ? `1px solid ${C.border2}` : '1px solid transparent',
+                  color: isActive ? C.green : C.text3,
+                  background: isActive ? C.greenDim : 'transparent',
+                }}
+              >
+                {link}
+              </Link>
+            )
+          })}
         </div>
       )}
 

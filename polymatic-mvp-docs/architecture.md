@@ -5,13 +5,13 @@ PolyMatic is a real-time spatial intelligence platform that aggregates global te
 
 ## Components
 
-1. **Frontend (polymatic-mvp-frontend)**
+1. **Frontend (web)**
    - **Framework**: React 18, TypeScript, Vite
    - **Renderer**: CesiumJS (via Resium) for WebGL-based massive geospatial rendering
    - **State Management**: Zustand for layer and entity state
    - **Realtime**: WebSocket client for live updates
 
-2. **Backend (polymatic-mvp-backend)**
+2. **Backend (api)**
    - **Framework**: Node.js / Express (MVP implementation)
    - **Streaming**: WebSocket server for broadcasting telemetry
    - **Ingestion**: Mock data generators simulating ADS-B (aircraft), AIS (ships), and GDELT (events)

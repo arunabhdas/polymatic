@@ -266,7 +266,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 
 ## Story 2.8: MVP Landing Page & Routing — ✅ COMPLETE
 
-> Marketing-style landing page for the polymatic-mvp frontend (`polymatic-mvp-frontend/`), replicating the design from `mocks/web_1.html` Screen 1. Adds react-router-dom for route splitting: `/` → LandingPage, `/dashboard` → Cesium globe app (lazy-loaded).
+> Marketing-style landing page for the polymatic-mvp frontend (`web/`), replicating the design from `mocks/web_1.html` Screen 1. Adds react-router-dom for route splitting: `/` → LandingPage, `/dashboard` → Cesium globe app (lazy-loaded).
 
 - [✅] **E02-S08-T01** — Install `react-router-dom` dependency.
 - [✅] **E02-S08-T02** — Create `LandingPage.tsx` — Full marketing landing page with: scrolling ticker bar (live intel alerts), top nav (logo, nav links, Sign In, Launch Dashboard CTA), hero section (serif headline, metric pills grid, globe mock SVG illustration), features strip (4 cards: Unified Signal Feed, Sentiments Engine, Prediction Correlation, Analyst Scoring), and steps section (4-step "how it works"). Uses PolyMatic brand tokens (green/amber/red/teal color system) defined in `index.css`.
@@ -1052,7 +1052,7 @@ Example: E01-S02-T03 = Epic 1, Story 2, Task 3
 # Epic 23: Emerging Markets Backend Pipelines (P2)
 
 > Backend ingestion workers for stock market APIs, venture funding datasets, and startup databases.
-> **Depends on:** E20, E21. Backend counterpart in `polymatic-mvp-backend/`.
+> **Depends on:** E20, E21. Backend counterpart in `api/`.
 
 ## Story 23.1: Stock Market Data Ingestion
 
